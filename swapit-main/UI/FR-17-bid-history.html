@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Bid History · FR-17</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6;--red:#DC2626}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:10}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--d);display:flex;align-items:center;gap:8px}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.wrap{max-width:700px;margin:0 auto;padding:36px 32px}
+.page-h{margin-bottom:28px;display:flex;align-items:center;gap:12px}
+.page-h h1{font-family:'Syne',sans-serif;font-size:24px;font-weight:800}
+.summary-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
+.sum-card{background:#fff;border:1px solid var(--b);border-radius:12px;padding:16px;text-align:center}
+.sum-num{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--d)}
+.sum-lbl{font-size:11.5px;color:var(--gr)}
+.bid-list{background:#fff;border:1px solid var(--b);border-radius:14px;overflow:hidden}
+.bid-row{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--b);transition:.15s}
+.bid-row:last-child{border-bottom:none}
+.bid-row.winner{background:rgba(44,110,73,.04)}
+.bid-row:hover{background:var(--c)}
+.rank{width:28px;text-align:center;font-size:13px;color:var(--gr);flex-shrink:0;font-weight:600}
+.rank.top{color:var(--red);font-size:16px}
+.bav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0}
+.bid-info{flex:1}
+.bid-name{font-size:13.5px;font-weight:600}
+.bid-time{font-size:11px;color:var(--gr);margin-top:2px}
+.bid-amt{font-family:'Syne',sans-serif;font-size:16px;font-weight:800}
+.bid-amt.top{color:var(--red)}
+.bid-badge{font-size:10px;padding:2px 8px;border-radius:99px;background:#DCFCE7;color:#16A34A;margin-left:6px;font-weight:600}</style></head>
+<body>
+<nav><a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a>
+<a href="FR-16-auction-detail.html" style="padding:8px 14px;border:1.5px solid var(--b);border-radius:9px;font-size:13px;color:var(--d)">← Back to Auction</a></nav>
+<div class="wrap">
+  <div class="page-h"><div style="font-size:36px">📋</div><div><h1>Bid History</h1><p style="color:var(--gr);font-size:14px">MacBook Air M2 · All 18 bids</p></div></div>
+  <div class="summary-row">
+    <div class="sum-card"><div class="sum-num">18</div><div class="sum-lbl">Total Bids</div></div>
+    <div class="sum-card"><div class="sum-num">JD 650</div><div class="sum-lbl">Highest Bid</div></div>
+    <div class="sum-card"><div class="sum-num">8</div><div class="sum-lbl">Bidders</div></div>
+    <div class="sum-card"><div class="sum-num">1h 23m</div><div class="sum-lbl">Remaining</div></div>
+  </div>
+  <div class="bid-list">
+    <div style="padding:14px 18px;background:var(--d);display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:600;color:#fff">Bidder</span><span style="font-size:13px;font-weight:600;color:#fff">Amount</span></div>
+    <div class="bid-row winner"><div class="rank top">👑</div><div class="bav" style="background:linear-gradient(135deg,#2C6E49,#40916C)">A</div><div class="bid-info"><div class="bid-name">Ahmad H. <span class="bid-badge">LEADING</span></div><div class="bid-time">2 minutes ago</div></div><div class="bid-amt top">JD 650</div></div>
+    <div class="bid-row"><div class="rank">2</div><div class="bav" style="background:linear-gradient(135deg,#F59E0B,#F97316)">K</div><div class="bid-info"><div class="bid-name">Khalid M.</div><div class="bid-time">8 minutes ago</div></div><div class="bid-amt">JD 630</div></div>
+    <div class="bid-row"><div class="rank">3</div><div class="bav" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">S</div><div class="bid-info"><div class="bid-name">Sara T.</div><div class="bid-time">15 minutes ago</div></div><div class="bid-amt">JD 610</div></div>
+    <div class="bid-row"><div class="rank">4</div><div class="bav" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9)">R</div><div class="bid-info"><div class="bid-name">Rania K.</div><div class="bid-time">22 minutes ago</div></div><div class="bid-amt">JD 580</div></div>
+    <div class="bid-row"><div class="rank">5</div><div class="bav" style="background:linear-gradient(135deg,#EC4899,#BE185D)">L</div><div class="bid-info"><div class="bid-name">Lara S.</div><div class="bid-time">35 minutes ago</div></div><div class="bid-amt">JD 550</div></div>
+    <div class="bid-row"><div class="rank">6</div><div class="bav" style="background:linear-gradient(135deg,#F59E0B,#F97316)">K</div><div class="bid-info"><div class="bid-name">Khalid M.</div><div class="bid-time">42 minutes ago</div></div><div class="bid-amt">JD 520</div></div>
+    <div class="bid-row"><div class="rank">7</div><div class="bav" style="background:linear-gradient(135deg,#2C6E49,#40916C)">A</div><div class="bid-info"><div class="bid-name">Ahmad H.</div><div class="bid-time">50 minutes ago</div></div><div class="bid-amt">JD 500</div></div>
+    <div class="bid-row"><div class="rank">8</div><div class="bav" style="background:linear-gradient(135deg,#6B7280,#374151)">M</div><div class="bid-info"><div class="bid-name">Mohammed A.</div><div class="bid-time">1 hour ago</div></div><div class="bid-amt">JD 480</div></div>
+    <div class="bid-row" style="background:var(--c);justify-content:center;padding:12px"><a href="FR-16-auction-detail.html" style="font-size:13px;color:var(--g);font-weight:600">← Back to Auction</a></div>
+  </div>
+</div></body></html>

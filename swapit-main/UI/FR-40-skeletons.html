@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Loading States · FR-40</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;padding:0 32px;gap:16px}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.sk{background:linear-gradient(90deg,#E5E7EB 25%,#F3F4F6 50%,#E5E7EB 75%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite;border-radius:6px}
+.sk-circle{border-radius:50%!important}
+.sk-round{border-radius:99px!important}
+.wrap{max-width:1100px;margin:0 auto;padding:32px}
+.demo-section{margin-bottom:40px}
+.demo-label{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--d);margin-bottom:16px;padding:8px 14px;background:#fff;border-radius:8px;border:1px solid var(--b);display:inline-flex;align-items:center;gap:8px}
+
+.skel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.skel-card{background:#fff;border:1px solid var(--b);border-radius:14px;overflow:hidden}
+.sk-img{height:155px;width:100%}
+.sk-body{padding:14px}
+.sk-title1{height:14px;width:100%;margin-bottom:8px}
+.sk-title2{height:14px;width:70%;margin-bottom:12px}
+.sk-badge{height:20px;width:60px;margin-bottom:10px}
+.sk-price{height:20px;width:80px;margin-bottom:12px}
+.sk-footer{display:flex;align-items:center;gap:8px}
+.sk-av{width:22px;height:22px}
+.sk-name{height:12px;flex:1}
+
+.sk-profile{background:#fff;border:1px solid var(--b);border-radius:16px;padding:24px;display:flex;gap:20px;align-items:flex-start}
+.sk-av-lg{width:80px;height:80px;flex-shrink:0}
+.sk-profile-info{flex:1;padding-top:6px}
+.sk-name-lg{height:20px;width:200px;margin-bottom:10px}
+.sk-meta{height:14px;width:300px;margin-bottom:8px}
+.sk-tags{display:flex;gap:8px;margin-top:12px}
+.sk-tag{height:24px;width:100px}
+
+.sk-chat{display:flex;flex-direction:column;gap:12px;padding:20px;background:#fff;border:1px solid var(--b);border-radius:14px}
+.sk-msg{display:flex;gap:10px;max-width:60%}
+.sk-msg.me{flex-direction:row-reverse;align-self:flex-end}
+.sk-msg-av{width:32px;height:32px;flex-shrink:0}
+.sk-msg-bubble{height:48px;flex:1;border-radius:12px}
+
+.sk-notifs{display:flex;flex-direction:column;gap:10px}
+.sk-notif{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--b);border-radius:12px;padding:14px}
+.sk-notif-ico{width:42px;height:42px;flex-shrink:0}
+.sk-notif-body{flex:1}
+.sk-notif-t{height:14px;width:60%;margin-bottom:6px}
+.sk-notif-m{height:12px;width:80%}
+
+.toggle-btn{padding:10px 20px;background:var(--g);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:24px}
+.toggle-btn:hover{background:#40916C}
+</style></head>
+<body>
+<nav><a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a></nav>
+<div class="wrap">
+  <div style="margin-bottom:24px">
+    <h1 style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin-bottom:8px">⬜ Loading Skeleton States — FR-40</h1>
+    <p style="color:var(--gr);font-size:14px">These skeleton screens are shown while content loads. Use them as placeholder UI before real data arrives.</p>
+    <button class="toggle-btn" onclick="toggle()" style="margin-top:16px">▶ Simulate Loading → Loaded</button>
+  </div>
+  
+  <div class="demo-section">
+    <div class="demo-label">⬜ Listing Cards Skeleton</div>
+    <div class="skel-grid" id="listingSkels">
+      <div class="skel-card"><div class="sk sk-img"></div><div class="sk-body"><div class="sk sk-title1"></div><div class="sk sk-title2"></div><div class="sk sk-badge sk-round"></div><div class="sk sk-price"></div><div class="sk-footer"><div class="sk sk-av sk-circle"></div><div class="sk sk-name"></div></div></div></div>
+      <div class="skel-card"><div class="sk sk-img"></div><div class="sk-body"><div class="sk sk-title1"></div><div class="sk sk-title2"></div><div class="sk sk-badge sk-round"></div><div class="sk sk-price"></div><div class="sk-footer"><div class="sk sk-av sk-circle"></div><div class="sk sk-name"></div></div></div></div>
+      <div class="skel-card"><div class="sk sk-img"></div><div class="sk-body"><div class="sk sk-title1"></div><div class="sk sk-title2"></div><div class="sk sk-badge sk-round"></div><div class="sk sk-price"></div><div class="sk-footer"><div class="sk sk-av sk-circle"></div><div class="sk sk-name"></div></div></div></div>
+      <div class="skel-card"><div class="sk sk-img"></div><div class="sk-body"><div class="sk sk-title1"></div><div class="sk sk-title2"></div><div class="sk sk-badge sk-round"></div><div class="sk sk-price"></div><div class="sk-footer"><div class="sk sk-av sk-circle"></div><div class="sk sk-name"></div></div></div></div>
+    </div>
+  </div>
+  
+  <div class="demo-section">
+    <div class="demo-label">👤 Profile Skeleton</div>
+    <div class="sk-profile">
+      <div class="sk sk-av-lg sk-circle"></div>
+      <div class="sk-profile-info"><div class="sk sk-name-lg"></div><div class="sk sk-meta"></div><div class="sk sk-meta" style="width:180px"></div><div class="sk-tags"><div class="sk sk-tag sk-round"></div><div class="sk sk-tag sk-round" style="width:80px"></div></div></div>
+    </div>
+  </div>
+  
+  <div class="demo-section">
+    <div class="demo-label">💬 Chat Skeleton</div>
+    <div class="sk-chat">
+      <div class="sk-msg"><div class="sk sk-msg-av sk-circle"></div><div class="sk sk-msg-bubble" style="width:200px"></div></div>
+      <div class="sk-msg me"><div class="sk sk-msg-av sk-circle"></div><div class="sk sk-msg-bubble" style="width:260px;background:linear-gradient(90deg,#D1FAE5 25%,#ECFDF5 50%,#D1FAE5 75%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite"></div></div>
+      <div class="sk-msg"><div class="sk sk-msg-av sk-circle"></div><div class="sk sk-msg-bubble" style="width:180px"></div></div>
+      <div class="sk-msg me"><div class="sk sk-msg-av sk-circle"></div><div class="sk sk-msg-bubble" style="width:140px;background:linear-gradient(90deg,#D1FAE5 25%,#ECFDF5 50%,#D1FAE5 75%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite"></div></div>
+    </div>
+  </div>
+  
+  <div class="demo-section">
+    <div class="demo-label">🔔 Notifications Skeleton</div>
+    <div class="sk-notifs">
+      <div class="sk-notif"><div class="sk sk-notif-ico sk-circle"></div><div class="sk-notif-body"><div class="sk sk-notif-t"></div><div class="sk sk-notif-m"></div></div></div>
+      <div class="sk-notif"><div class="sk sk-notif-ico sk-circle"></div><div class="sk-notif-body"><div class="sk sk-notif-t" style="width:45%"></div><div class="sk sk-notif-m" style="width:70%"></div></div></div>
+      <div class="sk-notif"><div class="sk sk-notif-ico sk-circle"></div><div class="sk-notif-body"><div class="sk sk-notif-t" style="width:55%"></div><div class="sk sk-notif-m" style="width:85%"></div></div></div>
+    </div>
+  </div>
+</div>
+<script>
+let loaded=false;
+function toggle(){
+  if(!loaded){
+    loaded=true;
+    document.getElementById('listingSkels').innerHTML=`<a href="FR-14-listing-detail.html" style="background:#fff;border:1px solid var(--b);border-radius:14px;overflow:hidden;display:block;text-decoration:none;animation:fadeIn .4s ease"><div style="height:155px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);display:flex;align-items:center;justify-content:center;font-size:44px">📱</div><div style="padding:13px"><div style="font-size:13px;font-weight:500;margin-bottom:5px">iPhone 14 Pro 256GB</div><div style="font-size:10.5px;color:var(--gr);background:#F3F4F6;padding:2px 7px;border-radius:99px;display:inline-block;margin-bottom:7px">Like New</div><div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--g);margin-bottom:9px">JD 420</div></div></a>`.repeat(4);
+    document.querySelector('.toggle-btn').textContent='⬜ Reset to Skeleton';
+    document.querySelector('.toggle-btn').style.background='var(--gr)';
+  }else{
+    loaded=false;location.reload();
+  }
+}
+</script></body></html>

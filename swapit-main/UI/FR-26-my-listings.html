@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — My Listings · FR-26</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6;--red:#DC2626}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:10;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.wrap{max-width:1100px;margin:0 auto;padding:36px 32px}
+.page-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.page-h h1{font-family:'Syne',sans-serif;font-size:26px;font-weight:800}
+.btn{padding:10px 18px;background:var(--g);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:var(--g2)}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px}
+.stat-card{background:#fff;border:1px solid var(--b);border-radius:12px;padding:16px;text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--d)}
+.stat-lbl{font-size:11.5px;color:var(--gr)}
+.filters{display:flex;gap:10px;margin-bottom:20px;align-items:center;flex-wrap:wrap}
+.f-search{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--b);border-radius:99px;padding:8px 16px;flex:1;max-width:300px}
+.f-search input{border:none;background:transparent;outline:none;font-size:13px;flex:1}
+.f-btn{padding:7px 14px;border:1.5px solid var(--b);border-radius:99px;background:#fff;font-size:12.5px;cursor:pointer;transition:.2s}
+.f-btn:hover,.f-btn.on{border-color:var(--g);color:var(--g);background:rgba(44,110,73,.06)}
+.sort-sel{padding:8px 12px;border:1.5px solid var(--b);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13px;background:#fff;outline:none;margin-left:auto}
+.listing-table{background:#fff;border:1px solid var(--b);border-radius:14px;overflow:hidden}
+.lt-header{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr 1fr;gap:12px;padding:12px 20px;background:var(--c);border-bottom:1px solid var(--b);font-size:12px;font-weight:600;color:var(--gr);text-transform:uppercase;letter-spacing:.04em}
+.lt-row{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr 1fr;gap:12px;padding:14px 20px;border-bottom:1px solid var(--b);align-items:center;transition:.15s}
+.lt-row:last-child{border-bottom:none}
+.lt-row:hover{background:var(--c)}
+.lt-item{display:flex;align-items:center;gap:12px}
+.lt-img{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.lt-title{font-size:13.5px;font-weight:600;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lt-meta{font-size:11px;color:var(--gr);margin-top:2px}
+.lt-price{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--g)}
+.lt-status{display:inline-flex;padding:4px 10px;border-radius:99px;font-size:11.5px;font-weight:600}
+.active-s{background:#DCFCE7;color:#16A34A}
+.paused-s{background:#FEF3C7;color:#D97706}
+.sold-s{background:#F3F4F6;color:var(--gr)}
+.lt-views{font-size:13px;color:var(--gr)}
+.lt-actions{display:flex;gap:6px}
+.act-btn{padding:5px 10px;border:1.5px solid var(--b);border-radius:7px;font-size:11.5px;cursor:pointer;background:#fff;transition:.2s;font-family:'DM Sans',sans-serif}
+.act-btn:hover{border-color:var(--g);color:var(--g)}
+.act-del{border-color:rgba(220,38,38,.3);color:var(--red)}
+.act-del:hover{background:#FEF2F2;border-color:var(--red)}
+@media(max-width:900px){.stats{grid-template-columns:repeat(3,1fr)}.lt-header,.lt-row{grid-template-columns:2fr 1fr 1fr}}</style></head>
+<body>
+<nav><a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a>
+<div style="display:flex;gap:8px">
+<a href="FR-24-profile.html" style="padding:8px 14px;border:1.5px solid var(--b);border-radius:9px;font-size:13px;color:var(--d)">My Profile</a>
+<a href="FR-12-create-listing.html"><button class="btn">+ New Listing</button></a>
+</div></nav>
+<div class="wrap">
+  <div class="page-h"><h1>📦 My Listings</h1></div>
+  <div class="stats">
+    <div class="stat-card"><div class="stat-num">12</div><div class="stat-lbl">Active</div></div>
+    <div class="stat-card"><div class="stat-num">3</div><div class="stat-lbl">Paused</div></div>
+    <div class="stat-card"><div class="stat-num">23</div><div class="stat-lbl">Sold</div></div>
+    <div class="stat-card"><div class="stat-num">1,240</div><div class="stat-lbl">Total Views</div></div>
+    <div class="stat-card"><div class="stat-num">JD 1,850</div><div class="stat-lbl">Total Earned</div></div>
+  </div>
+  <div class="filters">
+    <div class="f-search"><span>🔍</span><input type="text" placeholder="Search your listings..."/></div>
+    <button class="f-btn on" onclick="setFilter(this)">All (38)</button>
+    <button class="f-btn" onclick="setFilter(this)">Active (12)</button>
+    <button class="f-btn" onclick="setFilter(this)">Paused (3)</button>
+    <button class="f-btn" onclick="setFilter(this)">Sold (23)</button>
+    <select class="sort-sel"><option>Newest First</option><option>Most Views</option><option>Price High-Low</option></select>
+  </div>
+  <div class="listing-table">
+    <div class="lt-header"><div>Item</div><div>Price</div><div>Status</div><div>Views</div><div>Actions</div></div>
+    <div class="lt-row">
+      <div class="lt-item"><div class="lt-img" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">📱</div><div><div class="lt-title">iPhone 14 Pro 256GB Space Black</div><div class="lt-meta">For Sale · Listed 2 days ago</div></div></div>
+      <div class="lt-price">JD 420</div>
+      <div><span class="lt-status active-s">● Active</span></div>
+      <div class="lt-views">👁 234 views</div>
+      <div class="lt-actions"><button class="act-btn" onclick="window.location='FR-14-listing-detail.html'">View</button><button class="act-btn" onclick="window.location='FR-13-edit-listing.html'">Edit</button><button class="act-btn act-del" onclick="deleteListing(this)">Del</button></div>
+    </div>
+    <div class="lt-row">
+      <div class="lt-item"><div class="lt-img" style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB)">🎮</div><div><div class="lt-title">PlayStation 5 Disc Edition + 2 Controllers</div><div class="lt-meta">For Sale · Listed 5 days ago</div></div></div>
+      <div class="lt-price">JD 380</div>
+      <div><span class="lt-status active-s">● Active</span></div>
+      <div class="lt-views">👁 189 views</div>
+      <div class="lt-actions"><button class="act-btn" onclick="window.location='FR-14-listing-detail.html'">View</button><button class="act-btn" onclick="window.location='FR-13-edit-listing.html'">Edit</button><button class="act-btn act-del" onclick="deleteListing(this)">Del</button></div>
+    </div>
+    <div class="lt-row">
+      <div class="lt-item"><div class="lt-img" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">💻</div><div><div class="lt-title">MacBook Air M1 2020 — 8GB/256GB</div><div class="lt-meta">Swap · Listed 1 week ago</div></div></div>
+      <div class="lt-price" style="color:var(--o)">Swap only</div>
+      <div><span class="lt-status paused-s">⏸ Paused</span></div>
+      <div class="lt-views">👁 87 views</div>
+      <div class="lt-actions"><button class="act-btn" onclick="window.location='FR-14-listing-detail.html'">View</button><button class="act-btn" onclick="window.location='FR-13-edit-listing.html'">Edit</button><button class="act-btn act-del" onclick="deleteListing(this)">Del</button></div>
+    </div>
+    <div class="lt-row" style="opacity:.5">
+      <div class="lt-item"><div class="lt-img" style="background:linear-gradient(135deg,#F3F4F6,#E5E7EB)">📚</div><div><div class="lt-title">University Textbook Collection — 8 books</div><div class="lt-meta">For Sale · Sold 2 weeks ago</div></div></div>
+      <div class="lt-price">JD 45</div>
+      <div><span class="lt-status sold-s">✓ Sold</span></div>
+      <div class="lt-views">👁 312 views</div>
+      <div class="lt-actions"><button class="act-btn" onclick="window.location='FR-29-review.html'">Review</button><button class="act-btn">Relist</button></div>
+    </div>
+    <div class="lt-row" style="opacity:.5">
+      <div class="lt-item"><div class="lt-img" style="background:linear-gradient(135deg,#F3E5F5,#E1BEE7)">⌚</div><div><div class="lt-title">Apple Watch Series 7 — 41mm Midnight</div><div class="lt-meta">For Sale · Sold 1 month ago</div></div></div>
+      <div class="lt-price">JD 120</div>
+      <div><span class="lt-status sold-s">✓ Sold</span></div>
+      <div class="lt-views">👁 445 views</div>
+      <div class="lt-actions"><button class="act-btn">Relist</button></div>
+    </div>
+  </div>
+</div>
+<script>
+function setFilter(btn){document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+function deleteListing(btn){if(confirm('Delete this listing?'))btn.closest('.lt-row').style.display='none'}
+</script></body></html>

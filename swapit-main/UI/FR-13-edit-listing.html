@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Edit Listing · FR-13</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:10;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--d);display:flex;align-items:center;gap:8px;text-decoration:none}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.wrap{max-width:860px;margin:0 auto;padding:36px 32px}
+.page-h{margin-bottom:28px}
+.page-h h1{font-family:'Syne',sans-serif;font-size:26px;font-weight:800}
+.page-h p{color:var(--gr);font-size:14px;margin-top:4px}
+
+.steps{display:flex;align-items:center;gap:0;margin-bottom:32px}
+.step{display:flex;align-items:center;gap:8px;flex:1}
+.step-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;flex-shrink:0;transition:.2s}
+.step-num.done{background:var(--g);color:#fff}
+.step-num.active{background:var(--g);color:#fff;box-shadow:0 0 0 4px rgba(44,110,73,.2)}
+.step-num.inactive{background:var(--b);color:var(--gr)}
+.step-lbl{font-size:12.5px;font-weight:600;color:var(--gr)}
+.step.active .step-lbl{color:var(--d)}
+.step-line{flex:1;height:2px;background:var(--b);margin:0 8px}
+.step-line.done{background:var(--g)}
+.card{background:#fff;border:1px solid var(--b);border-radius:16px;padding:28px;margin-bottom:20px}
+.card h2{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;margin-bottom:18px;color:var(--d)}
+.fg{margin-bottom:16px}
+.lbl{font-size:12.5px;font-weight:600;color:var(--d);margin-bottom:6px;display:block}
+.lbl span{color:var(--gr);font-weight:400;margin-left:4px}
+.inp{width:100%;padding:10px 14px;border:1.5px solid var(--b);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--d);background:#fff;outline:none;transition:.2s}
+.inp:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(44,110,73,.1)}
+textarea.inp{resize:vertical;min-height:110px;line-height:1.6}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+.photo-upload{border:2px dashed var(--b);border-radius:12px;padding:32px;text-align:center;cursor:pointer;transition:.2s;background:#FAFAFA}
+.photo-upload:hover{border-color:var(--g);background:rgba(44,110,73,.02)}
+.pu-icon{font-size:36px;margin-bottom:10px}
+.pu-text{font-size:14px;color:var(--d);font-weight:500;margin-bottom:4px}
+.pu-sub{font-size:12px;color:var(--gr)}
+.photo-preview{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.prev-img{width:80px;height:80px;border-radius:10px;overflow:hidden;position:relative;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);display:flex;align-items:center;justify-content:center;font-size:28px;border:1.5px solid var(--b)}
+.prev-main{position:absolute;bottom:0;left:0;right:0;background:var(--g);color:#fff;font-size:8px;text-align:center;padding:2px;font-weight:700}
+.prev-del{position:absolute;top:-6px;right:-6px;width:20px;height:20px;background:var(--o);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;border:2px solid #fff}
+
+.type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.type-card{border:2px solid var(--b);border-radius:12px;padding:20px 16px;text-align:center;cursor:pointer;transition:.2s}
+.type-card:hover{border-color:var(--g)}
+.type-card.on{border-color:var(--g);background:rgba(44,110,73,.05)}
+.type-icon{font-size:28px;margin-bottom:8px}
+.type-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:4px}
+.type-desc{font-size:11.5px;color:var(--gr)}
+
+.cond-grid{display:flex;gap:10px;flex-wrap:wrap}
+.cond-btn{padding:8px 16px;border:1.5px solid var(--b);border-radius:99px;background:none;font-size:13px;cursor:pointer;transition:.2s;font-family:'DM Sans',sans-serif}
+.cond-btn:hover{border-color:var(--g)}
+.cond-btn.on{border-color:var(--g);background:rgba(44,110,73,.08);color:var(--g);font-weight:600}
+
+.price-type{display:flex;gap:10px;margin-bottom:14px}
+.pt{flex:1;padding:10px;border:1.5px solid var(--b);border-radius:10px;background:none;font-size:13px;cursor:pointer;transition:.2s;text-align:center;font-family:'DM Sans',sans-serif}
+.pt.on{border-color:var(--g);background:rgba(44,110,73,.08);color:var(--g);font-weight:600}
+.price-inp{position:relative}
+.price-inp .cur{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--gr);font-weight:600}
+.price-inp input{padding-left:40px}
+
+.swap-box{background:rgba(231,111,81,.05);border:1.5px solid rgba(231,111,81,.2);border-radius:10px;padding:14px;margin-top:10px}
+.swap-box p{font-size:13px;color:var(--o);margin-bottom:10px;font-weight:500}
+
+.location-row{display:flex;gap:10px;align-items:center}
+.loc-detect{padding:10px 14px;background:none;border:1.5px solid var(--b);border-radius:10px;font-size:13px;cursor:pointer;white-space:nowrap;transition:.2s}
+.loc-detect:hover{border-color:var(--g);color:var(--g)}
+
+.actions{display:flex;gap:12px;justify-content:flex-end;margin-top:8px}
+.btn-sec{padding:12px 24px;background:none;border:1.5px solid var(--b);border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.btn-sec:hover{border-color:var(--g);color:var(--g)}
+.btn-pub{padding:12px 28px;background:var(--g);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s}
+.btn-pub:hover{background:var(--g2)}
+.char-count{font-size:11px;color:var(--gr);text-align:right;margin-top:4px}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:200;display:none}
+.modal{background:#fff;border-radius:20px;padding:40px;text-align:center;max-width:400px;width:90%;animation:pop .4s cubic-bezier(.175,.885,.32,1.275)}
+.modal-icon{font-size:64px;margin-bottom:16px;animation:bounce .6s ease infinite alternate}
+.modal h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:8px;color:var(--d)}
+.modal p{color:var(--gr);font-size:14px;margin-bottom:24px}
+.modal-btns{display:flex;gap:10px;justify-content:center}
+.modal-btn{padding:11px 22px;border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;border:none}
+.modal-btn.primary{background:var(--g);color:#fff}
+.modal-btn.sec{background:var(--b);color:var(--d)}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-8px)}}</style></head>
+<body>
+<nav><a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a>
+<div style="display:flex;gap:8px"><a href="FR-26-my-listings.html" style="padding:8px 14px;background:none;border:1.5px solid var(--b);border-radius:9px;font-size:13px;color:var(--d);text-decoration:none">My Listings</a></div></nav>
+
+<div class="wrap">
+<div class="page-h"><h1>Edit Listing</h1><p>Fill in the details below to post your item on SwapIt.</p></div>
+
+<div class="steps">
+  <div class="step active"><div class="step-num active">1</div><div class="step-lbl">Details</div></div>
+  <div class="step-line"></div>
+  <div class="step"><div class="step-num inactive">2</div><div class="step-lbl">Photos</div></div>
+  <div class="step-line"></div>
+  <div class="step"><div class="step-num inactive">3</div><div class="step-lbl">Pricing</div></div>
+  <div class="step-line"></div>
+  <div class="step"><div class="step-num inactive">4</div><div class="step-lbl">Publish</div></div>
+</div>
+
+<div class="card"><h2>What type of listing?</h2>
+<div class="type-grid">
+  <div class="type-card on" onclick="selectType(this)"><div class="type-icon">💰</div><div class="type-name">Sell It</div><div class="type-desc">Set a price for buyers</div></div>
+  <div class="type-card" onclick="selectType(this)"><div class="type-icon">🔁</div><div class="type-name">Swap It</div><div class="type-desc">Trade for something else</div></div>
+  <div class="type-card" onclick="selectType(this)"><div class="type-icon">🔨</div><div class="type-name">Auction It</div><div class="type-desc">Let buyers bid</div></div>
+</div></div>
+
+<div class="card"><h2>Item Details</h2>
+<div class="fg"><label class="lbl">Title <span>(required)</span></label><input class="inp" type="text" placeholder="e.g. iPhone 14 Pro 256GB Space Black" oninput="updateChar(this,100,'tc1')"/><div class="char-count" id="tc1">0 / 100</div></div>
+<div class="fg"><label class="lbl">Description <span>(required)</span></label><textarea class="inp" placeholder="Describe your item — condition, what's included, reason for selling..." oninput="updateChar(this,1000,'tc2')"></textarea><div class="char-count" id="tc2">0 / 1000</div></div>
+<div class="grid2">
+  <div class="fg"><label class="lbl">Category</label><select class="inp"><option value="">Select category</option><option>📱 Electronics</option><option>👕 Clothing</option><option>📚 Books</option><option>🛋️ Furniture</option><option>🚗 Vehicles</option><option>⚽ Sports</option><option>💻 Gaming</option><option>🎨 Collectibles</option></select></div>
+  <div class="fg"><label class="lbl">Sub-category</label><select class="inp"><option>Smartphones</option><option>Laptops</option><option>Tablets</option><option>Cameras</option><option>Audio</option></select></div>
+</div>
+<div class="fg"><label class="lbl">Condition</label>
+<div class="cond-grid">
+  <button class="cond-btn on" onclick="setCond(this)">✨ New</button>
+  <button class="cond-btn" onclick="setCond(this)">🌟 Like New</button>
+  <button class="cond-btn" onclick="setCond(this)">👍 Good</button>
+  <button class="cond-btn" onclick="setCond(this)">🔧 Fair / Used</button>
+  <button class="cond-btn" onclick="setCond(this)">♻️ For Parts</button>
+</div></div></div>
+
+<div class="card"><h2>Photos <span style="font-size:13px;color:var(--gr);font-weight:400">(up to 10 images)</span></h2>
+<div class="photo-upload" onclick="document.getElementById('fileInput').click()">
+  <div class="pu-icon">📸</div>
+  <div class="pu-text">Click to upload photos</div>
+  <div class="pu-sub">JPG, PNG or WEBP · Max 5MB per image</div>
+</div>
+<input type="file" id="fileInput" multiple accept="image/*" style="display:none" onchange="previewFiles(this)"/>
+<div class="photo-preview" id="photoPreview">
+  <div class="prev-img">📱<div class="prev-main">MAIN</div><div class="prev-del">✕</div></div>
+  <div class="prev-img">📱<div class="prev-del">✕</div></div>
+  <div class="prev-img">📱<div class="prev-del">✕</div></div>
+</div></div>
+
+<div class="card"><h2>Pricing</h2>
+<div class="price-type" id="priceType">
+  <button class="pt on" onclick="setPriceType(this,'fixed')">💰 Fixed Price</button>
+  <button class="pt" onclick="setPriceType(this,'negotiable')">🤝 Negotiable</button>
+  <button class="pt" onclick="setPriceType(this,'free')">🎁 Free</button>
+</div>
+<div class="fg price-inp" id="priceField"><label class="lbl">Price (JD)</label><span class="cur">JD</span><input class="inp" type="number" placeholder="0.00" min="0"/></div>
+<div class="swap-box" id="swapWishes" style="display:none"><p>🔁 What are you looking to swap for?</p><input class="inp" type="text" placeholder="e.g. iPhone 13, gaming laptop, cash offers considered..."/></div></div>
+
+<div class="card"><h2>Location</h2>
+<div class="fg location-row">
+  <select class="inp"><option>Amman</option><option selected>Irbid</option><option>Zarqa</option><option>Aqaba</option><option>Madaba</option></select>
+  <button class="loc-detect" onclick="this.textContent='📍 Located!'">📍 Use My Location</button>
+</div>
+<div class="fg" style="margin-top:12px"><label class="lbl">Area / Neighbourhood <span>(optional)</span></label><input class="inp" type="text" placeholder="e.g. Abdoun, University Street..."/></div></div>
+
+<div class="actions">
+  <button class="btn-sec">💾 Save Draft</button>
+  <button class="btn-pub" onclick="document.getElementById('successModal').style.display='flex'">🚀 Save Changes</button>
+</div>
+</div>
+
+<div class="modal-overlay" id="successModal">
+  <div class="modal">
+    <div class="modal-icon">🎉</div>
+    <h2>Listing Published!</h2>
+    <p>Your item is now live on SwapIt. You'll be notified when someone is interested!</p>
+    <div class="modal-btns">
+      <button class="modal-btn primary" onclick="window.location='FR-14-listing-detail.html'">View Listing</button>
+      <button class="modal-btn sec" onclick="window.location='FR-26-my-listings.html'">My Listings</button>
+    </div>
+  </div>
+</div>
+<script>
+function selectType(c){document.querySelectorAll('.type-card').forEach(x=>x.classList.remove('on'));c.classList.add('on');const t=c.querySelector('.type-name').textContent;if(t.includes('Swap')){document.getElementById('swapWishes').style.display='block';document.getElementById('priceField').style.display='none'}else{document.getElementById('swapWishes').style.display='none';document.getElementById('priceField').style.display='block'}}
+function setCond(b){document.querySelectorAll('.cond-btn').forEach(x=>x.classList.remove('on'));b.classList.add('on')}
+function setPriceType(b,t){document.querySelectorAll('.pt').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.getElementById('priceField').style.display=t==='free'?'none':'block'}
+function updateChar(inp,max,id){const len=inp.value.length;document.getElementById(id).textContent=len+' / '+max;if(len>max*0.9)document.getElementById(id).style.color='var(--o)';else document.getElementById(id).style.color='var(--gr)'}
+function previewFiles(inp){const prev=document.getElementById('photoPreview');[...inp.files].slice(0,7).forEach((f,i)=>{const r=new FileReader();r.onload=e=>{const d=document.createElement('div');d.className='prev-img';d.style.background='#E8F5E9';d.innerHTML=`<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"/>${i===0?'<div class="prev-main">MAIN</div>':''}<div class="prev-del">✕</div>`;d.querySelector('.prev-del').onclick=()=>d.remove();prev.appendChild(d)};r.readAsDataURL(f)})}
+</script></body></html>

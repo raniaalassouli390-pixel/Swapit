@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Edit Profile · FR-25</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:10;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.wrap{max-width:720px;margin:0 auto;padding:36px 32px}
+.page-h{margin-bottom:28px;display:flex;align-items:center;gap:12px}
+.page-h h1{font-family:'Syne',sans-serif;font-size:24px;font-weight:800}
+.tabs{display:flex;background:#fff;border:1px solid var(--b);border-radius:12px;padding:4px;gap:4px;margin-bottom:24px}
+.tab{flex:1;padding:9px;text-align:center;font-size:13px;font-weight:600;color:var(--gr);cursor:pointer;border-radius:9px;transition:.2s}
+.tab.on{background:var(--g);color:#fff}
+.card{background:#fff;border:1px solid var(--b);border-radius:16px;padding:24px;margin-bottom:16px}
+.card h2{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;margin-bottom:18px}
+.avatar-edit{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+.av-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:800;position:relative;cursor:pointer}
+.av-overlay{position:absolute;inset:0;border-radius:50%;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-size:18px;opacity:0;transition:.2s}
+.av-circle:hover .av-overlay{opacity:1}
+.av-info p{font-size:14px;font-weight:600;margin-bottom:4px}
+.av-info span{font-size:12px;color:var(--gr)}
+.av-btn{display:inline-block;margin-top:8px;padding:6px 14px;background:none;border:1.5px solid var(--b);border-radius:8px;font-size:12.5px;cursor:pointer}
+.av-btn:hover{border-color:var(--g);color:var(--g)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg{margin-bottom:16px}
+.lbl{font-size:12.5px;font-weight:600;color:var(--d);margin-bottom:6px;display:block}
+.inp{width:100%;padding:10px 14px;border:1.5px solid var(--b);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:.2s}
+.inp:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(44,110,73,.1)}
+textarea.inp{resize:vertical;min-height:90px}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--b)}
+.toggle-row:last-child{border-bottom:none}
+.toggle-info h4{font-size:14px;font-weight:600}
+.toggle-info p{font-size:12.5px;color:var(--gr);margin-top:2px}
+.toggle{width:44px;height:24px;background:#E5E7EB;border-radius:99px;position:relative;cursor:pointer;transition:.2s;flex-shrink:0}
+.toggle.on{background:var(--g)}
+.toggle-dot{width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.toggle.on .toggle-dot{left:23px}
+.danger-zone{background:#FEF2F2;border:1px solid #FECACA;border-radius:14px;padding:20px}
+.danger-zone h2{color:#DC2626;margin-bottom:14px}
+.btn-danger{padding:10px 20px;background:none;border:1.5px solid #DC2626;color:#DC2626;border-radius:9px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-right:10px}
+.actions{display:flex;gap:12px;justify-content:flex-end;margin-top:8px}
+.btn-save{padding:12px 28px;background:var(--g);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.btn-save:hover{background:var(--g2)}
+.btn-cancel{padding:12px 20px;background:none;border:1.5px solid var(--b);border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+</style></head>
+<body>
+<nav><a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a>
+<a href="FR-24-profile.html" style="padding:8px 14px;border:1.5px solid var(--b);border-radius:9px;font-size:13px;color:var(--d)">← My Profile</a></nav>
+<div class="wrap">
+  <div class="page-h"><div style="font-size:36px">⚙️</div><div><h1>Account Settings</h1><p style="color:var(--gr);font-size:14px;margin-top:2px">Manage your profile and preferences</p></div></div>
+  <div class="tabs">
+    <div class="tab on" onclick="setTab(this,'profile')">👤 Profile</div>
+    <div class="tab" onclick="setTab(this,'notifs')">🔔 Notifications</div>
+    <div class="tab" onclick="setTab(this,'security')">🔒 Security</div>
+    <div class="tab" onclick="setTab(this,'danger')">⚠️ Danger Zone</div>
+  </div>
+  
+  <div id="profile">
+    <div class="card">
+      <h2>Profile Picture</h2>
+      <div class="avatar-edit">
+        <div class="av-circle">A<div class="av-overlay">📷</div></div>
+        <div class="av-info"><p>Ahmad Hassan</p><span>JPG or PNG, max 2MB</span><button class="av-btn">Change Photo</button></div>
+      </div>
+      <div class="grid2">
+        <div class="fg"><label class="lbl">First Name</label><input class="inp" type="text" value="Ahmad"/></div>
+        <div class="fg"><label class="lbl">Last Name</label><input class="inp" type="text" value="Hassan"/></div>
+      </div>
+      <div class="fg"><label class="lbl">Username</label><input class="inp" type="text" value="@ahmadhassan"/></div>
+      <div class="fg"><label class="lbl">Email</label><input class="inp" type="email" value="ahmad@example.com"/></div>
+      <div class="fg"><label class="lbl">Phone</label><input class="inp" type="tel" value="+962 7X XXX XXXX"/></div>
+      <div class="grid2">
+        <div class="fg"><label class="lbl">City</label><select class="inp"><option selected>Irbid</option><option>Amman</option><option>Zarqa</option></select></div>
+        <div class="fg"><label class="lbl">Language</label><select class="inp"><option>Arabic + English</option><option>Arabic only</option></select></div>
+      </div>
+      <div class="fg"><label class="lbl">About Me</label><textarea class="inp">Tech enthusiast and trusted seller. I sell genuine items only — what you see is what you get.</textarea></div>
+    </div>
+    <div class="actions"><button class="btn-cancel" onclick="window.location='FR-24-profile.html'">Cancel</button><button class="btn-save" onclick="save()">💾 Save Changes</button></div>
+  </div>
+  
+  <div id="notifs" style="display:none">
+    <div class="card"><h2>Notification Preferences</h2>
+      <div class="toggle-row"><div class="toggle-info"><h4>New messages</h4><p>Get notified when someone messages you</p></div><div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div></div>
+      <div class="toggle-row"><div class="toggle-info"><h4>Swap requests</h4><p>Get notified on new swap proposals</p></div><div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div></div>
+      <div class="toggle-row"><div class="toggle-info"><h4>Auction outbid alerts</h4><p>Get notified when someone outbids you</p></div><div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div></div>
+      <div class="toggle-row"><div class="toggle-info"><h4>Newsletter & deals</h4><p>Weekly digest of new listings</p></div><div class="toggle" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div></div>
+    </div>
+  </div>
+  
+  <div id="security" style="display:none">
+    <div class="card"><h2>Change Password</h2>
+      <div class="fg"><label class="lbl">Current Password</label><input class="inp" type="password" placeholder="••••••••"/></div>
+      <div class="fg"><label class="lbl">New Password</label><input class="inp" type="password" placeholder="••••••••"/></div>
+      <div class="fg"><label class="lbl">Confirm New Password</label><input class="inp" type="password" placeholder="••••••••"/></div>
+      <button class="btn-save" onclick="alert('Password updated!')">Update Password</button>
+    </div>
+  </div>
+  
+  <div id="danger" style="display:none">
+    <div class="danger-zone">
+      <h2 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800">⚠️ Danger Zone</h2>
+      <p style="font-size:13.5px;color:#991B1B;margin-bottom:16px">These actions are irreversible. Please be careful.</p>
+      <button class="btn-danger" onclick="alert('Account deactivated')">Deactivate Account</button>
+      <button class="btn-danger" onclick="if(confirm('Are you sure? This cannot be undone.'))alert('Account deleted')">Delete Account</button>
+    </div>
+  </div>
+</div>
+<script>
+function setTab(tab,id){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));tab.classList.add('on');['profile','notifs','security','danger'].forEach(i=>document.getElementById(i).style.display=i===id?'block':'none')}
+function save(){const btn=document.querySelector('.btn-save');btn.textContent='✅ Saved!';setTimeout(()=>btn.textContent='💾 Save Changes',2000)}
+</script></body></html>

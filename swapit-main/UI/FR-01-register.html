@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SwapIt — Register</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="auth.css.css">
+
+<body>
+
+  <div class="left">
+    <div class="logo">
+      <div class="logo-icon"><img src="images/swap.png" alt=""></div> SwapIt
+    </div>
+    <div class="hero">
+      <h2>Trade smarter.<br /><em>Live better.</em></h2>
+      <p>Join thousands buying, selling, swapping, and bidding on items every day. Free, fast, and safe.</p>
+      <div class="features">
+        <div class="feat">
+          <div class="feat-icon fi-sell"><img src="images/money-bag.png"  alt="buy icon"></div>
+          <div class="feat-text"><strong>Sell Anything</strong><span>List in under 2 minutes</span></div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon fi-swap"><img src="images/swap.png"></div>
+          <div class="feat-text"><strong>Swap & Exchange</strong><span>Trade item-for-item, no cash needed</span></div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon fi-bid">
+            <img src="images/Bid.png" alt="auction hammer">
+          </div>
+          <div class="feat-text"><strong>Live Auctions</strong><span>Bid and win unique items daily</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="left-foot">&copy; 2026 SwapIt · All rights reserved.</div>
+  </div>
+
+  <div class="right">
+    <div class="card">
+      <div class="card-head register-head">
+        <h1>Create your account</h1>
+        <p>Already have an account? <a href="FR-02-login.html">Sign in here</a></p>
+      </div>
+
+      <form id="form" novalidate>
+
+        <div class="avatar-box">
+          <div class="avatar-ring" id="av" onclick="document.getElementById('avFile').click()">
+            <img src="images/user2.jpeg" alt=" user " width="24px" height="24px">
+            <img id="avImg" />
+          </div>
+          <div class="avatar-info">
+            <strong>Profile Photo</strong>
+            <span>JPG, PNG or GIF · Max 5MB</span>
+            <button type="button" class="btn-av" onclick="document.getElementById('avFile').click()">Upload photo</button>
+          </div>
+          <input type="file" id="avFile" accept="image
+      window.strength = function (v) {
+        const segs = ['s1', 's2', 's3', 's4']
+          .map(id => document.getElementById(id));
+        const lbl = document.getElementById('slbl');
+
+        segs.forEach(s => s.className = 'str-seg');
+
+        if (!v) {
+          lbl.textContent = 'Enter a password';
+          lbl.style.color = 'var(--gray)';
+          return;
+        }
+
+        let sc = 0;
+        if (v.length >= 8) sc++;
+        if (/[A-Z]/.test(v)) sc++;
+        if (/[0-9]/.test(v)) sc++;
+        if (/[^A-Za-z0-9]/.test(v)) sc++;
+
+        const cls = sc <= 1 ? 'weak' : sc <= 2 ? 'med' : 'strong';
+        const lbls = ['', 'Weak', 'Fair', 'Medium', 'Strong'];
+        const colors = ['', '#EF4444', '#F59E0B', '#F59E0B', 'var(--success)'];
+
+        for (let i = 0; i < sc; i++) segs[i].classList.add(cls);
+
+        lbl.textContent = lbls[sc] || '';
+        lbl.style.color = colors[sc] || 'var(--gray)';
+      };
+
+      const emailField = document.getElementById("em");
+
+      emailField.addEventListener("input", () => {
+        const value = emailField.value.toLowerCase();
+        const allowedDomains = ["gmail.com", "outlook.com", "yahoo.com", "iclaud.com"];
+        const domain = value.split("@")[1];
+
+        if (domain && !allowedDomains.includes(domain)) {
+          emailField.style.border = "2px solid red";
+        } else {
+          emailField.style.border = "2px solid green";
+        }
+      });
+
+      const pwInput = document.getElementById("pw");
+      const cpwInput = document.getElementById("cpw");
+      const cpwE = document.getElementById("cpwE");
+
+      function checkPasswordsLive() {
+        const pw = pwInput.value;
+        const cpw = cpwInput.value;
+
+        if (cpw.length === 0) {
+          cpwE.classList.remove("show");
+          cpwInput.classList.remove("err");
+          return;
+        }
+
+        if (pw !== cpw) {
+          cpwE.textContent = "Passwords do not match";
+          cpwE.classList.add("show");
+          cpwInput.classList.add("err");
+        } else {
+          cpwE.classList.remove("show");
+          cpwInput.classList.remove("err");
+        }
+      }
+
+      pwInput.addEventListener("input", checkPasswordsLive);
+      cpwInput.addEventListener("input", checkPasswordsLive);
+
+      const fields = [
+        { id: "fn",  err: "fnE",  rule: v => v.trim() !== "",                        msg: "Required"      },
+        { id: "ln",  err: "lnE",  rule: v => v.trim() !== "",                        msg: "Required"      },
+        { id: "em",  err: "emE",  rule: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),  msg: "Invalid email" },
+        { id: "pw",  err: "pwE",  rule: v => v.length >= 8,                          msg: "Min 8 chars"   },
+        { id: "loc", err: "locE", rule: v => v !== "",                               msg: "Required"      },
+        { id: "cpw", err: "cpwE", rule: v => v.trim() !== "",                        msg: "Required"      }
+      ];
+
+      fields.forEach(field => {
+        const input = document.getElementById(field.id);
+        if (input) {
+          input.addEventListener("blur",  () => check(field.id, field.err, field.rule, field.msg));
+          input.addEventListener("input", () => check(field.id, field.err, field.rule, field.msg));
+        }
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter") return;
+        const active = document.activeElement;
+        if (!active) return;
+        if (!["INPUT", "SELECT", "TEXTAREA"].includes(active.tagName)) return;
+
+        const fieldsList = Array.from(document.querySelectorAll("input, select, textarea"))
+          .filter(el => !el.disabled && !["hidden", "checkbox", "submit", "button"].includes(el.type));
+
+        const index = fieldsList.indexOf(active);
+        if (index > -1) {
+          e.preventDefault();
+          const fieldConfig = fields.find(f => f.id === active.id);
+          if (fieldConfig) {
+            const isValid = check(fieldConfig.id, fieldConfig.err, fieldConfig.rule, fieldConfig.msg);
+            if (!isValid) return;
+          }
+          const next = fieldsList[index + 1];
+          if (next) next.focus();
+        }
+      });
+
+      document.getElementById('form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        let ok = true;
+        fields.forEach(field => {
+          ok = check(field.id, field.err, field.rule, field.msg) && ok;
+        });
+
+        const pw  = document.getElementById('pw').value;
+        const cpw = document.getElementById('cpw').value;
+        const cpwE = document.getElementById('cpwE');
+
+        if (pw !== cpw) {
+          cpwE.classList.add('show');
+          document.getElementById('cpw').classList.add('err');
+          ok = false;
+        } else {
+          cpwE.classList.remove('show');
+          document.getElementById('cpw').classList.remove('err');
+        }
+
+        const terms = document.getElementById('terms');
+        if (!terms.checked) {
+          terms.classList.add('err');
+          ok = false;
+        } else {
+          terms.classList.remove('err');
+        }
+
+        if (!ok) {
+          const firstError = fields
+            .map(f => document.getElementById(f.id))
+            .find(el => el && el.classList.contains("err"));
+
+          if (firstError) {
+            firstError.focus();
+            firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+            firstError.style.boxShadow = "0 0 0 4px rgba(239,68,68,0.3)";
+            setTimeout(() => { firstError.style.boxShadow = ""; }, 1500);
+          }
+          return;
+        }
+
+        const btn = document.getElementById('regBtn');
+        btn.classList.add('loading');
+
+        setTimeout(() => {
+          btn.classList.remove('loading');
+          const t = document.getElementById('toast');
+          t.classList.add('show');
+          setTimeout(() => t.classList.remove('show'), 3500);
+        }, 1500);
+      });
+
+    });
+
+    function handleAv(e) {
+      const f = e.target.files[0];
+      if (!f) return;
+
+      const r = new FileReader();
+      r.onload = ev => {
+        const i = document.getElementById('avImg');
+        i.src = ev.target.result;
+        i.style.display = 'block';
+
+        const av = document.getElementById('av');
+        av.innerHTML = '';
+        av.appendChild(i);
+      };
+      r.readAsDataURL(f);
+    }
+
+    function toggleEye(id, btn) {
+      const input = document.getElementById(id);
+
+      input.type = input.type === "password" ? "text" : "password";
+
+      btn.innerHTML = input.type === "text"
+        ? '<img src="images/eyebrow.png" width="16" alt="hide password">'
+        : '<img src="images/view.png"    width="16" alt="show password">';
+    }
+function togglePolicy(id, e) {
+  e.preventDefault();
+  const box = document.getElementById(id);
+  box.classList.toggle("open");
+}
+  </script>
+
+</body>
+</html>

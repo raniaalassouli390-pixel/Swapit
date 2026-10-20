@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Swap Request · FR-19</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6}body{font-family:'DM Sans',sans-serif;background:rgba(0,0,0,.6);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:#fff;border-radius:20px;width:100%;max-width:560px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.25);animation:pop .3s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-header{background:var(--d);padding:22px 24px;display:flex;align-items:center;justify-content:space-between}
+.modal-header h2{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff}
+.modal-close{background:rgba(255,255,255,.1);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.modal-body{padding:24px}
+
+.swap-item{background:var(--c);border:1.5px solid var(--b);border-radius:14px;padding:16px;margin-bottom:20px}
+.si-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gr);margin-bottom:10px}
+.si-row{display:flex;align-items:center;gap:12px}
+.si-img{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#FFF3E0,#FFE0B2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;border:1px solid var(--b)}
+.si-title{font-size:14px;font-weight:600;color:var(--d)}
+.si-meta{font-size:12px;color:var(--gr);margin-top:3px}
+.si-price{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--g);margin-top:4px}
+
+.swap-arrow{text-align:center;font-size:24px;margin:-8px 0;color:var(--o)}
+
+.offer-section{margin-bottom:18px}
+.os-title{font-size:13px;font-weight:600;color:var(--d);margin-bottom:10px}
+.my-items{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mi{border:2px solid var(--b);border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:.2s}
+.mi:hover{border-color:var(--o)}
+.mi.on{border-color:var(--o);background:rgba(231,111,81,.06)}
+.mi-img{font-size:24px;margin-bottom:6px}
+.mi-name{font-size:11.5px;color:var(--d);font-weight:500;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mi-price{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--g);margin-top:3px}
+
+.topup{background:rgba(44,110,73,.05);border:1.5px solid rgba(44,110,73,.15);border-radius:12px;padding:14px;margin-bottom:16px}
+.topup-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.topup-row span{font-size:13px;font-weight:600;color:var(--d)}
+.topup-inp{display:flex;align-items:center;border:1.5px solid var(--b);border-radius:9px;overflow:hidden;background:#fff}
+.topup-inp span{padding:8px 10px;font-size:12px;color:var(--gr);font-weight:600;border-right:1px solid var(--b)}
+.topup-inp input{border:none;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:14px;width:90px;outline:none}
+
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:12.5px;font-weight:600;color:var(--d);margin-bottom:6px}
+.fg textarea{width:100%;padding:10px 14px;border:1.5px solid var(--b);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13.5px;resize:vertical;min-height:80px;outline:none;transition:.2s}
+.fg textarea:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(44,110,73,.1)}
+
+.modal-footer{padding:16px 24px;border-top:1px solid var(--b);display:flex;gap:10px}
+.btn-cancel{flex:1;padding:12px;background:none;border:1.5px solid var(--b);border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.btn-send{flex:2;padding:12px;background:var(--o);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s}
+.btn-send:hover{background:#C55A3C}
+</style></head>
+<body>
+<div class="modal">
+  <div class="modal-header">
+    <h2>🔁 Propose a Swap</h2>
+    <button class="modal-close" onclick="window.location='FR-14-listing-detail.html'">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="swap-item">
+      <div class="si-label">They have (You want)</div>
+      <div class="si-row">
+        <div class="si-img">📱</div>
+        <div><div class="si-title">iPhone 14 Pro 256GB Space Black</div><div class="si-meta">Ahmad H. · Irbid</div><div class="si-price">JD 420</div></div>
+      </div>
+    </div>
+    <div class="swap-arrow">⇅</div>
+    <div class="swap-item" style="margin-top:8px;border-color:rgba(231,111,81,.3);background:rgba(231,111,81,.04)">
+      <div class="si-label" style="color:var(--o)">You offer (Select item)</div>
+      <div class="offer-section">
+        <div class="my-items">
+          <div class="mi on" onclick="selectItem(this)"><div class="mi-img">💻</div><div class="mi-name">MacBook Air 2020</div><div class="mi-price">JD 380</div></div>
+          <div class="mi" onclick="selectItem(this)"><div class="mi-img">📷</div><div class="mi-name">Canon EOS R50</div><div class="mi-price">JD 280</div></div>
+          <div class="mi" onclick="selectItem(this)"><div class="mi-img">⌚</div><div class="mi-name">Apple Watch S7</div><div class="mi-price">JD 120</div></div>
+          <div class="mi" onclick="selectItem(this)"><div class="mi-img">🎮</div><div class="mi-name">PS5 Controller</div><div class="mi-price">JD 35</div></div>
+          <div class="mi" onclick="selectItem(this)"><div class="mi-img">📚</div><div class="mi-name">Book Collection</div><div class="mi-price">JD 20</div></div>
+          <div class="mi" style="border-style:dashed;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px" onclick="window.location='FR-12-create-listing.html'"><div style="font-size:20px">+</div><div class="mi-name">Add new listing</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="topup">
+      <div class="topup-row"><span>💵 Add cash top-up? <span style="font-size:11px;color:var(--gr);font-weight:400">(optional)</span></span>
+        <div class="topup-inp"><span>JD</span><input type="number" placeholder="0" min="0"/></div>
+      </div>
+      <p style="font-size:12px;color:var(--gr)">Add a cash payment alongside your item to balance the value difference.</p>
+    </div>
+    <div class="fg">
+      <label>Message to seller <span style="font-weight:400;color:var(--gr)">(optional)</span></label>
+      <textarea placeholder="Hi! I'd like to swap my MacBook Air for your iPhone 14 Pro. It's in great condition with original box..."></textarea>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn-cancel" onclick="window.location='FR-14-listing-detail.html'">Cancel</button>
+    <button class="btn-send" onclick="sendSwap()">🔁 Send Swap Request</button>
+  </div>
+</div>
+<script>
+function selectItem(el){document.querySelectorAll('.mi').forEach(m=>m.classList.remove('on'));el.classList.add('on')}
+function sendSwap(){alert('✅ Swap request sent! Ahmad will be notified.');window.location='FR-20-swap-received.html'}
+</script></body></html>

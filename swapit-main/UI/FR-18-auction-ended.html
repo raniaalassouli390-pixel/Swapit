@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Auction Ended · FR-18</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d);min-height:100vh}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--d);display:flex;align-items:center;gap:8px}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.wrap{max-width:700px;margin:0 auto;padding:48px 32px}
+.ended-header{text-align:center;background:var(--d);border-radius:20px;padding:40px;margin-bottom:24px;position:relative;overflow:hidden}
+.ended-header::before{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(44,110,73,.3) 0%,transparent 70%);top:-100px;right:-100px}
+.confetti{font-size:48px;margin-bottom:16px;animation:bounce .7s ease-in-out infinite alternate;display:block}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+.ended-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);border-radius:99px;padding:4px 14px;font-size:12px;color:#FCA5A5;font-weight:600;margin-bottom:14px}
+.ended-header h1{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;margin-bottom:8px}
+.ended-header p{color:rgba(255,255,255,.5);font-size:14px;position:relative;z-index:2}
+.winner-card{background:#fff;border:1px solid var(--b);border-radius:16px;padding:24px;margin-bottom:16px}
+.winner-badge{background:linear-gradient(135deg,#F59E0B,#F97316);color:#fff;padding:5px 14px;border-radius:99px;font-size:12px;font-weight:700;display:inline-block;margin-bottom:14px}
+.winner-row{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.winner-av{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:20px;border:3px solid #F59E0B}
+.winner-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:800}
+.winner-meta{font-size:13px;color:var(--gr);margin-top:3px}
+.final-price{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--g);text-align:center;padding:16px;background:rgba(44,110,73,.06);border-radius:12px;margin-bottom:16px}
+.final-price small{display:block;font-size:13px;color:var(--gr);font-weight:400;margin-top:2px}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.st{text-align:center;background:var(--c);border-radius:10px;padding:12px}
+.st-num{font-family:'Syne',sans-serif;font-size:18px;font-weight:800}
+.st-lbl{font-size:11px;color:var(--gr)}
+.btn{width:100%;padding:13px;background:var(--g);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;transition:.2s}
+.btn:hover{background:var(--g2)}
+.btn-o{width:100%;padding:12px;background:#fff;color:var(--d);border:1.5px solid var(--b);border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px}
+</style></head>
+<body>
+<nav><a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a><a href="FR-10-browse.html" style="padding:8px 14px;border:1.5px solid var(--b);border-radius:9px;font-size:13px;color:var(--d);text-decoration:none">Browse More</a></nav>
+<div class="wrap">
+  <div class="ended-header">
+    <span class="confetti">🏆</span>
+    <div class="ended-badge">⏰ AUCTION ENDED</div>
+    <h1>MacBook Air M2 — Sold!</h1>
+    <p>This auction has concluded. Thank you to all who participated!</p>
+  </div>
+  <div class="winner-card">
+    <div class="winner-badge">🥇 Winning Bidder</div>
+    <div class="winner-row">
+      <div class="winner-av">A</div>
+      <div><div class="winner-name">Ahmad Hassan</div><div class="winner-meta">⭐ 4.9 rating · Irbid, Jordan</div></div>
+    </div>
+    <div class="final-price">JD 650<small>Final selling price · 18 bids placed</small></div>
+    <div class="stats-row">
+      <div class="st"><div class="st-num">18</div><div class="st-lbl">Total Bids</div></div>
+      <div class="st"><div class="st-num">8</div><div class="st-lbl">Bidders</div></div>
+      <div class="st"><div class="st-num">3 days</div><div class="st-lbl">Duration</div></div>
+    </div>
+    <button class="btn" onclick="window.location='FR-23-chat.html'">💬 Contact Winner to Arrange</button>
+    <button class="btn-o" onclick="window.location='FR-29-review.html'">⭐ Leave a Review</button>
+    <button class="btn-o" onclick="window.location='FR-10-browse.html'">🔍 Browse More Auctions</button>
+  </div>
+  <div style="background:#fff;border:1px solid var(--b);border-radius:14px;padding:20px;text-align:center">
+    <div style="font-size:24px;margin-bottom:10px">😔</div>
+    <p style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:6px">Didn't win this one?</p>
+    <p style="font-size:13.5px;color:var(--gr);margin-bottom:14px">Don't worry — there are hundreds of similar items available right now.</p>
+    <a href="FR-10-browse.html" style="display:inline-block;padding:10px 22px;background:var(--g);color:#fff;border-radius:10px;font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700">Browse Similar Items →</a>
+  </div>
+</div></body></html>

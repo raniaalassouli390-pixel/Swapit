@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Leave a Review · FR-29</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:10}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.wrap{max-width:560px;margin:0 auto;padding:40px 32px}
+.card{background:#fff;border:1px solid var(--b);border-radius:18px;padding:28px}
+.card-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;text-align:center;margin-bottom:24px}
+.txn-info{display:flex;align-items:center;gap:12px;background:var(--c);border-radius:12px;padding:14px;margin-bottom:24px}
+.txn-img{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.txn-name{font-size:14px;font-weight:600;margin-bottom:3px}
+.txn-meta{font-size:12px;color:var(--gr)}
+.star-row{display:flex;justify-content:center;gap:8px;margin-bottom:8px}
+.star-btn{background:none;border:none;font-size:40px;cursor:pointer;transition:.15s;line-height:1}
+.star-btn:hover,.star-btn.on{transform:scale(1.15)}
+.rating-label{text-align:center;font-size:14px;font-weight:600;color:var(--d);margin-bottom:20px;height:20px}
+.quick-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;justify-content:center}
+.q-tag{padding:6px 14px;border:1.5px solid var(--b);border-radius:99px;font-size:12.5px;cursor:pointer;transition:.2s}
+.q-tag:hover,.q-tag.on{border-color:var(--g);background:rgba(44,110,73,.08);color:var(--g)}
+.fg{margin-bottom:18px}
+.fg label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px}
+.fg textarea{width:100%;padding:11px 14px;border:1.5px solid var(--b);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;resize:vertical;min-height:100px;outline:none;transition:.2s}
+.fg textarea:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(44,110,73,.1)}
+.submit-btn{width:100%;padding:14px;background:var(--g);color:#fff;border:none;border-radius:12px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:.2s}
+.submit-btn:hover{background:var(--g2)}
+.success{display:none;text-align:center;padding:20px}
+.success .s-icon{font-size:60px;margin-bottom:14px;animation:bounce .6s ease infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-8px)}}</style></head>
+<body>
+<nav><a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a>
+<a href="FR-27-purchases.html" style="padding:8px 14px;border:1.5px solid var(--b);border-radius:9px;font-size:13px;color:var(--d);text-decoration:none">← My Orders</a></nav>
+<div class="wrap">
+  <div class="card">
+    <div id="reviewForm">
+      <div class="card-title">⭐ Leave a Review</div>
+      <div class="txn-info">
+        <div class="txn-img">📱</div>
+        <div><div class="txn-name">iPhone 14 Pro 256GB</div><div class="txn-meta">Seller: Ahmad Hassan · Dec 1, 2024</div></div>
+      </div>
+      <div class="star-row" id="stars">
+        <button class="star-btn" onclick="setRating(1)">☆</button>
+        <button class="star-btn" onclick="setRating(2)">☆</button>
+        <button class="star-btn" onclick="setRating(3)">☆</button>
+        <button class="star-btn" onclick="setRating(4)">☆</button>
+        <button class="star-btn" onclick="setRating(5)">☆</button>
+      </div>
+      <div class="rating-label" id="ratingLabel">Tap to rate</div>
+      <div class="quick-tags" id="quickTags">
+        <button class="q-tag" onclick="toggleTag(this)">✅ Item as described</button>
+        <button class="q-tag" onclick="toggleTag(this)">⚡ Fast response</button>
+        <button class="q-tag" onclick="toggleTag(this)">🤝 Easy to deal with</button>
+        <button class="q-tag" onclick="toggleTag(this)">📦 Well packaged</button>
+        <button class="q-tag" onclick="toggleTag(this)">💰 Fair price</button>
+        <button class="q-tag" onclick="toggleTag(this)">🔁 Would swap again</button>
+      </div>
+      <div class="fg"><label>Write your review <span style="font-weight:400;color:var(--gr)">(optional)</span></label><textarea placeholder="Tell others about your experience with this seller..."></textarea></div>
+      <button class="submit-btn" onclick="submitReview()">Submit Review →</button>
+    </div>
+    <div class="success" id="success">
+      <div class="s-icon">🎉</div>
+      <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:8px">Review Submitted!</div>
+      <p style="color:var(--gr);font-size:14px;margin-bottom:20px">Thank you for helping the SwapIt community!</p>
+      <a href="FR-24-profile.html" style="display:inline-block;padding:11px 24px;background:var(--g);color:#fff;border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700">Back to Profile</a>
+    </div>
+  </div>
+</div>
+<script>
+const labels=['','Terrible 😞','Poor 😕','Okay 😐','Good 😊','Excellent! 🌟'];
+let rating=0;
+function setRating(n){rating=n;document.querySelectorAll('.star-btn').forEach((s,i)=>{s.textContent=i<n?'★':'☆';s.classList.toggle('on',i<n);s.style.color=i<n?'#F59E0B':''});document.getElementById('ratingLabel').textContent=labels[n]}
+function toggleTag(btn){btn.classList.toggle('on')}
+function submitReview(){if(!rating){alert('Please select a star rating');return}document.getElementById('reviewForm').style.display='none';document.getElementById('success').style.display='block'}
+</script></body></html>

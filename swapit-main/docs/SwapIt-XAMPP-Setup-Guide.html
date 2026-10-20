@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SwapIt — XAMPP Setup Guide (Option A)</title>
+  <style>
+    @page { margin: 2cm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: #1a1a2e;
+      line-height: 1.55;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 48px;
+      background: #fff;
+    }
+    .header {
+      border-bottom: 4px solid #2C6E49;
+      padding-bottom: 20px;
+      margin-bottom: 28px;
+    }
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+    .logo {
+      width: 48px;
+      height: 48px;
+      background: #2C6E49;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 22px;
+      font-weight: 800;
+    }
+    h1 {
+      font-size: 26px;
+      margin: 0;
+      color: #2C6E49;
+    }
+    .subtitle {
+      color: #666;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+    h2 {
+      font-size: 17px;
+      color: #2C6E49;
+      margin-top: 28px;
+      margin-bottom: 10px;
+      border-left: 4px solid #2C6E49;
+      padding-left: 10px;
+    }
+    h3 {
+      font-size: 14px;
+      margin: 18px 0 8px;
+      color: #333;
+    }
+    p, li { font-size: 13.5px; }
+    ul, ol { padding-left: 22px; }
+    li { margin-bottom: 6px; }
+    .box {
+      background: #f8f4ee;
+      border: 1px solid #e0d8cc;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+    .box strong { color: #2C6E49; }
+    code, .url {
+      background: #eef5f0;
+      color: #1e4d32;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 12.5px;
+      word-break: break-all;
+    }
+    .url-block {
+      display: block;
+      padding: 10px 14px;
+      margin: 8px 0;
+      background: #eef5f0;
+      border-radius: 8px;
+      font-family: Consolas, monospace;
+      font-size: 13px;
+      color: #1e4d32;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 12.5px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 9px 12px;
+      text-align: left;
+    }
+    th { background: #2C6E49; color: #fff; }
+    tr:nth-child(even) { background: #fafafa; }
+    .warn {
+      background: #fff8e6;
+      border: 1px solid #f0d080;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+    .step-num {
+      display: inline-block;
+      background: #2C6E49;
+      color: #fff;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 26px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .footer {
+      margin-top: 40px;
+      padding-top: 16px;
+      border-top: 1px solid #ddd;
+      font-size: 11px;
+      color: #888;
+      text-align: center;
+    }
+    .checklist li { list-style: none; margin-left: -8px; }
+    .checklist li::before { content: "☐ "; color: #2C6E49; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo-row">
+      <div class="logo">S</div>
+      <div>
+        <h1>SwapIt — Local Setup on XAMPP</h1>
+        <div class="subtitle">Option A: Setup wizard · Team onboarding guide</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Before you start</h2>
+  <ul>
+    <li>Install <strong>XAMPP</strong> (PHP 8.1+ and MySQL included).</li>
+    <li>Clone or copy the project into: <code>C:\xampp\htdocs\swapit</code></li>
+    <li>Folder name should be <strong>swapit</strong> (lowercase) unless the whole team agrees on another name.</li>
+  </ul>
+
+  <div class="warn">
+    <strong>Important:</strong> Use <code>http://localhost/swapit/...</code> — not port 8000 or 8080. XAMPP Apache runs on port <strong>80</strong> by default.
+  </div>
+
+  <h2><span class="step-num">1</span> Start XAMPP</h2>
+  <ol>
+    <li>Open <strong>XAMPP Control Panel</strong>.</li>
+    <li>Click <strong>Start</strong> next to <strong>Apache</strong>.</li>
+    <li>Click <strong>Start</strong> next to <strong>MySQL</strong>.</li>
+    <li>Both modules should turn <strong>green</strong>.</li>
+  </ol>
+  <p>If Apache fails to start, another program may be using port 80 (IIS, Skype, etc.). Close that app or change Apache’s port in XAMPP config.</p>
+
+  <h2><span class="step-num">2</span> Open the setup wizard</h2>
+  <p>In your browser, go to:</p>
+  <span class="url-block">http://localhost/swapit/public/setup.php</span>
+
+  <h2><span class="step-num">3</span> Step 1 — Create config.php</h2>
+  <p>Fill in the form with these values (default XAMPP):</p>
+  <table>
+    <tr><th>Field</th><th>Value</th></tr>
+    <tr><td>App URL</td><td><code>http://localhost/swapit</code> (no trailing slash)</td></tr>
+    <tr><td>DB Host</td><td><code>localhost</code> or <code>127.0.0.1</code></td></tr>
+    <tr><td>DB User</td><td><code>root</code></td></tr>
+    <tr><td>DB Password</td><td><em>leave empty</em> (XAMPP default)</td></tr>
+    <tr><td>DB Name</td><td><code>swapit</code></td></tr>
+  </table>
+  <p>Click the button to create <code>config.php</code>. You should see a success message.</p>
+
+  <div class="box">
+    <strong>Note:</strong> <code>config.php</code> is not in Git. Every team member must create their own copy on their machine.
+  </div>
+
+  <h2><span class="step-num">4</span> Step 2 — Import the database</h2>
+  <p>On the same setup page, run <strong>Step 2</strong> to create the <code>swapit</code> database and import schema + sample data.</p>
+  <p>Alternatively, use phpMyAdmin (<code>http://localhost/phpmyadmin</code>):</p>
+  <ol>
+    <li>Create database <code>swapit</code></li>
+    <li>Import <code>database/schema.sql</code></li>
+    <li>Import <code>database/seed.sql</code></li>
+  </ol>
+
+  <h2><span class="step-num">5</span> Open the website</h2>
+  <p>Use these URLs:</p>
+  <table>
+    <tr><th>Page</th><th>URL</th></tr>
+    <tr><td>Home</td><td><code>http://localhost/swapit/src/config/pages/home.php</code></td></tr>
+    <tr><td>Login</td><td><code>http://localhost/swapit/src/config/pages/login.php</code></td></tr>
+    <tr><td>Register</td><td><code>http://localhost/swapit/src/config/pages/register.php</code></td></tr>
+    <tr><td>Shortcut</td><td><code>http://localhost/swapit/public</code></td></tr>
+  </table>
+
+  <h2><span class="step-num">6</span> Test that it works</h2>
+  <ul class="checklist">
+    <li>Home page loads without errors</li>
+    <li>Register a new account (no “database error”)</li>
+    <li>Enter the 6-digit verification code on the verify page</li>
+    <li>Log in successfully</li>
+  </ul>
+
+  <h2>Common problems</h2>
+  <table>
+    <tr><th>Problem</th><th>Solution</th></tr>
+    <tr><td>Connection refused / site won’t load</td><td>Start Apache; use <code>localhost/swapit</code> not <code>:8000</code></td></tr>
+    <tr><td>404 Not Found</td><td>Project must be in <code>htdocs\swapit</code>; URL must include <code>/swapit/</code></td></tr>
+    <tr><td>Database or config errors</td><td>Create <code>config.php</code>; start MySQL; import SQL files</td></tr>
+    <tr><td>No verification email in Gmail</td><td>Normal on XAMPP — email doesn’t send locally. Use the dev code on the verify page or check <code>users.verify_token</code> in phpMyAdmin</td></tr>
+    <tr><td>Broken CSS / images</td><td><code>APP_URL</code> in config must match folder name, e.g. <code>http://localhost/swapit</code></td></tr>
+  </table>
+
+  <h2>Quick reference</h2>
+  <div class="box">
+    <strong>One-line summary:</strong><br>
+    Put project in <code>C:\xampp\htdocs\swapit</code> → Start Apache + MySQL → Open <code>http://localhost/swapit/public/setup.php</code> → Set App URL to <code>http://localhost/swapit</code> → Import DB → Open home page.
+  </div>
+
+  <div class="footer">
+    SwapIt Marketplace · XAMPP Setup Guide · Generated for team onboarding
+  </div>
+
+</body>
+</html>

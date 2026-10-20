@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Notifications · FR-33</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:10;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.wrap{max-width:680px;margin:0 auto;padding:36px 32px}
+.page-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.page-h h1{font-family:'Syne',sans-serif;font-size:24px;font-weight:800}
+.mark-all{background:none;border:none;font-size:13px;color:var(--g);cursor:pointer;font-weight:600}
+.tabs{display:flex;border-bottom:2px solid var(--b);margin-bottom:20px}
+.tab{padding:10px 16px;font-size:13.5px;font-weight:600;color:var(--gr);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab.on{color:var(--g);border-bottom-color:var(--g)}
+.notif-group{margin-bottom:20px}
+.group-label{font-size:12px;font-weight:600;color:var(--gr);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.notif{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:#fff;border:1px solid var(--b);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:.15s;position:relative}
+.notif:hover{background:var(--c)}
+.notif.unread{border-left:3px solid var(--g)}
+.notif.unread::before{content:'';position:absolute;top:16px;right:14px;width:8px;height:8px;background:var(--g);border-radius:50%}
+.n-icon{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.n-info{flex:1}
+.n-title{font-size:13.5px;font-weight:600;color:var(--d);margin-bottom:3px}
+.n-body{font-size:12.5px;color:var(--gr);line-height:1.5;margin-bottom:5px}
+.n-time{font-size:11.5px;color:var(--gr)}
+.n-actions{display:flex;gap:8px;margin-top:8px}
+.n-btn{padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans',sans-serif}
+.n-btn-g{background:var(--g);color:#fff}
+.n-btn-o{background:var(--b);color:var(--d)}</style></head>
+<body>
+<nav><a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a>
+<a href="FR-24-profile.html"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;cursor:pointer">A</div></a></nav>
+<div class="wrap">
+  <div class="page-h"><h1>🔔 Notifications</h1><button class="mark-all" onclick="markAll()">Mark all read</button></div>
+  <div class="tabs">
+    <div class="tab on">All</div>
+    <div class="tab">Messages</div>
+    <div class="tab">Swaps</div>
+    <div class="tab">Auctions</div>
+  </div>
+  <div class="notif-group">
+    <div class="group-label">Today</div>
+    <div class="notif unread" onclick="this.classList.remove('unread')">
+      <div class="n-icon" style="background:#DBEAFE">💬</div>
+      <div class="n-info"><div class="n-title">New message from Khalid Mohammed</div><div class="n-body">"Can we meet tomorrow morning? I'm in Irbid city center."</div><div class="n-time">2 minutes ago</div><div class="n-actions"><button class="n-btn n-btn-g" onclick="window.location='FR-23-chat.html'">Reply</button><button class="n-btn n-btn-o">Dismiss</button></div></div>
+    </div>
+    <div class="notif unread" onclick="this.classList.remove('unread')">
+      <div class="n-icon" style="background:#FEF3C7">🔁</div>
+      <div class="n-info"><div class="n-title">New swap request for your iPhone 14 Pro</div><div class="n-body">Sara Abdullah wants to swap a Canon EOS R50 for your iPhone 14 Pro.</div><div class="n-time">1 hour ago</div><div class="n-actions"><button class="n-btn n-btn-g" onclick="window.location='FR-20-swap-received.html'">View Offer</button><button class="n-btn n-btn-o">Dismiss</button></div></div>
+    </div>
+    <div class="notif unread" onclick="this.classList.remove('unread')">
+      <div class="n-icon" style="background:#FEE2E2">🔨</div>
+      <div class="n-info"><div class="n-title">You've been outbid on Canon EOS R50</div><div class="n-body">Someone outbid your JD 280. The current bid is now JD 300. Act fast — 4h left!</div><div class="n-time">2 hours ago</div><div class="n-actions"><button class="n-btn n-btn-g" onclick="window.location='FR-16-auction-detail.html'">Bid Again</button><button class="n-btn n-btn-o">Dismiss</button></div></div>
+    </div>
+  </div>
+  <div class="notif-group">
+    <div class="group-label">Yesterday</div>
+    <div class="notif" onclick="this.classList.remove('unread')">
+      <div class="n-icon" style="background:#DCFCE7">✅</div>
+      <div class="n-info"><div class="n-title">Swap accepted by Khalid Mohammed</div><div class="n-body">Khalid accepted your swap proposal for the PS5. Time to coordinate!</div><div class="n-time">Yesterday, 3:45 PM</div><div class="n-actions"><button class="n-btn n-btn-g" onclick="window.location='FR-23-chat.html'">Arrange Meetup</button></div></div>
+    </div>
+    <div class="notif" onclick="">
+      <div class="n-icon" style="background:#FEF3C7">⭐</div>
+      <div class="n-info"><div class="n-title">Ahmad Hassan left you a 5-star review!</div><div class="n-body">"Excellent buyer! Very friendly and easy to deal with."</div><div class="n-time">Yesterday, 10:22 AM</div></div>
+    </div>
+  </div>
+  <div class="notif-group">
+    <div class="group-label">This Week</div>
+    <div class="notif"><div class="n-icon" style="background:#F3E5F5">🔔</div><div class="n-info"><div class="n-title">Price drop alert — MacBook Air M2</div><div class="n-body">An item on your wishlist dropped from JD 720 to JD 650!</div><div class="n-time">2 days ago</div><div class="n-actions"><button class="n-btn n-btn-g" onclick="window.location='FR-31-wishlist.html'">View Item</button></div></div></div>
+    <div class="notif"><div class="n-icon" style="background:#DCFCE7">🎉</div><div class="n-info"><div class="n-title">Congratulations! You won the auction</div><div class="n-body">You won the Fender Guitar auction with a bid of JD 160. Contact the seller to arrange.</div><div class="n-time">3 days ago</div><div class="n-actions"><button class="n-btn n-btn-g" onclick="window.location='FR-23-chat.html'">Contact Seller</button></div></div></div>
+  </div>
+</div>
+<script>function markAll(){document.querySelectorAll('.notif.unread').forEach(n=>n.classList.remove('unread'))}</script></body></html>

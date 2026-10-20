@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Reviews · FR-30</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:10}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.wrap{max-width:800px;margin:0 auto;padding:36px 32px}
+.hero-card{background:var(--d);border-radius:18px;padding:32px;display:flex;gap:32px;align-items:center;margin-bottom:28px}
+.big-rating{text-align:center;flex-shrink:0}
+.big-num{font-family:'Syne',sans-serif;font-size:56px;font-weight:800;color:#fff;line-height:1}
+.big-stars{color:#F59E0B;font-size:22px;margin:6px 0}
+.big-count{font-size:13px;color:rgba(255,255,255,.5)}
+.bars{flex:1}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bar-lbl{font-size:12px;color:rgba(255,255,255,.6);width:22px;text-align:right;flex-shrink:0}
+.bar-track{flex:1;height:8px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,#F59E0B,#FCD34D);border-radius:99px;transition:width .6s ease}
+.bar-num{font-size:11px;color:rgba(255,255,255,.4);width:22px}
+.filters{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.f-btn{padding:7px 14px;border:1.5px solid var(--b);border-radius:99px;background:#fff;font-size:12.5px;cursor:pointer;transition:.2s}
+.f-btn.on,.f-btn:hover{border-color:var(--g);color:var(--g);background:rgba(44,110,73,.06)}
+.review-list{display:flex;flex-direction:column;gap:14px}
+.rv{background:#fff;border:1px solid var(--b);border-radius:14px;padding:18px}
+.rv-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.rv-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0}
+.rv-name{font-size:14px;font-weight:600;flex:1}
+.rv-stars{color:#F59E0B;font-size:14px}
+.rv-date{font-size:11.5px;color:var(--gr)}
+.rv-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.rv-tag{padding:2px 9px;background:#DCFCE7;color:#16A34A;border-radius:99px;font-size:11px;font-weight:600}
+.rv-text{font-size:13.5px;color:var(--d);line-height:1.7}
+.rv-item{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--b)}
+.rv-item-img{width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.rv-item-name{font-size:12px;color:var(--gr)}</style></head>
+<body>
+<nav><a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a>
+<a href="FR-24-profile.html" style="padding:8px 14px;border:1.5px solid var(--b);border-radius:9px;font-size:13px;color:var(--d)">← Profile</a></nav>
+<div class="wrap">
+  <div class="hero-card">
+    <div class="big-rating"><div class="big-num">4.9</div><div class="big-stars">★★★★★</div><div class="big-count">47 reviews</div></div>
+    <div class="bars">
+      <div class="bar-row"><span class="bar-lbl">5★</span><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><span class="bar-num">41</span></div>
+      <div class="bar-row"><span class="bar-lbl">4★</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">4</span></div>
+      <div class="bar-row"><span class="bar-lbl">3★</span><div class="bar-track"><div class="bar-fill" style="width:4%"></div></div><span class="bar-num">2</span></div>
+      <div class="bar-row"><span class="bar-lbl">2★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-num">0</span></div>
+      <div class="bar-row"><span class="bar-lbl">1★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-num">0</span></div>
+    </div>
+  </div>
+  <div class="filters">
+    <button class="f-btn on" onclick="setF(this)">All (47)</button>
+    <button class="f-btn" onclick="setF(this)">⭐⭐⭐⭐⭐ (41)</button>
+    <button class="f-btn" onclick="setF(this)">⭐⭐⭐⭐ (4)</button>
+    <button class="f-btn" onclick="setF(this)">⭐⭐⭐ (2)</button>
+  </div>
+  <div class="review-list">
+    <div class="rv"><div class="rv-header"><div class="rv-av" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">K</div><div><div class="rv-name">Khalid Mohammed</div><div class="rv-date">Dec 3, 2024</div></div><div class="rv-stars">★★★★★</div></div><div class="rv-tags"><span class="rv-tag">✅ Item as described</span><span class="rv-tag">⚡ Fast response</span><span class="rv-tag">🤝 Easy to deal</span></div><div class="rv-text">Excellent seller! The iPhone was exactly as described — no scratches at all. Ahmad was very responsive and we met quickly. Strongly recommended!</div><div class="rv-item"><div class="rv-item-img">📱</div><span class="rv-item-name">iPhone 14 Pro 256GB · JD 420</span></div></div>
+    <div class="rv"><div class="rv-header"><div class="rv-av" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9)">S</div><div><div class="rv-name">Sara Taher</div><div class="rv-date">Nov 28, 2024</div></div><div class="rv-stars">★★★★★</div></div><div class="rv-tags"><span class="rv-tag">✅ Item as described</span><span class="rv-tag">💰 Fair price</span></div><div class="rv-text">Great transaction! Very honest and trustworthy seller. The swap process was smooth. Would definitely deal again.</div><div class="rv-item"><div class="rv-item-img">🎮</div><span class="rv-item-name">PS5 Disc Edition · Swap</span></div></div>
+    <div class="rv"><div class="rv-header"><div class="rv-av" style="background:linear-gradient(135deg,#F59E0B,#F97316)">R</div><div><div class="rv-name">Rania Khalil</div><div class="rv-date">Nov 15, 2024</div></div><div class="rv-stars">★★★★☆</div></div><div class="rv-tags"><span class="rv-tag">✅ Item as described</span></div><div class="rv-text">Good seller overall. Item was as described and meetup was easy. Minor delay in response but overall a good experience.</div><div class="rv-item"><div class="rv-item-img">💻</div><span class="rv-item-name">MacBook Air M1 · JD 350</span></div></div>
+  </div>
+</div>
+<script>function setF(b){document.querySelectorAll('.f-btn').forEach(x=>x.classList.remove('on'));b.classList.add('on')}</script></body></html>

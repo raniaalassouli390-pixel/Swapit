@@ -1,0 +1,33 @@
+# Config (contains passwords - never commit!)
+src/config/config.php
+.env
+
+# Uploaded files (keep the folder, ignore its contents)
+public/images/uploads/*
+!public/images/uploads/.gitkeep
+
+# Node (for UI/UX prototype only)
+ui-ux/node_modules/
+ui-ux/dist/
+
+# Mac
+.DS_Store
+**/.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Claude Code local state
+.claude/
+
+# Logs
+*.log
+error_log
+
+# PHP cache
+*.cache

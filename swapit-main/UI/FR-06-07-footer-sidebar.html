@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sidebar Filter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="main .css.css">
+</head>
+
+<body class="filter-page">
+
+  <div class="sidebar" >
+    <div class="sbh">
+      <img src="images/filter.jpeg" width="24" height="24" />
+      <h3>Filters</h3>
+      <button class="clr-btn">Clear all</button>
+    </div>
+    <div class="chips">
+      <div class="chip">Under JD 500 <button onclick="removeChip(this)">✕</button></div>
+    </div>
+
+    <div class="sbs">
+      <div class="sbt">Listing Type</div>
+      <div class="tpills">
+        <button class="tpill a" onclick="selTP(this)"> Sell</button>
+        <button class="tpill" onclick="selTP(this)"> Swap</button>
+        <button class="tpill" onclick="selTP(this)"> Bid</button>
+      </div>
+    </div>
+
+    <div class="sbs">
+      <div class="sbt">Category</div>
+      <div class="cklist">
+        <label class="ckrow"><input type="checkbox" data-cat="electronics" /> <img src="images/electronic.jpeg"
+            width="24" height="24" />Electronics<span class="cnt">324</span><span class="arrow"
+            data-arrow="electronics">▼</span></label>
+        <div class="sub-options" id="sub-electronics"></div>
+
+        <label class="ckrow"><input type="checkbox" data-cat="clothing" /><img src="images/clothing.jpeg" width="24"
+            height="24" /> Clothing<span class="cnt">189</span><span class="arrow"
+            data-arrow="clothing">▼</span></label>
+        <div class="sub-options" id="sub-clothing"></div>
+
+        <label class="ckrow"><input type="checkbox" data-cat="books" /><img src="images/book icon.jpeg" width="24"
+            height="24" /> Books<span class="cnt">97</span><span class="arrow" data-arrow="books">▼</span></label>
+        <div class="sub-options" id="sub-books"></div>
+
+        <label class="ckrow"><input type="checkbox" data-cat="furniture" /> <img src="images/furniture.jpeg" width="24"
+            height="24" /> Furniture<span class="cnt">214</span><span class="arrow"
+            data-arrow="furniture">▼</span></label>
+        <div class="sub-options" id="sub-furniture"></div>
+
+        <label class="ckrow"><input type="checkbox" data-cat="vehicles" /><img src="images/car.jpeg" width="24"
+            height="24" /> Vehicles<span class="cnt">56</span><span class="arrow" data-arrow="vehicles">▼</span></label>
+        <div class="sub-options" id="sub-vehicles"></div>
+      </div>
+
+    </div>
+
+    <div class="sbs" id="priceBox">
+      <div class="sbt">Price (JD)</div>
+      <div class="price-grid">
+        <div class="pf"><span>JD</span><input type="number" value="0" min="0" /></div>
+        <div class="pf"><span>JD</span><input type="number" value="500" id="mx" min="0" /></div>
+      </div>
+      <input type="range" class="range" min="0" max="5000" value="500"
+        oninput="document.getElementById('mx').value=this.value" />
+    </div>
+
+    <div class="sbs">
+      <div class="sbt">Condition</div>
+      <div class="radlist">
+        <label class="radrow"><input type="radio" name="cond" />Any Condition</label>
+        <label class="radrow"><input type="radio" name="cond" />New</label>
+        <label class="radrow"><input type="radio" name="cond" /> Like New</label>
+        <label class="radrow"><input type="radio" name="cond" /> Good</label>
+        <label class="radrow"><input type="radio" name="cond" /> Fair / Used</label>
+      </div>
+    </div>
+
+    <div class="sbs">
+      <div class="sbt">Location</div>
+      <select class="loc-sel">
+        <option>All Cities</option>
+        <option>Amman</option>
+        <option>Irbid</option>
+        <option>Zarqa</option>
+        <option>Aqaba</option>
+        <option>Madaba</option>
+        <option>Salt</option>
+      </select>
+    </div>
+
+    <div class="sbs">
+      <div class="sbt">Seller Rating</div>
+      <div class="starlist">
+        <label class="starrow">
+          <input type="radio" name="rat" />
+          <span class="stars">★★★★★</span>
+          <span class="rate-text">5★ stars</span>
+        </label>
+        <label class="starrow">
+          <input type="radio" name="rat" />
+          <span class="stars">★★★★☆</span>
+          <span class="rate-text">4+ stars</span>
+        </label>
+        <label class="starrow">
+          <input type="radio" name="rat" />
+          <span class="stars">★★★☆☆</span>
+          <span class="rate-text">3+ stars</span>
+        </label>
+        <label class="starrow">
+          <input type="radio" name="rat" />
+          <span class="stars">★★☆☆</span>
+          <span class="rate-text">2+ stars</span>
+        </label>
+        <label class="starrow">
+          <input type="radio" name="rat" />
+          <span class="stars">★☆☆☆☆</span>
+          <span class="rate-text">1+ stars</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="sbs-foot">
+      <button class="apb">Apply Filters</button>
+      <div class="res-count">Showing results for 324 listings</div>
+    </div>
+
+  </div>
+
+  <script>
+    let filters = {
+      type: "Sell",
+      categories: [],
+      subOptions: [],
+      price: { min: 0, max: 500 }
+    };
+
+    async function loadSubOptions() {
+      try {
+        const res = await fetch('/api/filters/categories');
+        const data = await res.json();
+
+        Object.keys(data).forEach(catId => {
+          buildSubOptions(catId, data[catId]);
+        });
+
+      } catch (err) {
+        console.error('Failed to load sub-options:', err);
+      }
+    }
+
+    function buildSubOptions(catId, options) {
+      const container = document.getElementById(`sub-${catId}`);
+      if (!container) return;
+
+      container.innerHTML = options.map(opt => `
+    <label class="sub-row">
+      <input type="checkbox" data-cat="${catId}" data-sub="${opt}"/>
+      <span>${opt}</span>
+    </label>
+  `).join('');
+
+      container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener('change', function () {
+          const subName = this.dataset.sub;
+          if (this.checked) {
+            filters.subOptions.push({ cat: catId, name: subName });
+            addChip(subName, `sub-${catId}-${subName}`);
+          } else {
+            filters.subOptions = filters.subOptions.filter(s => !(s.cat === catId && s.name === subName));
+            removeChipByName(`sub-${catId}-${subName}`);
+          }
+        });
+      });
+    }
+
+    document.querySelectorAll('.arrow').forEach(arrow => {
+      arrow.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const catId = this.dataset.arrow;
+        const sub = document.getElementById(`sub-${catId}`);
+        const isOpen = sub.classList.contains('open');
+        sub.classList.toggle('open', !isOpen);
+        this.classList.toggle('open', !isOpen);
+      });
+    });
+
+    function selTP(btn) {
+      document.querySelectorAll('.tpill').forEach(x => x.classList.remove('a'));
+      btn.classList.add('a');
+      filters.type = btn.textContent.trim();
+      document.getElementById("priceBox").style.display = filters.type === "Swap" ? "none" : "block";
+    }
+
+    function getCategoryName(label) {
+      const countSpan = label.querySelector('.cnt');
+      const arrowSpan = label.querySelector('.arrow');
+      let name = label.textContent;
+      if (countSpan) name = name.replace(countSpan.textContent, '');
+      if (arrowSpan) name = name.replace(arrowSpan.textContent, '');
+      return name.replace('✕', '').trim();
+    }
+    document.querySelectorAll('.ckrow input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener("change", function () {
+        const name = getCategoryName(this.parentElement);
+        const catId = this.dataset.cat;
+
+        if (this.checked) {
+          if (!filters.categories.includes(name)) {
+            filters.categories.push(name);
+            addChip(name, name);
+          }
+          document.getElementById(`sub-${catId}`)?.classList.add('open');
+          document.querySelector(`[data-arrow="${catId}"]`)?.classList.add('open');
+        } else {
+          filters.categories = filters.categories.filter(c => c !== name);
+          filters.subOptions = filters.subOptions.filter(s => s.cat !== catId);
+          removeChipByName(name);
+          removeSubChipsByCat(catId);
+          document.querySelectorAll(`input[data-cat="${catId}"][data-sub]`).forEach(s => s.checked = false);
+          document.getElementById(`sub-${catId}`)?.classList.remove('open');
+          document.querySelector(`[data-arrow="${catId}"]`)?.classList.remove('open');
+        }
+      });
+    });
+
+    const minInput = document.querySelectorAll('.pf input')[0];
+    const maxInput = document.getElementById('mx');
+
+    minInput.addEventListener("input", () => { filters.price.min = parseInt(minInput.value) || 0; });
+    maxInput.addEventListener("input", () => { filters.price.max = parseInt(maxInput.value) || 0; });
+
+    function addChip(name, id) {
+      const container = document.querySelector('.chips');
+      if ([...container.children].some(c => c.dataset.name === id)) return;
+      const chip = document.createElement("div");
+      chip.className = "chip";
+      chip.dataset.name = id;
+      chip.innerHTML = `${name} <button onclick="removeChip(this)">✕</button>`;
+      container.appendChild(chip);
+    }
+
+    function removeChip(btn) {
+      const chip = btn.parentElement;
+      const id = chip.dataset.name;
+      filters.categories = filters.categories.filter(c => c !== id);
+      document.querySelectorAll('.ckrow input').forEach(cb => {
+        if (cb.parentElement.textContent.includes(id)) cb.checked = false;
+      });
+      chip.remove();
+    }
+
+    function removeChipByName(id) {
+      document.querySelectorAll('.chip').forEach(chip => {
+        if (chip.dataset.name === id) chip.remove();
+      });
+    }
+
+    function removeSubChipsByCat(catId) {
+      document.querySelectorAll(`.chip[data-name^="sub-${catId}-"]`).forEach(c => c.remove());
+    }
+
+    document.querySelector('.clr-btn').onclick = function () {
+      document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+      document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+      minInput.value = 0;
+      maxInput.value = 500;
+      document.querySelector('.range').value = 500;
+      filters = { type: "Sell", categories: [], subOptions: [], price: { min: 0, max: 500 } };
+      document.querySelectorAll('.tpill').forEach(x => x.classList.remove('a'));
+      document.querySelector('.tpill').classList.add('a');
+      document.getElementById("priceBox").style.display = "block";
+      document.querySelector('.chips').innerHTML = '';
+      document.querySelectorAll('.sub-options').forEach(s => s.classList.remove('open'));
+      document.querySelectorAll('.arrow').forEach(a => a.classList.remove('open'));
+    };
+
+    document.querySelector('.range').addEventListener("input", function () {
+      maxInput.value = this.value;
+      filters.price.max = parseInt(this.value);
+    });
+
+document.querySelector('.apb').onclick = function () {
+  const condition = document.querySelector('input[name="cond"]:checked')?.parentElement.textContent.trim() || 'Any Condition';
+  const location = document.querySelector('.loc-sel')?.value || 'All Cities';
+  const rating = document.querySelector('input[name="rat"]:checked')?.parentElement.querySelector('.rate-text')?.textContent.trim() || null;
+
+  const fullFilters = {
+    type: filters.type,
+    categories: filters.categories,
+    subOptions: filters.subOptions,
+    price: filters.price,
+    condition: condition,
+    location: location,
+    rating: rating
+  };
+
+  console.log("🔥 Filters:", fullFilters);
+
+  window.parent.postMessage({ type: 'APPLY_FILTERS', filters: fullFilters }, '*');
+};
+
+    loadSubOptions();
+  </script>
+
+</body>
+
+</html>

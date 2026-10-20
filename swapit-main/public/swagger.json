@@ -1,0 +1,2213 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "SwapIt Marketplace API",
+    "description": "REST API for the SwapIt PHP marketplace — buy, sell, swap, and auction items.\n\n## Authentication\nMost write endpoints and user-specific reads require a JWT Bearer token obtained from `auth.php?action=login` or `auth.php?action=register`.\n\nPass it as: `Authorization: Bearer <token>`\n\n## Response envelope\nAll responses are JSON. Successful responses always contain `\"ok\": true`. Error responses contain `\"ok\": false` and an `\"error\"` string.\n",
+    "version": "1.0.0",
+    "contact": {
+      "name": "SwapIt Team",
+      "email": "support@swapit.jo"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8888",
+      "description": "Local development server"
+    }
+  ],
+  "tags": [
+    { "name": "Auth",          "description": "Registration, login, email verification, password reset" },
+    { "name": "Listings",      "description": "Browse, create, update, and delete listings" },
+    { "name": "Bids",          "description": "Auction bid retrieval and placement" },
+    { "name": "Swaps",         "description": "Swap offer management" },
+    { "name": "Messages",      "description": "Conversations and direct messages" },
+    { "name": "Wishlist",      "description": "User wishlist management" },
+    { "name": "Notifications", "description": "In-app notifications" },
+    { "name": "Reviews",       "description": "User reviews and ratings" },
+    { "name": "Categories",    "description": "Listing category tree" },
+    { "name": "Users",         "description": "User profiles and account settings" },
+    { "name": "Upload",        "description": "Listing image uploads" },
+    { "name": "Admin",         "description": "Admin-only management endpoints" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT obtained from login or register. Include as: `Authorization: Bearer <token>`"
+      }
+    },
+    "schemas": {
+      "OkTrue": {
+        "type": "object",
+        "properties": {
+          "ok": { "type": "boolean", "example": true }
+        },
+        "required": ["ok"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "ok":    { "type": "boolean", "example": false },
+          "error": { "type": "string",  "example": "Descriptive error message" }
+        },
+        "required": ["ok", "error"]
+      },
+      "UserBasic": {
+        "type": "object",
+        "properties": {
+          "id":       { "type": "integer", "example": 42 },
+          "username": { "type": "string",  "example": "jsmith" },
+          "name":     { "type": "string",  "example": "John Smith" },
+          "email":    { "type": "string",  "format": "email", "example": "john@example.com" },
+          "role":     { "type": "string",  "enum": ["user","admin"], "example": "user" }
+        }
+      },
+      "UserProfile": {
+        "type": "object",
+        "properties": {
+          "id":           { "type": "integer", "example": 42 },
+          "username":     { "type": "string",  "example": "jsmith" },
+          "first_name":   { "type": "string",  "example": "John" },
+          "last_name":    { "type": "string",  "example": "Smith" },
+          "email":        { "type": "string",  "format": "email", "example": "john@example.com" },
+          "phone":        { "type": "string",  "nullable": true,  "example": "+962791234567" },
+          "bio":          { "type": "string",  "nullable": true,  "example": "Lover of vintage electronics." },
+          "city":         { "type": "string",  "nullable": true,  "example": "Amman" },
+          "avatar":       { "type": "string",  "nullable": true,  "example": "images/uploads/42/avatar.jpg" },
+          "role":         { "type": "string",  "enum": ["user","admin"] },
+          "rating":       { "type": "number",  "format": "float", "example": 4.75 },
+          "review_count": { "type": "integer", "example": 12 },
+          "created_at":   { "type": "string",  "format": "date-time" }
+        }
+      },
+      "ListingSummary": {
+        "type": "object",
+        "properties": {
+          "id":            { "type": "integer", "example": 101 },
+          "title":         { "type": "string",  "example": "Vintage Nikon Camera" },
+          "type":          { "type": "string",  "enum": ["sale","swap","auction"] },
+          "price":         { "type": "number",  "format": "float", "nullable": true, "example": 85.00 },
+          "condition":     { "type": "string",  "enum": ["new","like_new","good","fair","for_parts"] },
+          "city":          { "type": "string",  "nullable": true, "example": "Amman" },
+          "views":         { "type": "integer", "example": 34 },
+          "is_featured":   { "type": "boolean", "example": false },
+          "created_at":    { "type": "string",  "format": "date-time" },
+          "primary_image": { "type": "string",  "nullable": true, "example": "images/uploads/101/abc123.jpg" },
+          "category": {
+            "nullable": true,
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "example": "Electronics" },
+              "slug": { "type": "string", "example": "electronics" }
+            }
+          },
+          "seller": {
+            "type": "object",
+            "properties": {
+              "username": { "type": "string",  "example": "jsmith" },
+              "avatar":   { "type": "string",  "nullable": true },
+              "rating":   { "type": "number",  "format": "float", "example": 4.75 }
+            }
+          }
+        }
+      },
+      "ListingDetail": {
+        "allOf": [
+          { "$ref": "#/components/schemas/ListingSummary" },
+          {
+            "type": "object",
+            "properties": {
+              "description": { "type": "string", "nullable": true },
+              "swap_notes":  { "type": "string", "nullable": true },
+              "status":      { "type": "string", "enum": ["active","draft","sold","removed"] },
+              "images": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "path":       { "type": "string" },
+                    "is_primary": { "type": "integer", "enum": [0,1] }
+                  }
+                }
+              },
+              "seller": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string" },
+                  "avatar":   { "type": "string", "nullable": true },
+                  "rating":   { "type": "number", "format": "float" },
+                  "city":     { "type": "string", "nullable": true }
+                }
+              },
+              "auction": {
+                "nullable": true,
+                "type": "object",
+                "properties": {
+                  "id":          { "type": "integer" },
+                  "start_price": { "type": "number",  "format": "float" },
+                  "current_bid": { "type": "number",  "format": "float", "nullable": true },
+                  "starts_at":   { "type": "string",  "format": "date-time" },
+                  "ends_at":     { "type": "string",  "format": "date-time" },
+                  "status":      { "type": "string",  "enum": ["upcoming","live","ended","cancelled"] },
+                  "bid_count":   { "type": "integer" }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "SwapOffer": {
+        "type": "object",
+        "properties": {
+          "id":             { "type": "integer", "example": 7 },
+          "status":         { "type": "string",  "enum": ["pending","accepted","rejected","cancelled","countered"] },
+          "message":        { "type": "string",  "nullable": true },
+          "cash_addition":  { "type": "number",  "format": "float", "example": 0 },
+          "created_at":     { "type": "string",  "format": "date-time" },
+          "updated_at":     { "type": "string",  "format": "date-time" },
+          "offered_listing": {
+            "type": "object",
+            "properties": {
+              "id":    { "type": "integer" },
+              "title": { "type": "string" },
+              "price": { "type": "number",  "nullable": true },
+              "city":  { "type": "string",  "nullable": true },
+              "image": { "type": "string",  "nullable": true }
+            }
+          },
+          "wanted_listing": {
+            "type": "object",
+            "properties": {
+              "id":    { "type": "integer" },
+              "title": { "type": "string" },
+              "price": { "type": "number",  "nullable": true },
+              "city":  { "type": "string",  "nullable": true },
+              "image": { "type": "string",  "nullable": true }
+            }
+          },
+          "sender": {
+            "type": "object",
+            "properties": {
+              "username": { "type": "string" },
+              "avatar":   { "type": "string", "nullable": true }
+            }
+          },
+          "receiver": {
+            "type": "object",
+            "properties": {
+              "username": { "type": "string" },
+              "avatar":   { "type": "string", "nullable": true }
+            }
+          }
+        }
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "id":         { "type": "integer", "example": 55 },
+          "type":       { "type": "string",  "enum": ["bid","swap","message","review","system","price_drop"] },
+          "title":      { "type": "string",  "example": "You have been outbid!" },
+          "body":       { "type": "string",  "example": "Someone placed a higher bid of 120.00 JD." },
+          "link":       { "type": "string",  "nullable": true, "example": "/pages/auction.php?id=101" },
+          "is_read":    { "type": "boolean", "example": false },
+          "created_at": { "type": "string",  "format": "date-time" }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "id":         { "type": "integer", "example": 3 },
+          "rating":     { "type": "integer", "minimum": 1, "maximum": 5, "example": 5 },
+          "comment":    { "type": "string",  "nullable": true, "example": "Great seller, fast shipping!" },
+          "created_at": { "type": "string",  "format": "date-time" },
+          "reviewer": {
+            "type": "object",
+            "properties": {
+              "id":       { "type": "integer" },
+              "username": { "type": "string" },
+              "avatar":   { "type": "string", "nullable": true }
+            }
+          },
+          "listing": {
+            "nullable": true,
+            "type": "object",
+            "properties": {
+              "id":    { "type": "integer" },
+              "title": { "type": "string" }
+            }
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id":         { "type": "integer", "example": 1 },
+          "name":       { "type": "string",  "example": "Electronics" },
+          "slug":       { "type": "string",  "example": "electronics" },
+          "icon":       { "type": "string",  "nullable": true, "example": "fa-microchip" },
+          "sort_order": { "type": "integer", "example": 1 },
+          "children": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id":         { "type": "integer" },
+                "name":       { "type": "string" },
+                "slug":       { "type": "string" },
+                "icon":       { "type": "string", "nullable": true },
+                "sort_order": { "type": "integer" }
+              }
+            }
+          }
+        }
+      },
+      "Conversation": {
+        "type": "object",
+        "properties": {
+          "id":         { "type": "integer", "example": 12 },
+          "updated_at": { "type": "string",  "format": "date-time" },
+          "other_user": {
+            "type": "object",
+            "properties": {
+              "id":         { "type": "integer" },
+              "username":   { "type": "string" },
+              "avatar":     { "type": "string", "nullable": true },
+              "first_name": { "type": "string" }
+            }
+          },
+          "listing": {
+            "nullable": true,
+            "type": "object",
+            "properties": {
+              "id":     { "type": "integer" },
+              "title":  { "type": "string" },
+              "status": { "type": "string" }
+            }
+          },
+          "last_message": {
+            "nullable": true,
+            "type": "object",
+            "properties": {
+              "preview": { "type": "string" },
+              "sent_at": { "type": "string", "format": "date-time" },
+              "is_mine": { "type": "boolean" }
+            }
+          },
+          "unread_count": { "type": "integer", "example": 2 }
+        }
+      },
+      "Message": {
+        "type": "object",
+        "properties": {
+          "id":         { "type": "integer", "example": 88 },
+          "body":       { "type": "string",  "example": "Is this still available?" },
+          "is_read":    { "type": "boolean", "example": true },
+          "created_at": { "type": "string",  "format": "date-time" },
+          "is_mine":    { "type": "boolean", "example": false },
+          "sender": {
+            "type": "object",
+            "properties": {
+              "id":       { "type": "integer" },
+              "username": { "type": "string" },
+              "avatar":   { "type": "string", "nullable": true }
+            }
+          }
+        }
+      },
+      "Bid": {
+        "type": "object",
+        "properties": {
+          "id":         { "type": "integer", "example": 22 },
+          "amount":     { "type": "number",  "format": "float", "example": 150.00 },
+          "created_at": { "type": "string",  "format": "date-time" },
+          "is_you":     { "type": "boolean", "example": false },
+          "bidder": {
+            "type": "object",
+            "properties": {
+              "username": { "type": "string",  "example": "jo***h" },
+              "avatar":   { "type": "string",  "nullable": true }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Missing or invalid JWT token",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" },
+            "example": { "ok": false, "error": "Unauthorized" }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Authenticated but not authorized for this action",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" },
+            "example": { "ok": false, "error": "Forbidden" }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" },
+            "example": { "ok": false, "error": "Not found" }
+          }
+        }
+      },
+      "ValidationError": {
+        "description": "Request validation failed",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" },
+            "example": { "ok": false, "error": "Email and password are required" }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/src/config/api/auth.php?action=login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login",
+        "description": "Authenticate with email and password. Returns a JWT token on success.\n\nRate-limited to 5 failed attempts per 15 minutes per IP.",
+        "operationId": "authLogin",
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "enum": ["login"] }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email","password"],
+                "properties": {
+                  "email":    { "type": "string", "format": "email", "example": "john@example.com" },
+                  "password": { "type": "string", "format": "password", "example": "MyP@ssw0rd" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":    { "type": "boolean", "example": true },
+                    "token": { "type": "string",  "example": "eyJ0eXAiOiJKV1Qi..." },
+                    "user":  { "$ref": "#/components/schemas/UserBasic" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" },
+                "example": { "ok": false, "error": "Invalid email or password" }
+              }
+            }
+          },
+          "403": {
+            "description": "Account suspended or unverified",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" },
+                "example": { "ok": false, "error": "Please verify your email before logging in." }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many failed login attempts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":          { "type": "boolean", "example": false },
+                    "error":       { "type": "string",  "example": "Too many failed login attempts. Please try again in 15 minutes." },
+                    "retry_after": { "type": "integer", "example": 900, "description": "Seconds until lockout expires" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/src/config/api/auth.php?action=register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register",
+        "description": "Create a new user account. Sends a verification email. The account is in `unverified` status until the email is confirmed.",
+        "operationId": "authRegister",
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "enum": ["register"] }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email","password","username","first_name"],
+                "properties": {
+                  "email":      { "type": "string", "format": "email",    "example": "john@example.com" },
+                  "password":   { "type": "string", "format": "password", "example": "MyP@ssw0rd", "minLength": 8 },
+                  "username":   { "type": "string", "example": "jsmith" },
+                  "first_name": { "type": "string", "example": "John" },
+                  "last_name":  { "type": "string", "example": "Smith" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Account created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":         { "type": "boolean", "example": true },
+                    "message":    { "type": "string",  "example": "Account created! Please check your email to verify your account." },
+                    "email_sent": { "type": "boolean", "example": true },
+                    "token":      { "type": "string",  "example": "eyJ0eXAiOiJKV1Qi..." },
+                    "user":       { "$ref": "#/components/schemas/UserBasic" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/src/config/api/auth.php?action=verify": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Verify email",
+        "description": "Verify a user's email address using the token sent during registration. The token can be supplied in the JSON body or as a GET query param (for direct email link clicks — both methods hit this same ?action=verify URL).",
+        "operationId": "authVerify",
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "enum": ["verify"] }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Verification token — alternative to JSON body, used when following email links"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": { "type": "string", "example": "a3f8c2d1e9b74f6c..." }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Email verified (or already verified)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":               { "type": "boolean", "example": true },
+                    "message":          { "type": "string",  "example": "Email verified successfully! You can now log in." },
+                    "already_verified": { "type": "boolean", "example": false }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or expired token",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" },
+                "example": { "ok": false, "error": "Invalid or expired verification link." }
+              }
+            }
+          },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/src/config/api/auth.php?action=resend": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Resend verification email",
+        "description": "Re-send the verification email to an unverified address. Always returns the same generic message to prevent email enumeration.",
+        "operationId": "authResend",
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "enum": ["resend"] }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email"],
+                "properties": {
+                  "email": { "type": "string", "format": "email", "example": "john@example.com" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request processed (same response regardless of whether email exists)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":      { "type": "boolean", "example": true },
+                    "message": { "type": "string",  "example": "If this email exists and is unverified, a new link has been sent." }
+                  }
+                }
+              }
+            }
+          },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/src/config/api/auth.php?action=forgot": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Forgot password",
+        "description": "Initiate a password reset by emailing a reset link. Always returns the same generic response to prevent email enumeration. The reset token expires in 1 hour.\n\n> Note: In the PHP source this action is named `forgot_password`; the recommended short alias is `forgot`.",
+        "operationId": "authForgot",
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "enum": ["forgot_password"] }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email"],
+                "properties": {
+                  "email": { "type": "string", "format": "email", "example": "john@example.com" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request processed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":      { "type": "boolean", "example": true },
+                    "message": { "type": "string",  "example": "If this email is registered, a reset link has been sent." }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/src/config/api/auth.php?action=reset": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Reset password",
+        "description": "Set a new password using the token received via the forgot-password email. Token expires after 1 hour. New password must be at least 8 characters.\n\n> Note: In the PHP source this action is named `reset_password`; the recommended short alias is `reset`.",
+        "operationId": "authReset",
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "enum": ["reset_password"] }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["token","password"],
+                "properties": {
+                  "token":    { "type": "string", "example": "c9d3f1a2e8b74c..." },
+                  "password": { "type": "string", "format": "password", "example": "NewP@ssw0rd", "minLength": 8 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":      { "type": "boolean", "example": true },
+                    "message": { "type": "string",  "example": "Password updated successfully. You can now log in." }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or expired reset token, or password too short",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" },
+                "example": { "ok": false, "error": "Invalid or expired reset token" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/src/config/api/listings.php": {
+      "get": {
+        "tags": ["Listings"],
+        "summary": "Browse / search listings (or get single listing)",
+        "description": "Returns a paginated list of active listings with optional filters. When `?id=X` is provided, returns the full detail for a single listing and increments its view counter.",
+        "operationId": "listingsGet",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Return single listing detail instead of a list"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": { "type": "string" },
+            "description": "Full-text search on title and description"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["sale","swap","auction"] }
+          },
+          {
+            "name": "condition",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["new","like_new","good","fair","for_parts"] }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": { "type": "string" },
+            "description": "Category ID (integer) or slug (string)"
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "schema": { "type": "string" },
+            "description": "Partial city name match"
+          },
+          {
+            "name": "min_price",
+            "in": "query",
+            "schema": { "type": "number", "format": "float" }
+          },
+          {
+            "name": "max_price",
+            "in": "query",
+            "schema": { "type": "number", "format": "float" }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["newest","oldest","price_asc","price_desc","popular"],
+              "default": "newest"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer", "default": 1, "minimum": 1 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listing list (or single listing when ?id= is provided)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "Single listing detail",
+                      "type": "object",
+                      "properties": {
+                        "ok":      { "type": "boolean", "example": true },
+                        "listing": { "$ref": "#/components/schemas/ListingDetail" }
+                      }
+                    },
+                    {
+                      "title": "Paginated list",
+                      "type": "object",
+                      "properties": {
+                        "ok":       { "type": "boolean", "example": true },
+                        "listings": { "type": "array", "items": { "$ref": "#/components/schemas/ListingSummary" } },
+                        "total":    { "type": "integer", "example": 240 },
+                        "page":     { "type": "integer", "example": 1 },
+                        "pages":    { "type": "integer", "example": 12 }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "post": {
+        "tags": ["Listings"],
+        "summary": "Create listing",
+        "description": "Create a new listing. The `type` field determines which additional fields are required:\n- `sale`: requires `price > 0`\n- `auction`: requires `start_price > 0`, `starts_at`, and `ends_at` (ends_at must be after starts_at)\n- `swap`: `swap_notes` is optional",
+        "operationId": "listingsCreate",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title","type","condition"],
+                "properties": {
+                  "title":       { "type": "string",  "maxLength": 255, "example": "Vintage Nikon Camera" },
+                  "description": { "type": "string",  "nullable": true, "example": "Works perfectly, minor wear on body." },
+                  "type":        { "type": "string",  "enum": ["sale","swap","auction"] },
+                  "condition":   { "type": "string",  "enum": ["new","like_new","good","fair","for_parts"] },
+                  "price":       { "type": "number",  "format": "float", "description": "Required when type=sale (must be > 0)", "example": 85.00 },
+                  "category_id": { "type": "integer", "nullable": true, "example": 3 },
+                  "city":        { "type": "string",  "nullable": true, "example": "Amman" },
+                  "swap_notes":  { "type": "string",  "nullable": true, "example": "Looking to swap for a DSLR lens." },
+                  "start_price": { "type": "number",  "format": "float", "description": "Required when type=auction (must be > 0)", "example": 50.00 },
+                  "starts_at":   { "type": "string",  "format": "date-time", "description": "Required when type=auction" },
+                  "ends_at":     { "type": "string",  "format": "date-time", "description": "Required when type=auction; must be after starts_at" }
+                }
+              },
+              "examples": {
+                "sale": {
+                  "summary": "Sale listing",
+                  "value": { "title": "Vintage Nikon Camera", "type": "sale", "condition": "good", "price": 85.00, "city": "Amman", "category_id": 3 }
+                },
+                "auction": {
+                  "summary": "Auction listing",
+                  "value": { "title": "Rare Jordanian Coin Set", "type": "auction", "condition": "like_new", "start_price": 50.00, "starts_at": "2026-05-20T10:00:00Z", "ends_at": "2026-05-27T10:00:00Z" }
+                },
+                "swap": {
+                  "summary": "Swap listing",
+                  "value": { "title": "iPhone 14 Pro", "type": "swap", "condition": "good", "swap_notes": "Will swap for an Android flagship." }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Listing created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": { "type": "boolean", "example": true },
+                    "id": { "type": "integer", "example": 101 }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      },
+      "put": {
+        "tags": ["Listings"],
+        "summary": "Update listing",
+        "description": "Partially update a listing. Only the owner or an admin may update. Send only the fields you want to change. Status can only be set to `active` or `draft` (not `removed` or `sold`).",
+        "operationId": "listingsUpdate",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer" },
+            "description": "ID of the listing to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title":       { "type": "string",  "maxLength": 255 },
+                  "description": { "type": "string",  "nullable": true },
+                  "price":       { "type": "number",  "format": "float", "nullable": true },
+                  "category_id": { "type": "integer", "nullable": true },
+                  "city":        { "type": "string",  "nullable": true },
+                  "condition":   { "type": "string",  "enum": ["new","like_new","good","fair","for_parts"] },
+                  "swap_notes":  { "type": "string",  "nullable": true },
+                  "status":      { "type": "string",  "enum": ["active","draft"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OkTrue" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      },
+      "delete": {
+        "tags": ["Listings"],
+        "summary": "Delete listing (soft-delete)",
+        "description": "Soft-deletes a listing by setting its status to `removed`. Only the owner or an admin may delete.\n\nBlocked if:\n- The listing is an auction that is `live` and already has bids\n- The listing has pending swap offers",
+        "operationId": "listingsDelete",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listing removed",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OkTrue" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": {
+            "description": "Conflict — active auction with bids, or pending swap offers",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" },
+                "example": { "ok": false, "error": "Cannot delete a listing with an active auction that has bids." }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/src/config/api/bids.php": {
+      "get": {
+        "tags": ["Bids"],
+        "summary": "Get bids for an auction listing",
+        "description": "Returns all bids for an auction listing, ordered by amount descending. Bidder usernames are masked for unauthenticated viewers. Your own bids are shown in full when you are authenticated.",
+        "operationId": "bidsGet",
+        "parameters": [
+          {
+            "name": "listing_id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer" },
+            "description": "ID of the auction listing"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Bids retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": { "type": "boolean", "example": true },
+                    "listing": {
+                      "type": "object",
+                      "properties": {
+                        "id":    { "type": "integer", "example": 101 },
+                        "title": { "type": "string",  "example": "Rare Jordanian Coin Set" }
+                      }
+                    },
+                    "auction": {
+                      "type": "object",
+                      "properties": {
+                        "status":      { "type": "string", "enum": ["upcoming","live","ended","cancelled"] },
+                        "start_price": { "type": "number", "format": "float", "example": 50.00 },
+                        "current_bid": { "type": "number", "format": "float", "nullable": true, "example": 150.00 },
+                        "starts_at":   { "type": "string", "format": "date-time" },
+                        "ends_at":     { "type": "string", "format": "date-time" },
+                        "total_bids":  { "type": "integer", "example": 5 }
+                      }
+                    },
+                    "bids": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Bid" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "post": {
+        "tags": ["Bids"],
+        "summary": "Place a bid",
+        "description": "Place a bid on a live auction. The bid amount must be strictly greater than the current bid (or `start_price` if no bids have been placed yet). You cannot bid on your own listing.",
+        "operationId": "bidsPlace",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["listing_id","amount"],
+                "properties": {
+                  "listing_id": { "type": "integer", "example": 101 },
+                  "amount":     { "type": "number",  "format": "float", "example": 160.00 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Bid placed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":          { "type": "boolean", "example": true },
+                    "bid_id":      { "type": "integer", "example": 22 },
+                    "current_bid": { "type": "number",  "format": "float", "example": 160.00 }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "422": {
+            "description": "Bid too low, auction not live, or missing fields",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" },
+                "example": { "ok": false, "error": "Bid must be higher than current bid of 150.00" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/src/config/api/swaps.php": {
+      "get": {
+        "tags": ["Swaps"],
+        "summary": "Get my swap offers",
+        "description": "Returns all swap offers for the authenticated user, split into `received` (offers made to you) and `sent` (offers you made) arrays.",
+        "operationId": "swapsGet",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Swap offers retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":       { "type": "boolean", "example": true },
+                    "received": { "type": "array", "items": { "$ref": "#/components/schemas/SwapOffer" } },
+                    "sent":     { "type": "array", "items": { "$ref": "#/components/schemas/SwapOffer" } }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      },
+      "post": {
+        "tags": ["Swaps"],
+        "summary": "Send a swap offer",
+        "description": "Propose swapping your listing for another user's listing. Both listings must be `active`. You must own `offered_listing_id` and must not own `wanted_listing_id`. Duplicate pending offers for the same pair are rejected with 409.",
+        "operationId": "swapsCreate",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["offered_listing_id","wanted_listing_id"],
+                "properties": {
+                  "offered_listing_id": { "type": "integer", "example": 55,   "description": "Your listing that you are offering" },
+                  "wanted_listing_id":  { "type": "integer", "example": 101,  "description": "The listing you want in return" },
+                  "message":            { "type": "string",  "nullable": true, "example": "Happy to add some cash if needed!" },
+                  "cash_addition":      { "type": "number",  "format": "float", "example": 10.00, "description": "Optional cash sweetener (>= 0, default 0)" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Swap offer sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":       { "type": "boolean", "example": true },
+                    "offer_id": { "type": "integer", "example": 7 }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": {
+            "description": "Duplicate pending offer already exists",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" },
+                "example": { "ok": false, "error": "A pending offer already exists for these listings" }
+              }
+            }
+          },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      },
+      "put": {
+        "tags": ["Swaps"],
+        "summary": "Respond to a swap offer",
+        "description": "Update the status of a pending swap offer.\n\n| action | Who can do it |\n|---|---|\n| `accepted` | Receiver only |\n| `rejected` | Receiver only |\n| `countered` | Receiver only (can update `cash_addition`) |\n| `cancelled` | Sender only |\n\nWhen **accepted**: both listings are marked `sold` and all other pending offers involving either listing are auto-rejected.",
+        "operationId": "swapsRespond",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer" },
+            "description": "Swap offer ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["action"],
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "enum": ["accepted","rejected","cancelled","countered"],
+                    "example": "accepted"
+                  },
+                  "cash_addition": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Updated cash amount — only used when action is `countered`",
+                    "example": 20.00
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Offer status updated",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OkTrue" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": {
+            "description": "Offer is no longer pending",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" },
+                "example": { "ok": false, "error": "This offer is already 'accepted' and cannot be updated." }
+              }
+            }
+          },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/src/config/api/messages.php": {
+      "get": {
+        "tags": ["Messages"],
+        "summary": "List conversations (or get messages in one)",
+        "description": "**Without `?conv_id`**: returns all conversations for the authenticated user, ordered by most-recent activity.\n\n**With `?conv_id=X`**: returns paginated messages for that conversation and automatically marks unread messages as read.",
+        "operationId": "messagesGet",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "conv_id",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Conversation ID — include to retrieve messages"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer", "default": 1 },
+            "description": "Page number (only used with conv_id)"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": { "type": "integer", "default": 30, "maximum": 100 },
+            "description": "Messages per page (max 100, only used with conv_id)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conversations list or conversation messages",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "All conversations",
+                      "type": "object",
+                      "properties": {
+                        "ok":            { "type": "boolean", "example": true },
+                        "total_unread":  { "type": "integer", "example": 3 },
+                        "conversations": { "type": "array", "items": { "$ref": "#/components/schemas/Conversation" } }
+                      }
+                    },
+                    {
+                      "title": "Single conversation messages",
+                      "type": "object",
+                      "properties": {
+                        "ok": { "type": "boolean", "example": true },
+                        "conversation": {
+                          "type": "object",
+                          "properties": {
+                            "id":         { "type": "integer" },
+                            "listing_id": { "type": "integer", "nullable": true },
+                            "listing": {
+                              "nullable": true,
+                              "type": "object",
+                              "properties": {
+                                "id":    { "type": "integer" },
+                                "title": { "type": "string" }
+                              }
+                            },
+                            "other_user": {
+                              "type": "object",
+                              "properties": {
+                                "id":         { "type": "integer" },
+                                "username":   { "type": "string" },
+                                "avatar":     { "type": "string", "nullable": true },
+                                "first_name": { "type": "string" }
+                              }
+                            }
+                          }
+                        },
+                        "messages": { "type": "array", "items": { "$ref": "#/components/schemas/Message" } },
+                        "pagination": {
+                          "type": "object",
+                          "properties": {
+                            "page":        { "type": "integer" },
+                            "limit":       { "type": "integer" },
+                            "total":       { "type": "integer" },
+                            "total_pages": { "type": "integer" },
+                            "has_next":    { "type": "boolean" },
+                            "has_prev":    { "type": "boolean" }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
+        }
+      },
+      "post": {
+        "tags": ["Messages"],
+        "summary": "Send a message",
+        "description": "Send a message. Two modes:\n\n**Reply** — provide `conv_id` + `body`. Returns 200.\n\n**New conversation** — provide `receiver_id` + `body` (+ optional `listing_id`). If a conversation between the two users already exists, the message is appended to it. Returns 201.",
+        "operationId": "messagesSend",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["body"],
+                "properties": {
+                  "body":        { "type": "string", "maxLength": 2000, "example": "Is this still available?" },
+                  "conv_id":     { "type": "integer", "description": "Existing conversation ID (use this OR receiver_id)" },
+                  "receiver_id": { "type": "integer", "description": "User ID — starts a new conversation if one doesn't exist" },
+                  "listing_id":  { "type": "integer", "nullable": true, "description": "Optional listing context for new conversation" }
+                }
+              },
+              "examples": {
+                "reply": {
+                  "summary": "Reply to existing conversation",
+                  "value": { "conv_id": 12, "body": "Yes, it is still available!" }
+                },
+                "new": {
+                  "summary": "Start a new conversation",
+                  "value": { "receiver_id": 42, "listing_id": 101, "body": "Hi, is this still available?" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message sent to existing conversation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":         { "type": "boolean", "example": true },
+                    "message_id": { "type": "integer", "example": 88 },
+                    "conv_id":    { "type": "integer", "example": 12 }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Message sent and new conversation created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":         { "type": "boolean", "example": true },
+                    "message_id": { "type": "integer", "example": 88 },
+                    "conv_id":    { "type": "integer", "example": 13 }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/src/config/api/wishlist.php": {
+      "get": {
+        "tags": ["Wishlist"],
+        "summary": "Get wishlist",
+        "description": "Returns the authenticated user's wishlist ordered by most-recently-added. Each item has an `available` flag that is `false` when the listing is no longer active.",
+        "operationId": "wishlistGet",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Wishlist retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": { "type": "boolean", "example": true },
+                    "wishlist": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id":            { "type": "integer" },
+                          "created_at":    { "type": "string",  "format": "date-time" },
+                          "listing_id":    { "type": "integer", "example": 101 },
+                          "title":         { "type": "string",  "example": "Vintage Nikon Camera" },
+                          "price":         { "type": "number",  "format": "float", "nullable": true },
+                          "type":          { "type": "string",  "enum": ["sale","swap","auction"] },
+                          "condition":     { "type": "string" },
+                          "city":          { "type": "string",  "nullable": true },
+                          "status":        { "type": "string" },
+                          "primary_image": { "type": "string",  "nullable": true },
+                          "available":     { "type": "boolean", "example": true }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      },
+      "post": {
+        "tags": ["Wishlist"],
+        "summary": "Add to wishlist",
+        "description": "Add an active listing to the authenticated user's wishlist. You cannot wishlist your own listing. Duplicate entries are silently ignored (INSERT IGNORE).",
+        "operationId": "wishlistAdd",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["listing_id"],
+                "properties": {
+                  "listing_id": { "type": "integer", "example": 101 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Added (or was already present)",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OkTrue" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      },
+      "delete": {
+        "tags": ["Wishlist"],
+        "summary": "Remove from wishlist",
+        "description": "Remove a listing from the authenticated user's wishlist. Pass the listing's ID as a query param.",
+        "operationId": "wishlistRemove",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "listing_id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Removed (no error if entry did not exist)",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OkTrue" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      }
+    },
+    "/src/config/api/notifications.php": {
+      "get": {
+        "tags": ["Notifications"],
+        "summary": "List notifications",
+        "description": "Returns up to 50 of the authenticated user's notifications, newest first. Pass `?unread=1` to filter to unread only. Always includes the total unread count.",
+        "operationId": "notificationsGet",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "unread",
+            "in": "query",
+            "schema": { "type": "integer", "enum": [0,1] },
+            "description": "Set to 1 to return only unread notifications"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notifications retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":            { "type": "boolean", "example": true },
+                    "unread_count":  { "type": "integer", "example": 4 },
+                    "notifications": { "type": "array", "items": { "$ref": "#/components/schemas/Notification" } }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      },
+      "put": {
+        "tags": ["Notifications"],
+        "summary": "Mark notification(s) as read",
+        "description": "Two modes:\n- `?id=X` — mark single notification as read\n- `?action=mark_all` — mark all unread notifications as read",
+        "operationId": "notificationsMarkRead",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Notification ID to mark as read (use this OR action=mark_all)"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["mark_all"] },
+            "description": "Use `mark_all` to mark every unread notification as read at once"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Marked as read",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OkTrue" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/src/config/api/reviews.php": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get reviews for a user",
+        "description": "Returns all reviews for the given user along with their average rating, review count, and a star-level breakdown (1–5 stars).",
+        "operationId": "reviewsGet",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reviews retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":             { "type": "boolean", "example": true },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id":           { "type": "integer" },
+                        "username":     { "type": "string" },
+                        "first_name":   { "type": "string" },
+                        "last_name":    { "type": "string", "nullable": true },
+                        "avatar":       { "type": "string", "nullable": true },
+                        "city":         { "type": "string", "nullable": true },
+                        "member_since": { "type": "string", "format": "date-time" }
+                      }
+                    },
+                    "average_rating": { "type": "number",  "format": "float", "nullable": true, "example": 4.75 },
+                    "review_count":   { "type": "integer", "example": 12 },
+                    "breakdown": {
+                      "type": "array",
+                      "description": "Array of 5 items, stars 5 → 1",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "stars":      { "type": "integer", "minimum": 1, "maximum": 5 },
+                          "count":      { "type": "integer" },
+                          "percentage": { "type": "number",  "format": "float" }
+                        }
+                      }
+                    },
+                    "reviews": { "type": "array", "items": { "$ref": "#/components/schemas/Review" } }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "post": {
+        "tags": ["Reviews"],
+        "summary": "Submit a review",
+        "description": "Submit a rating (1–5) and optional comment for a user. You cannot review yourself. Duplicate reviews for the same reviewer + reviewed_id + listing_id combination are rejected.",
+        "operationId": "reviewsCreate",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["reviewed_id","rating"],
+                "properties": {
+                  "reviewed_id": { "type": "integer", "example": 42 },
+                  "rating":      { "type": "integer", "minimum": 1, "maximum": 5, "example": 5 },
+                  "comment":     { "type": "string",  "nullable": true, "example": "Excellent seller, item exactly as described." },
+                  "listing_id":  { "type": "integer", "nullable": true, "example": 101, "description": "Optional — scopes the review to a specific transaction" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Review submitted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":        { "type": "boolean", "example": true },
+                    "review_id": { "type": "integer", "example": 3 }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "delete": {
+        "tags": ["Reviews"],
+        "summary": "Delete a review",
+        "description": "Delete a review by its ID. Only the original reviewer or an admin may delete. Recalculates the reviewed user's aggregate rating after deletion.",
+        "operationId": "reviewsDelete",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Review deleted",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OkTrue" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/src/config/api/categories.php": {
+      "get": {
+        "tags": ["Categories"],
+        "summary": "List categories",
+        "description": "Returns all top-level categories with their nested sub-categories as a tree. When `?id=X` is provided, returns a single category and its direct children.",
+        "operationId": "categoriesGet",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Return a single category with its children instead of the full tree"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categories retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "Full category tree",
+                      "type": "object",
+                      "properties": {
+                        "ok":         { "type": "boolean", "example": true },
+                        "categories": { "type": "array", "items": { "$ref": "#/components/schemas/Category" } }
+                      }
+                    },
+                    {
+                      "title": "Single category with children",
+                      "type": "object",
+                      "properties": {
+                        "ok":       { "type": "boolean", "example": true },
+                        "category": { "$ref": "#/components/schemas/Category" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/src/config/api/users.php": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user profile, public profile, or dashboard",
+        "description": "Three sub-modes (authentication required for all):\n\n| Params | Returns |\n|---|---|\n| *(none)* | Authenticated user's own profile (includes email, phone) |\n| `?id=X` | Public profile for user X (their active listings + received reviews) |\n| `?action=dashboard` | Auth user's full activity: all their listings, bids placed, and swap offers |",
+        "operationId": "usersGet",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Return the public profile for this user ID"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["dashboard"] },
+            "description": "Use `dashboard` to get the authenticated user's full activity summary"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "Own profile",
+                      "type": "object",
+                      "properties": {
+                        "ok":   { "type": "boolean", "example": true },
+                        "user": { "$ref": "#/components/schemas/UserProfile" }
+                      }
+                    },
+                    {
+                      "title": "Public profile",
+                      "type": "object",
+                      "properties": {
+                        "ok":       { "type": "boolean", "example": true },
+                        "user":     { "$ref": "#/components/schemas/UserProfile" },
+                        "listings": { "type": "array", "items": { "$ref": "#/components/schemas/ListingSummary" } },
+                        "reviews":  { "type": "array", "items": { "$ref": "#/components/schemas/Review" } }
+                      }
+                    },
+                    {
+                      "title": "Dashboard",
+                      "type": "object",
+                      "properties": {
+                        "ok": { "type": "boolean", "example": true },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "listings": {
+                              "type": "array",
+                              "items": {
+                                "allOf": [
+                                  { "$ref": "#/components/schemas/ListingSummary" },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "bid_count": { "type": "integer", "example": 3 }
+                                    }
+                                  }
+                                ]
+                              }
+                            },
+                            "bids": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id":            { "type": "integer" },
+                                  "auction_id":    { "type": "integer" },
+                                  "listing_title": { "type": "string" },
+                                  "amount":        { "type": "number", "format": "float" },
+                                  "created_at":    { "type": "string", "format": "date-time" }
+                                }
+                              }
+                            },
+                            "swap_offers": {
+                              "type": "array",
+                              "items": {
+                                "allOf": [
+                                  { "$ref": "#/components/schemas/SwapOffer" },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "direction": { "type": "string", "enum": ["sent","received"] }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        },
+                        "meta": {
+                          "type": "object",
+                          "properties": {
+                            "listings_count":    { "type": "integer" },
+                            "bids_count":        { "type": "integer" },
+                            "swap_offers_count": { "type": "integer" }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "put": {
+        "tags": ["Users"],
+        "summary": "Update own profile",
+        "description": "Update the authenticated user's profile. All fields are optional — send only those you wish to change.\n\nTo change the password, include **both** `current_password` and `new_password`. The new password must:\n- Be ≥ 8 characters\n- Contain at least one uppercase letter, one lowercase letter, one digit, and one special character\n- Be different from the current password",
+        "operationId": "usersUpdate",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "first_name":       { "type": "string",  "maxLength": 50 },
+                  "last_name":        { "type": "string",  "maxLength": 50,  "nullable": true },
+                  "bio":              { "type": "string",  "nullable": true },
+                  "city":             { "type": "string",  "maxLength": 100, "nullable": true },
+                  "phone":            { "type": "string",  "nullable": true, "example": "+962791234567" },
+                  "avatar":           { "type": "string",  "maxLength": 255, "nullable": true, "example": "images/uploads/42/avatar.jpg" },
+                  "current_password": { "type": "string",  "format": "password", "description": "Required when changing password" },
+                  "new_password":     { "type": "string",  "format": "password", "description": "New password — requires current_password" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok":               { "type": "boolean", "example": true },
+                    "message":          { "type": "string",  "example": "Profile updated successfully" },
+                    "password_changed": { "type": "boolean", "example": false },
+                    "user":             { "$ref": "#/components/schemas/UserProfile" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/src/config/api/upload.php": {
+      "post": {
+        "tags": ["Upload"],
+        "summary": "Upload listing images",
+        "description": "Upload one or more images for a listing you own.\n\n- **Accepted types**: JPEG, PNG, WebP\n- **Max size**: 5 MB per file\n- **Storage**: `public/images/uploads/{listing_id}/`\n- Set `is_primary=1` to make the first uploaded file the listing's primary image (resets the previous primary).",
+        "operationId": "uploadImages",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["listing_id","images"],
+                "properties": {
+                  "listing_id": {
+                    "type": "integer",
+                    "description": "ID of the listing this image belongs to (must be owned by the authenticated user)"
+                  },
+                  "images": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "binary" },
+                    "description": "One or more image files (JPEG / PNG / WebP, max 5 MB each)"
+                  },
+                  "is_primary": {
+                    "type": "integer",
+                    "enum": [0,1],
+                    "description": "Set to 1 to mark the first uploaded file as the primary image"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Images uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": { "type": "boolean", "example": true },
+                    "uploaded": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id":         { "type": "integer", "example": 9 },
+                          "path":       { "type": "string",  "example": "images/uploads/101/6638abc_1716000000.jpg" },
+                          "is_primary": { "type": "integer", "enum": [0,1], "example": 1 }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/src/config/api/admin.php": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Admin — read data",
+        "description": "Admin-only GET endpoint. Select the operation via the `action` query param.\n\n| action | Description |\n|--------|-------------|\n| `stats` | Dashboard summary counters |\n| `users` | Paginated user list (search, role, status filters) |\n| `listings` | All listings including removed (status, search filters) |\n| `reports` | Content reports (status filter, default: open) |",
+        "operationId": "adminGet",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "enum": ["stats","users","listings","reports"] }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer", "default": 1 },
+            "description": "Page number (applies to users, listings, reports)"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": { "type": "string" },
+            "description": "Search by username/email (action=users) or title (action=listings)"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["user","admin"] },
+            "description": "Filter users by role (action=users only)"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": { "type": "string" },
+            "description": "Filter by status. users: active|suspended|unverified. listings: active|draft|sold|removed. reports: open|reviewing|resolved (default: open)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Action-specific data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "stats",
+                      "type": "object",
+                      "properties": {
+                        "ok": { "type": "boolean", "example": true },
+                        "stats": {
+                          "type": "object",
+                          "properties": {
+                            "total_users":    { "type": "integer", "example": 500 },
+                            "active_users":   { "type": "integer", "example": 480 },
+                            "total_listings": { "type": "integer", "example": 1240 },
+                            "live_auctions":  { "type": "integer", "example": 18 },
+                            "open_reports":   { "type": "integer", "example": 3 },
+                            "total_bids":     { "type": "integer", "example": 760 },
+                            "total_swaps":    { "type": "integer", "example": 95 }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "title": "users",
+                      "type": "object",
+                      "properties": {
+                        "ok": { "type": "boolean", "example": true },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id":           { "type": "integer" },
+                              "username":     { "type": "string" },
+                              "first_name":   { "type": "string" },
+                              "last_name":    { "type": "string", "nullable": true },
+                              "email":        { "type": "string", "format": "email" },
+                              "role":         { "type": "string", "enum": ["user","admin"] },
+                              "status":       { "type": "string", "enum": ["active","suspended","unverified"] },
+                              "is_verified":  { "type": "boolean" },
+                              "rating":       { "type": "number",  "format": "float", "nullable": true },
+                              "review_count": { "type": "integer" },
+                              "created_at":   { "type": "string",  "format": "date-time" }
+                            }
+                          }
+                        },
+                        "total": { "type": "integer" },
+                        "page":  { "type": "integer" },
+                        "pages": { "type": "integer" }
+                      }
+                    },
+                    {
+                      "title": "listings",
+                      "type": "object",
+                      "properties": {
+                        "ok":       { "type": "boolean", "example": true },
+                        "listings": { "type": "array", "items": { "$ref": "#/components/schemas/ListingSummary" } },
+                        "total":    { "type": "integer" },
+                        "page":     { "type": "integer" },
+                        "pages":    { "type": "integer" }
+                      }
+                    },
+                    {
+                      "title": "reports",
+                      "type": "object",
+                      "properties": {
+                        "ok": { "type": "boolean", "example": true },
+                        "reports": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id":                { "type": "integer" },
+                              "reporter_id":       { "type": "integer" },
+                              "reporter_username": { "type": "string" },
+                              "reported_id":       { "type": "integer",  "nullable": true },
+                              "reported_username": { "type": "string",   "nullable": true },
+                              "listing_id":        { "type": "integer",  "nullable": true },
+                              "listing_title":     { "type": "string",   "nullable": true },
+                              "reason":            { "type": "string" },
+                              "status":            { "type": "string",   "enum": ["open","reviewing","resolved"] },
+                              "created_at":        { "type": "string",   "format": "date-time" }
+                            }
+                          }
+                        },
+                        "total": { "type": "integer" },
+                        "page":  { "type": "integer" },
+                        "pages": { "type": "integer" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
+        }
+      },
+      "put": {
+        "tags": ["Admin"],
+        "summary": "Admin — update user status or report status",
+        "description": "Admin-only PUT. Select operation via `action` + `id`:\n\n- `?action=user&id=X` — change a user's `status` to `active`, `suspended`, or `unverified`. Admins cannot change their own status.\n- `?action=report&id=X` — change a report's `status` to `open`, `reviewing`, or `resolved`.",
+        "operationId": "adminPut",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "enum": ["user","report"] }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer" },
+            "description": "User ID (action=user) or Report ID (action=report)"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["status"],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "description": "New status value. For action=user: active|suspended|unverified. For action=report: open|reviewing|resolved"
+                  }
+                }
+              },
+              "examples": {
+                "suspend_user":   { "summary": "Suspend a user",    "value": { "status": "suspended" } },
+                "activate_user":  { "summary": "Activate a user",   "value": { "status": "active" } },
+                "resolve_report": { "summary": "Resolve a report",  "value": { "status": "resolved" } },
+                "review_report":  { "summary": "Mark reviewing",    "value": { "status": "reviewing" } }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status updated",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OkTrue" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "422": { "$ref": "#/components/responses/ValidationError" }
+        }
+      },
+      "delete": {
+        "tags": ["Admin"],
+        "summary": "Admin — force-remove a listing",
+        "description": "Force-removes any listing by setting its status to `removed`, regardless of ownership. Use `?action=listing&id=X`.",
+        "operationId": "adminDeleteListing",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "enum": ["listing"] }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer" },
+            "description": "Listing ID to remove"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listing removed",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OkTrue" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    }
+  }
+}

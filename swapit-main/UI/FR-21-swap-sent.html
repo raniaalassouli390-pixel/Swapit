@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Sent Swap Offers · FR-21</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:10;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.wrap{max-width:800px;margin:0 auto;padding:36px 32px}
+.page-h{margin-bottom:24px;display:flex;align-items:center;justify-content:space-between}
+.page-h h1{font-family:'Syne',sans-serif;font-size:24px;font-weight:800}
+.tabs{display:flex;border-bottom:2px solid var(--b);margin-bottom:24px}
+.tab{padding:10px 18px;font-size:13.5px;font-weight:600;color:var(--gr);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab.on{color:var(--g);border-bottom-color:var(--g)}
+.swap-card{background:#fff;border:1px solid var(--b);border-radius:14px;padding:20px;margin-bottom:14px}
+.sc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sc-user{display:flex;align-items:center;gap:10px}
+.sc-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0}
+.sc-name{font-size:14px;font-weight:600}
+.sc-time{font-size:11.5px;color:var(--gr);margin-top:2px}
+.sc-status{padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600}
+.pending{background:#FEF3C7;color:#D97706}
+.accepted{background:#DCFCE7;color:#16A34A}
+.declined{background:#FEE2E2;color:#DC2626}
+.sc-body{display:flex;align-items:center;gap:12px;background:var(--c);border-radius:12px;padding:14px;margin-bottom:14px}
+.sc-item{flex:1;display:flex;align-items:center;gap:10px}
+.sc-img{width:50px;height:50px;border-radius:9px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.sc-item-name{font-size:13px;font-weight:500}
+.sc-item-price{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--g);margin-top:3px}
+.sc-arrow{font-size:20px;color:var(--o);flex-shrink:0}
+.btn-c{padding:10px 16px;background:none;border:1.5px solid var(--b);border-radius:9px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
+.btn-g{padding:10px 16px;background:var(--g);color:#fff;border:none;border-radius:9px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
+</style></head>
+<body>
+<nav><a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a>
+<a href="FR-20-swap-received.html" style="padding:8px 14px;border:1.5px solid var(--b);border-radius:9px;font-size:13px;color:var(--d);text-decoration:none">Received Offers</a></nav>
+<div class="wrap">
+  <div class="page-h"><h1>🔁 Sent Swap Offers</h1></div>
+  <div class="tabs">
+    <div class="tab" onclick="window.location='FR-20-swap-received.html'">Received (5)</div>
+    <div class="tab on">Sent (3)</div>
+  </div>
+  <div class="swap-card">
+    <div class="sc-header"><div class="sc-user"><div class="sc-av" style="background:linear-gradient(135deg,var(--g),var(--g2))">A</div><div><div class="sc-name">To: Ahmad Hassan</div><div class="sc-time">3 hours ago</div></div></div><span class="sc-status pending">⏳ Awaiting response</span></div>
+    <div class="sc-body"><div class="sc-item"><div class="sc-img">💻</div><div><div class="sc-item-name">You offered: MacBook Air 2020</div><div class="sc-item-price">JD 380 + JD 40 cash</div></div></div><div class="sc-arrow">⇄</div><div class="sc-item"><div class="sc-img">📱</div><div><div class="sc-item-name">For: iPhone 14 Pro 256GB</div><div class="sc-item-price">JD 420</div></div></div></div>
+    <div style="display:flex;gap:10px"><button class="btn-c" onclick="window.location='FR-23-chat.html'">💬 Message</button><button class="btn-c" style="color:#DC2626;border-color:rgba(220,38,38,.3)" onclick="this.closest('.swap-card').style.opacity='.4'">✕ Cancel Offer</button></div>
+  </div>
+  <div class="swap-card">
+    <div class="sc-header"><div class="sc-user"><div class="sc-av" style="background:linear-gradient(135deg,#F59E0B,#F97316)">K</div><div><div class="sc-name">To: Khalid Mohammed</div><div class="sc-time">Yesterday</div></div></div><span class="sc-status accepted">✅ Accepted!</span></div>
+    <div class="sc-body"><div class="sc-item"><div class="sc-img">📷</div><div><div class="sc-item-name">You offered: Canon EOS R50</div><div class="sc-item-price">JD 280</div></div></div><div class="sc-arrow">⇄</div><div class="sc-item"><div class="sc-img">🎮</div><div><div class="sc-item-name">For: PS5 + Extra Controller</div><div class="sc-item-price">JD 300</div></div></div></div>
+    <div style="display:flex;gap:10px"><button class="btn-g" onclick="window.location='FR-23-chat.html'">💬 Coordinate Meetup</button><button class="btn-c" onclick="window.location='FR-29-review.html'">⭐ Leave Review</button></div>
+  </div>
+  <div class="swap-card" style="opacity:.6">
+    <div class="sc-header"><div class="sc-user"><div class="sc-av" style="background:linear-gradient(135deg,#6B7280,#374151)">S</div><div><div class="sc-name">To: Sara Abdullah</div><div class="sc-time">3 days ago</div></div></div><span class="sc-status declined">✕ Declined</span></div>
+    <div class="sc-body"><div class="sc-item"><div class="sc-img">⌚</div><div><div class="sc-item-name">You offered: Apple Watch S7</div><div class="sc-item-price">JD 120</div></div></div><div class="sc-arrow">⇄</div><div class="sc-item"><div class="sc-img">👟</div><div><div class="sc-item-name">For: Nike Air Max 90 Sz 43</div><div class="sc-item-price">JD 85</div></div></div></div>
+    <p style="font-size:12.5px;color:var(--gr);margin-bottom:12px">Reason: "Thanks but I'm only looking for cash offers right now."</p>
+    <button class="btn-c" onclick="window.location='FR-10-browse.html'">🔍 Find Similar Items</button>
+  </div>
+</div></body></html>

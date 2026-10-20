@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Verify Email</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="auth.css.css">
+
+</head>
+<body >
+
+<div class="left">
+  <div class="logo">
+    <div class="logo-icon"><img src="images/swap.png" alt=""></div> SwapIt
+  </div>
+  <div class="hero">
+    <h2>One step<br /><em>away.</em></h2>
+    <p>We sent a verification code to your email. Enter it below to activate your account and start trading.</p>
+    <div class="features">
+      <div class="feat">
+        <div class="feat-icon fi-sell"><img src="images/money-bag.png" alt=""></div>
+        <div class="feat-text"><strong>Sell Anything</strong><span>List in under 2 minutes</span></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon fi-swap"><img src="images/swap.png"></div>
+        <div class="feat-text"><strong>Swap & Exchange</strong><span>Trade item-for-item, no cash needed</span></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon fi-bid"><img src="images/Bid.png" alt="auction hammer"></div>
+        <div class="feat-text"><strong>Live Auctions</strong><span>Bid and win unique items daily</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="left-foot">&copy; 2026 SwapIt · All rights reserved.</div>
+</div>
+
+<div class="right">
+  <div class="card otp-card">
+
+     <div class="card otp-card">
+
+  <div id="verifyState">
+<div class="env-wrap">
+  <div class="env-bg">📧</div>
+  <div class="env-badge">✉️</div>
+</div>
+    <h1>Verify your email</h1>
+    <p class="sub">We sent a 6-digit code to</p>
+   <div class="email-chip" id="emailDisplay"></div>
+
+    <div class="otp-row" id="otpRow">
+      <input type="text" maxlength="1" class="otp-input">
+      <input type="text" maxlength="1" class="otp-input">
+      <input type="text" maxlength="1" class="otp-input">
+      <input type="text" maxlength="1" class="otp-input">
+      <input type="text" maxlength="1" class="otp-input">
+      <input type="text" maxlength="1" class="otp-input">
+    </div>
+
+    <div class="otp-err" id="otpErr">Incorrect code. Please try again.</div>
+
+    <div class="timer">
+      Code expires in <span><strong id="timerText">60s</strong></span>
+    </div>
+
+    <button class="btn-main" id="verifyBtn" disabled>
+      Verify Email
+    </button>
+
+<div class="resend-row">
+  Didn't get it?
+  <button class="resend-btn" id="resendBtn" disabled>
+    Resend (<span id="resendCd">60</span>s)
+  </button>
+</div>
+
+    <div class="timer">
+      Wrong email? <a href="#">Change it here</a>
+    </div>
+
+  </div>
+
+  <div id="successState" style="display:none; text-align:center;">
+
+    <h1>✅ Email verified!</h1>
+    <p class="sub">Your account is now ready.</p>
+
+    <button class="btn-main">Go to Home</button>
+
+  </div>
+
+</div>
+    <div id="verifyState">
+
+    </div>
+    <div id="successState" style="display:none; text-align:center;">
+
+    </div>
+  </div>
+</div>
+
+<script>
+const inputs = document.querySelectorAll(".otp-input");
+const verifyBtn = document.getElementById("verifyBtn");
+const resendBtn = document.getElementById("resendBtn");
+const otpErr = document.getElementById("otpErr");
+const timerText = document.getElementById("timerText");
+const emailDisplay = document.getElementById("emailDisplay");
+const resendCd = document.getElementById("resendCd");
+
+const realEmail = localStorage.getItem("email");
+
+function maskEmail(email) {
+  if (!email) return "";
+
+  const parts = email.split("@");
+  const name = parts[0];
+  const domain = parts[1];
+
+  if (!domain) return email;
+
+  if (name.length <= 2) {
+    return name[0] + "***@" + domain;
+  }
+
+  return name[0] + "***" + name[name.length - 1] + "@" + domain;
+}
+
+if (!realEmail) {
+  emailDisplay.textContent = "✉️ No email found";
+  verifyBtn.disabled = true;
+  resendBtn.disabled = true;
+} else {
+  emailDisplay.textContent = "✉️ " + maskEmail(realEmail);
+}
+
+inputs.forEach((input, i) => {
+  input.addEventListener("input", () => {
+    input.value = input.value.replace(/\D/g, "");
+
+    if (input.value && i < inputs.length - 1) {
+      inputs[i + 1].focus();
+    }
+
+    checkFilled();
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Backspace" && !input.value && i > 0) {
+      inputs[i - 1].focus();
+    }
+  });
+});
+
+function checkFilled() {
+  const ok = [...inputs].every(i => i.value);
+  verifyBtn.disabled = !ok;
+}
+
+let sec = 60;
+
+let verifyTimer = setInterval(() => {
+  sec--;
+  timerText.textContent = sec + "s";
+
+  if (sec <= 0) {
+    clearInterval(verifyTimer);
+    timerText.textContent = "expired";
+    resendBtn.disabled = false;
+    verifyBtn.disabled = true;
+    inputs.forEach(i => i.disabled = true);
+  }
+}, 1000);
+
+resendBtn.addEventListener("click", async () => {
+  resendBtn.disabled = true;
+  resendBtn.textContent = "Sending...";
+
+  try {
+    await fetch("/api/auth.php?action=resend", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: realEmail })
+    });
+
+    resendBtn.textContent = "Sent!";
+    startResendTimer();
+
+    inputs.forEach(i => {
+      i.disabled = false;
+      i.value = "";
+    });
+
+    verifyBtn.disabled = true;
+    verifyBtn.textContent = "Verify Email";
+
+    sec = 60;
+    timerText.textContent = "60s";
+    clearInterval(verifyTimer);
+
+    verifyTimer = setInterval(() => {
+      sec--;
+      timerText.textContent = sec + "s";
+
+      if (sec <= 0) {
+        clearInterval(verifyTimer);
+        timerText.textContent = "expired";
+        resendBtn.disabled = false;
+        verifyBtn.disabled = true;
+        inputs.forEach(i => i.disabled = true);
+      }
+    }, 1000);
+
+  } catch (err) {
+    console.error(err);
+    resendBtn.textContent = "Resend now";
+    resendBtn.disabled = false;
+  }
+});
+
+let resendSec = 60;
+let resendTimer = null;
+
+function startResendTimer() {
+
+  clearInterval(resendTimer);
+
+  resendSec = 60;
+  resendBtn.disabled = true;
+  resendCd.textContent = resendSec;
+
+  resendTimer = setInterval(() => {
+
+    resendSec--;
+    resendCd.textContent = resendSec;
+
+    if (resendSec <= 0) {
+      clearInterval(resendTimer);
+      resendBtn.disabled = false;
+      resendBtn.textContent = "Resend now";
+    }
+
+  }, 1000);
+}
+
+startResendTimer();
+
+verifyBtn.addEventListener("click", async () => {
+
+  const code = [...inputs].map(i => i.value).join("");
+
+  verifyBtn.disabled = true;
+  verifyBtn.textContent = "Verifying...";
+
+  try {
+    const res = await fetch("/api/auth.php?action=verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: realEmail,
+        token: code
+      })
+    });
+
+    const data = await res.json();
+
+    verifyBtn.disabled = false;
+    verifyBtn.textContent = "Verify Email";
+
+    if (data.success) {
+      document.getElementById("verifyState").style.display = "none";
+      document.getElementById("successState").style.display = "block";
+    } else {
+      otpErr.classList.add("show");
+      setTimeout(() => otpErr.classList.remove("show"), 1500);
+    }
+
+  } catch (err) {
+    console.error(err);
+    verifyBtn.disabled = false;
+    verifyBtn.textContent = "Verify Email";
+  }
+});
+
+resendBtn.addEventListener("click", async () => {
+
+  resendBtn.disabled = true;
+  resendBtn.textContent = "Sending...";
+
+  try {
+    await fetch("/api/auth.php?action=resend", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: realEmail
+      })
+    });
+
+    resendBtn.textContent = "Sent!";
+
+    startResendTimer();
+
+  } catch (err) {
+    console.error(err);
+    resendBtn.textContent = "Resend now";
+    resendBtn.disabled = false;
+  }
+});
+
+</script>
+</body>
+</html>

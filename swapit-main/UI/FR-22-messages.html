@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Messages · FR-22</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:10;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.inbox-layout{display:flex;height:calc(100vh - 60px)}
+
+.inbox-sidebar{width:320px;background:#fff;border-right:1px solid var(--b);display:flex;flex-direction:column}
+.is-header{padding:18px 16px;border-bottom:1px solid var(--b)}
+.is-header h2{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.is-header h2 span{background:var(--g);color:#fff;font-size:11px;padding:2px 8px;border-radius:99px}
+.is-search{display:flex;align-items:center;gap:8px;background:#F3F4F6;border-radius:99px;padding:8px 14px}
+.is-search span{color:var(--gr)}
+.is-search input{border:none;background:transparent;flex:1;font-size:13px;outline:none;font-family:'DM Sans',sans-serif}
+.conv-list{flex:1;overflow-y:auto}
+.conv{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;transition:.15s;position:relative;border-bottom:1px solid var(--b)}
+.conv:hover{background:var(--c)}
+.conv.active{background:rgba(44,110,73,.06);border-left:3px solid var(--g)}
+.c-av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;flex-shrink:0;position:relative}
+.c-online{position:absolute;bottom:1px;right:1px;width:12px;height:12px;background:#22C55E;border-radius:50%;border:2px solid #fff}
+.c-info{flex:1;min-width:0}
+.c-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.c-name{font-size:14px;font-weight:600}
+.c-time{font-size:11px;color:var(--gr)}
+.c-msg{font-size:12.5px;color:var(--gr);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c-badge{position:absolute;top:14px;right:14px;width:18px;height:18px;background:var(--g);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700}
+.c-item-thumb{width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+
+.chat-main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gr);background:var(--c)}
+.empty-state{text-align:center}
+.empty-state div:first-child{font-size:56px;margin-bottom:16px}
+.empty-state p{font-size:15px;font-weight:600;color:var(--d);margin-bottom:8px}
+.empty-state span{font-size:13.5px;color:var(--gr)}
+@media(max-width:700px){.inbox-sidebar{width:100%}.chat-main{display:none}}</style></head>
+<body>
+<nav><a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a>
+<div style="display:flex;gap:8px"><a href="FR-20-swap-received.html" style="padding:8px 14px;border:1.5px solid var(--b);border-radius:9px;font-size:13px;color:var(--d)">🔁 Swaps</a><a href="FR-24-profile.html"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;cursor:pointer">A</div></a></div></nav>
+<div class="inbox-layout">
+  <div class="inbox-sidebar">
+    <div class="is-header">
+      <h2>Messages <span>4</span></h2>
+      <div class="is-search"><span>🔍</span><input type="text" placeholder="Search conversations..."/></div>
+    </div>
+    <div class="conv-list">
+      <a href="FR-23-chat.html" class="conv active">
+        <div class="c-av" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">K<div class="c-online"></div></div>
+        <div class="c-item-thumb">📱</div>
+        <div class="c-info"><div class="c-top"><span class="c-name">Khalid Mohammed</span><span class="c-time">2m ago</span></div><div class="c-msg">Can we meet tomorrow morning?</div></div>
+        <div class="c-badge">2</div>
+      </a>
+      <a href="FR-23-chat.html" class="conv">
+        <div class="c-av" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9)">S</div>
+        <div class="c-item-thumb">💻</div>
+        <div class="c-info"><div class="c-top"><span class="c-name">Sara Abdullah</span><span class="c-time">1h ago</span></div><div class="c-msg">Is the MacBook still available?</div></div>
+        <div class="c-badge">1</div>
+      </a>
+      <a href="FR-23-chat.html" class="conv">
+        <div class="c-av" style="background:linear-gradient(135deg,var(--g),var(--g2))">A</div>
+        <div class="c-item-thumb">🎮</div>
+        <div class="c-info"><div class="c-top"><span class="c-name">Ahmad Hassan</span><span class="c-time">Yesterday</span></div><div class="c-msg">Thanks! Great transaction ✅</div></div>
+      </a>
+      <a href="FR-23-chat.html" class="conv">
+        <div class="c-av" style="background:linear-gradient(135deg,#F59E0B,#F97316)">R</div>
+        <div class="c-item-thumb">👟</div>
+        <div class="c-info"><div class="c-top"><span class="c-name">Rania Taher</span><span class="c-time">Mon</span></div><div class="c-msg">Okay, see you at 5pm in Irbid</div></div>
+        <div class="c-badge">1</div>
+      </a>
+      <a href="FR-23-chat.html" class="conv">
+        <div class="c-av" style="background:linear-gradient(135deg,#EC4899,#BE185D)">L</div>
+        <div class="c-item-thumb">📚</div>
+        <div class="c-info"><div class="c-top"><span class="c-name">Lara Samir</span><span class="c-time">Last week</span></div><div class="c-msg">Deal! I'll pick it up Friday 👍</div></div>
+      </a>
+    </div>
+  </div>
+  <div class="chat-main">
+    <div class="empty-state">
+      <div>💬</div>
+      <p>Select a conversation</p>
+      <span>Choose from your messages on the left</span>
+    </div>
+  </div>
+</div></body></html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SwapIt — Login · FR-02</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--green:#2C6E49;--green2:#40916C;--lime:#B7E4C7;--orange:#E76F51;--cream:#F8F4EE;--dark:#1A1A2E;--gray:#6B7280;--border:#E2DDD6;--white:#FFFFFF;--error:#DC2626}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);min-height:100vh;display:flex;overflow-x:hidden}
+
+.right{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 44px;overflow-y:auto}
+.left{width:42%;background:var(--dark);display:flex;flex-direction:column;justify-content:space-between;padding:48px 52px;overflow:hidden;position:relative;flex-shrink:0}
+.left::before{content:'';position:absolute;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(231,111,81,.35) 0%,transparent 70%);top:-80px;right:-80px;pointer-events:none}
+.left::after{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(44,110,73,.4) 0%,transparent 70%);bottom:40px;left:-60px;pointer-events:none}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:30px;color:#fff;display:flex;align-items:center;gap:10px;position:relative;z-index:2}
+.logo-icon{width:38px;height:38px;background:var(--green);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+
+.left-mid{position:relative;z-index:2}
+.left-mid h2{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:#fff;line-height:1.2;margin-bottom:18px}
+.left-mid h2 em{font-style:normal;color:var(--orange)}
+.left-mid p{color:rgba(255,255,255,.5);font-size:14px;line-height:1.75;margin-bottom:36px}
+
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:18px;animation:up .6s ease both}
+.stat-card:nth-child(1){animation-delay:.1s}.stat-card:nth-child(2){animation-delay:.2s}.stat-card:nth-child(3){animation-delay:.3s}.stat-card:nth-child(4){animation-delay:.4s}
+.stat-num{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#fff;margin-bottom:4px}
+.stat-lbl{font-size:12px;color:rgba(255,255,255,.4)}
+.stat-card:nth-child(1) .stat-num{color:var(--lime)}
+.stat-card:nth-child(2) .stat-num{color:var(--orange)}
+.stat-card:nth-child(3) .stat-num{color:#93C5FD}
+.stat-card:nth-child(4) .stat-num{color:#FCD34D}
+
+.left-foot{position:relative;z-index:2;color:rgba(255,255,255,.25);font-size:12px}
+
+.card{width:100%;max-width:420px;animation:fadeUp .5s ease both}
+.card-head{margin-bottom:32px}
+.card-head h1{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--dark);margin-bottom:6px}
+.card-head p{color:var(--gray);font-size:13.5px}
+.card-head p a{color:var(--green);font-weight:500;text-decoration:none}
+
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:16px}
+label{font-size:12.5px;font-weight:500;color:var(--dark)}
+.iw{position:relative}
+.iw .ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none}
+input[type=email],input[type=password]{width:100%;padding:13px 14px 13px 40px;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dark);background:#fff;outline:none;transition:.2s}
+input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(44,110,73,.1)}
+input.err{border-color:var(--error)}
+.eye-btn{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:15px;color:var(--gray);padding:0}
+
+.label-row{display:flex;justify-content:space-between;align-items:center}
+.forgot-link{font-size:12px;color:var(--green);text-decoration:none;font-weight:500}
+.forgot-link:hover{text-decoration:underline}
+
+.err-msg{font-size:11px;color:var(--error);margin-top:2px;display:none}
+.err-msg.show{display:block}
+
+.remember{display:flex;align-items:center;gap:8px;margin-bottom:22px}
+.remember input[type=checkbox]{width:15px;height:15px;accent-color:var(--green);padding:0;flex-shrink:0}
+.remember label{font-size:13px;color:var(--gray);cursor:pointer}
+
+.alert{background:#FEF2F2;border:1.5px solid #FECACA;border-radius:12px;padding:12px 16px;display:flex;align-items:flex-start;gap:10px;margin-bottom:18px;display:none}
+.alert.show{display:flex}
+.alert-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.alert p{font-size:13px;color:#B91C1C;line-height:1.5}
+
+.btn-main{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:12px;font-family:'Syne',sans-serif;font-size:14.5px;font-weight:700;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.btn-main:hover{background:var(--green2);transform:translateY(-1px)}
+.btn-loader{display:none;position:absolute;inset:0;background:var(--green2);align-items:center;justify-content:center}
+.btn-main.loading .btn-loader{display:flex}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+
+.divider{display:flex;align-items:center;gap:10px;margin:18px 0;color:var(--gray);font-size:12px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.social-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn-soc{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border:1.5px solid var(--border);border-radius:11px;background:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--dark);cursor:pointer;transition:.2s}
+.btn-soc:hover{border-color:#aaa;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+
+.demo-badge{background:rgba(44,110,73,.08);border:1px solid rgba(44,110,73,.2);border-radius:10px;padding:12px 16px;margin-top:18px;display:flex;align-items:center;gap:10px}
+.demo-badge span{font-size:12.5px;color:var(--green)}
+.demo-fill{margin-left:auto;background:none;border:1.5px solid var(--green);border-radius:7px;padding:4px 10px;font-size:11.5px;color:var(--green);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:.2s}
+.demo-fill:hover{background:var(--green);color:#fff}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:860px){.left{display:none}.right{padding:28px 18px}}
+</style>
+</head>
+<body>
+
+<div class="right">
+  <div class="card">
+    <div class="card-head">
+      <h1>Welcome back 👋</h1>
+      <p>Don't have an account? <a href="FR-01-register.html">Sign up free</a></p>
+    </div>
+
+    
+    <div class="alert" id="alert">
+      <div class="alert-icon">⚠️</div>
+      <p>Incorrect email or password. Please try again or <a href="FR-03-forgot-password.html" style="color:var(--error);font-weight:500">reset your password</a>.</p>
+    </div>
+
+    <form id="form" novalidate>
+      <div class="fg">
+        <label>Email Address</label>
+        <div class="iw"><span class="ico">✉️</span><input type="email" id="em" placeholder="your@email.com"/></div>
+        <span class="err-msg" id="emE">Enter a valid email address.</span>
+      </div>
+
+      <div class="fg">
+        <div class="label-row">
+          <label>Password</label>
+          <a href="FR-03-forgot-password.html" class="forgot-link">Forgot password?</a>
+        </div>
+        <div class="iw">
+          <span class="ico">🔒</span>
+          <input type="password" id="pw" placeholder="Your password"/>
+          <button type="button" class="eye-btn" onclick="toggleEye('pw',this)">👁️</button>
+        </div>
+        <span class="err-msg" id="pwE">Please enter your password.</span>
+      </div>
+
+      <div class="remember">
+        <input type="checkbox" id="rem"/>
+        <label for="rem">Remember me for 30 days</label>
+      </div>
+
+      <button type="submit" class="btn-main" id="loginBtn">
+        Sign In
+        <div class="btn-loader"><div class="spinner"></div></div>
+      </button>
+
+      <div class="divider">or continue with</div>
+      <div class="social-row">
+        <button type="button" class="btn-soc">
+          <svg width="17" height="17" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Google
+        </button>
+        <button type="button" class="btn-soc">
+          <svg width="17" height="17" viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
+        </button>
+      </div>
+
+      <div class="demo-badge">
+        <span>🧪 <strong>Demo mode:</strong> Use test credentials</span>
+        <button type="button" class="demo-fill" onclick="fillDemo()">Auto-fill</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="left">
+  <div class="logo"><div class="logo-icon">🔄</div> SwapIt</div>
+  <div class="left-mid">
+    <h2>Your marketplace,<br/><em>your rules.</em></h2>
+    <p>Thousands of items listed every day. Sign in and start trading — it only takes a second.</p>
+    <div class="stats">
+      <div class="stat-card"><div class="stat-num">12K+</div><div class="stat-lbl">Active Listings</div></div>
+      <div class="stat-card"><div class="stat-num">4.8★</div><div class="stat-lbl">Avg Seller Rating</div></div>
+      <div class="stat-card"><div class="stat-num">850+</div><div class="stat-lbl">Swaps This Month</div></div>
+      <div class="stat-card"><div class="stat-num">200+</div><div class="stat-lbl">Live Auctions</div></div>
+    </div>
+  </div>
+  <div class="left-foot">© 2025 SwapIt · All rights reserved.</div>
+</div>
+
+<script>
+function toggleEye(id,btn){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='text'?'🙈':'👁️'}
+function fillDemo(){document.getElementById('em').value='demo@swapit.com';document.getElementById('pw').value='Demo@1234'}
+document.getElementById('form').addEventListener('submit',function(e){
+  e.preventDefault();let ok=true;
+  const em=document.getElementById('em');const pw=document.getElementById('pw');
+  const emE=document.getElementById('emE');const pwE=document.getElementById('pwE');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value)){emE.classList.add('show');em.classList.add('err');ok=false}else{emE.classList.remove('show');em.classList.remove('err')}
+  if(!pw.value){pwE.classList.add('show');pw.classList.add('err');ok=false}else{pwE.classList.remove('show');pw.classList.remove('err')}
+  if(!ok)return;
+  const btn=document.getElementById('loginBtn');btn.classList.add('loading');
+  setTimeout(()=>{
+    btn.classList.remove('loading');
+    if(em.value!=='demo@swapit.com'){document.getElementById('alert').classList.add('show')}
+    else{window.location.href='FR-01-register.html'}
+  },1600);
+});
+</script>
+</body>
+</html>

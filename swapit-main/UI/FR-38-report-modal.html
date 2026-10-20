@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Report · FR-38</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6;--red:#DC2626}body{font-family:'DM Sans',sans-serif;background:rgba(0,0,0,.6);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:#fff;border-radius:20px;width:100%;max-width:480px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.25);animation:pop .3s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.mh{background:var(--red);padding:20px 22px;display:flex;align-items:center;justify-content:space-between}
+.mh h2{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px}
+.mh-close{background:rgba(255,255,255,.2);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.mb{padding:22px}
+.item-ref{display:flex;align-items:center;gap:10px;background:var(--c);border-radius:10px;padding:12px;margin-bottom:18px}
+.ir-img{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);display:flex;align-items:center;justify-content:center;font-size:18px}
+.ir-title{font-size:13.5px;font-weight:600}
+.ir-meta{font-size:12px;color:var(--gr)}
+.reasons{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.reason{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--b);border-radius:11px;cursor:pointer;transition:.2s}
+.reason:hover{border-color:var(--red);background:rgba(220,38,38,.03)}
+.reason.on{border-color:var(--red);background:rgba(220,38,38,.05)}
+.reason input[type=radio]{width:16px;height:16px;accent-color:var(--red);margin-top:1px;flex-shrink:0}
+.reason-icon{font-size:18px;flex-shrink:0}
+.reason-title{font-size:13.5px;font-weight:600;color:var(--d)}
+.reason-sub{font-size:12px;color:var(--gr);margin-top:2px}
+.detail-field{margin-bottom:16px}
+.detail-field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px}
+.detail-field textarea{width:100%;padding:10px 13px;border:1.5px solid var(--b);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13.5px;resize:vertical;min-height:80px;outline:none;transition:.2s}
+.detail-field textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(220,38,38,.08)}
+.mf{padding:14px 22px;border-top:1px solid var(--b);display:flex;gap:10px}
+.btn-cancel{flex:1;padding:11px;background:none;border:1.5px solid var(--b);border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.btn-report{flex:2;padding:11px;background:var(--red);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.btn-report:hover{background:#B91C1C}
+.success{display:none;text-align:center;padding:32px;background:#fff}
+.success .s-icon{font-size:48px;margin-bottom:12px}
+.success h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:8px}
+.success p{font-size:13.5px;color:var(--gr);margin-bottom:20px}
+</style></head>
+<body>
+<div class="modal">
+  <div id="reportForm">
+    <div class="mh"><h2>🚩 Report Listing</h2><button class="mh-close" onclick="window.location='FR-14-listing-detail.html'">✕</button></div>
+    <div class="mb">
+      <div class="item-ref">
+        <div class="ir-img">📱</div>
+        <div><div class="ir-title">iPhone 14 Pro 256GB Space Black</div><div class="ir-meta">By Ahmad Hassan · Irbid</div></div>
+      </div>
+      <p style="font-size:13px;color:var(--gr);margin-bottom:14px">Please select the reason for reporting:</p>
+      <div class="reasons" id="reasons">
+        <label class="reason" onclick="selectReason(this)"><input type="radio" name="reason"/><span class="reason-icon">🎭</span><div><div class="reason-title">Fake or misleading item</div><div class="reason-sub">Item description doesn't match reality</div></div></label>
+        <label class="reason" onclick="selectReason(this)"><input type="radio" name="reason"/><span class="reason-icon">💰</span><div><div class="reason-title">Scam / Fraud</div><div class="reason-sub">Suspicious pricing or payment request</div></div></label>
+        <label class="reason" onclick="selectReason(this)"><input type="radio" name="reason"/><span class="reason-icon">🔄</span><div><div class="reason-title">Duplicate listing</div><div class="reason-sub">Same item posted multiple times</div></div></label>
+        <label class="reason" onclick="selectReason(this)"><input type="radio" name="reason"/><span class="reason-icon">🚫</span><div><div class="reason-title">Prohibited item</div><div class="reason-sub">Item violates SwapIt's policies</div></div></label>
+        <label class="reason" onclick="selectReason(this)"><input type="radio" name="reason"/><span class="reason-icon">⋯</span><div><div class="reason-title">Other reason</div><div class="reason-sub">Something else not listed above</div></div></label>
+      </div>
+      <div class="detail-field"><label>Additional details <span style="font-weight:400;color:var(--gr)">(optional)</span></label><textarea placeholder="Provide any additional context to help our moderation team..."></textarea></div>
+    </div>
+    <div class="mf"><button class="btn-cancel" onclick="window.location='FR-14-listing-detail.html'">Cancel</button><button class="btn-report" onclick="submitReport()">Submit Report</button></div>
+  </div>
+  <div class="success" id="success">
+    <div class="s-icon">✅</div>
+    <h3>Report Submitted</h3>
+    <p>Thank you for helping keep SwapIt safe. Our moderation team will review this within 24 hours.</p>
+    <button onclick="window.location='FR-14-listing-detail.html'" style="padding:11px 24px;background:var(--g);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer">Back to Listing</button>
+  </div>
+</div>
+<script>
+function selectReason(el){document.querySelectorAll('.reason').forEach(r=>r.classList.remove('on'));el.classList.add('on');el.querySelector('input').checked=true}
+function submitReport(){const sel=document.querySelector('.reason.on');if(!sel){alert('Please select a reason');return}document.getElementById('reportForm').style.display='none';document.getElementById('success').style.display='block'}
+</script></body></html>

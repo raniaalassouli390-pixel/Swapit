@@ -1,0 +1,16 @@
+{
+    "name": "swapit/marketplace",
+    "description": "SwapIt — Buy. Sell. Swap. Bid.",
+    "require": {
+        "php": ">=8.0",
+        "firebase/php-jwt": "^6.10"
+    },
+    "config": {
+        "audit": {
+            "block-insecure": false
+        }
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}

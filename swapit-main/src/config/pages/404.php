@@ -1,0 +1,43 @@
+<?php http_response_code(404); ?>
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — 404 Not Found · FR-39</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6}body{font-family:'DM Sans',sans-serif;background:var(--d);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center;overflow:hidden;position:relative}
+body::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(44,110,73,.3) 0%,transparent 70%);top:-100px;right:-100px}
+body::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(231,111,81,.2) 0%,transparent 70%);bottom:-100px;left:-50px}
+.content{position:relative;z-index:2}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:#fff;display:flex;align-items:center;gap:8px;margin-bottom:48px;justify-content:center}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.big-num{font-family:'Syne',sans-serif;font-size:120px;font-weight:800;line-height:1;background:linear-gradient(135deg,var(--g),#B7E4C7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.emoji{font-size:48px;margin-bottom:20px;animation:bounce .8s ease-in-out infinite alternate;display:block}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-12px)}}
+h1{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;margin-bottom:12px}
+p{color:rgba(255,255,255,.5);font-size:15px;line-height:1.7;margin-bottom:32px;max-width:420px;margin-left:auto;margin-right:auto}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.btn-g{padding:13px 26px;background:var(--g);color:#fff;border:none;border-radius:12px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;transition:.2s}
+.btn-g:hover{background:var(--g2);transform:translateY(-2px)}
+.btn-o{padding:13px 26px;background:rgba(255,255,255,.08);color:#fff;border:1.5px solid rgba(255,255,255,.2);border-radius:12px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;transition:.2s}
+.btn-o:hover{background:rgba(255,255,255,.15);transform:translateY(-2px)}
+.suggestion-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.sl{color:rgba(255,255,255,.4);font-size:13px;text-decoration:none;transition:.2s;padding:6px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.1)}
+.sl:hover{color:#fff;border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.06)}</style></head>
+<body>
+<div class="content">
+  <div class="logo"><div class="logo-i">🔄</div> SwapIt</div>
+  <span class="emoji">😕</span>
+  <div class="big-num">404</div>
+  <h1>Page Not Found</h1>
+  <p>Oops! The page you're looking for has been sold, swapped, or never existed in the first place.</p>
+  <div class="btns">
+    <a href="FR-08-home.php" class="btn-g">🏠 Go Home</a>
+    <a href="FR-10-browse.php" class="btn-o">🔍 Browse Listings</a>
+  </div>
+  <div class="suggestion-links">
+    <a href="FR-12-create-listing.php" class="sl">+ Sell something</a>
+    <a href="FR-32-search.php" class="sl">🔍 Search</a>
+    <a href="FR-09-categories.php" class="sl">📦 Categories</a>
+    <a href="FR-22-messages.php" class="sl">💬 Messages</a>
+  </div>
+</div></body></html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Admin Users · FR-35</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6;--red:#DC2626;--blue:#3B82F6}body{font-family:'DM Sans',sans-serif;background:#0f1117;color:#fff;min-height:100vh;display:flex}a{text-decoration:none;color:inherit}
+.sidebar{width:230px;background:#1a1d2e;border-right:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:20}
+.sb-logo{padding:20px 20px 16px;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:#fff;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.07)}
+.sb-logo-i{width:28px;height:28px;background:var(--g);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.sb-section{padding:16px 12px 8px;font-size:10px;font-weight:600;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;margin:2px 8px;font-size:13.5px;color:rgba(255,255,255,.55);cursor:pointer;transition:.2s}
+.sb-link:hover,.sb-link.on{background:rgba(255,255,255,.07);color:#fff}
+.sb-link.on{background:rgba(44,110,73,.2);color:#B7E4C7}
+.sb-link .sb-ico{font-size:16px;width:20px;flex-shrink:0}
+.sb-badge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;padding:1px 6px;border-radius:99px}
+.sb-foot{margin-top:auto;padding:12px;border-top:1px solid rgba(255,255,255,.07)}
+.sb-foot a{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.4);padding:8px}
+.main{margin-left:230px;flex:1;padding:28px 32px}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.page-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff}
+.search-bar{display:flex;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:99px;overflow:hidden;padding:0}
+.search-bar input{border:none;background:transparent;padding:9px 16px;font-size:13px;color:#fff;outline:none;width:260px}
+.search-bar input::placeholder{color:rgba(255,255,255,.3)}
+.btn{padding:8px 16px;border-radius:9px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:6px}
+.btn-g{background:var(--g);color:#fff}
+.btn-r{background:rgba(220,38,38,.2);color:#EF4444;border:1px solid rgba(220,38,38,.2)}
+.btn-o{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.1)}
+.table-card{background:#1a1d2e;border:1px solid rgba(255,255,255,.07);border-radius:14px;overflow:hidden}
+.tbl-header{display:flex;padding:12px 18px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.07);font-size:11.5px;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.04em;gap:12px}
+.tbl-row{display:flex;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.05);align-items:center;gap:12px;transition:.15s}
+.tbl-row:hover{background:rgba(255,255,255,.03)}
+.tbl-row:last-child{border-bottom:none}
+.av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0}
+.badge{padding:3px 9px;border-radius:99px;font-size:11px;font-weight:600;display:inline-flex}
+.active-b{background:rgba(34,197,94,.15);color:#22C55E}
+.warn-b{background:rgba(239,68,68,.15);color:#EF4444}
+.suspended-b{background:rgba(107,114,128,.15);color:#6B7280}
+.new-b{background:rgba(59,130,246,.15);color:#60A5FA}
+.pending-b{background:rgba(245,158,11,.15);color:#FCD34D}
+.resolved-b{background:rgba(34,197,94,.15);color:#22C55E}
+.cell-main{font-size:13px;color:#fff;font-weight:500}
+.cell-sub{font-size:11.5px;color:rgba(255,255,255,.35);margin-top:2px}
+.action-btns{display:flex;gap:6px;margin-left:auto;flex-shrink:0}
+.act-btn{padding:5px 11px;border-radius:7px;font-size:11.5px;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);transition:.2s;font-family:'DM Sans',sans-serif}
+.act-btn:hover{background:rgba(255,255,255,.12);color:#fff}
+.act-btn.danger{border-color:rgba(220,38,38,.3);color:#EF4444}
+.act-btn.danger:hover{background:rgba(220,38,38,.1)}
+.pag{display:flex;justify-content:center;gap:6px;padding:16px}
+.pg{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:rgba(255,255,255,.6);cursor:pointer;font-size:13px;transition:.2s}
+.pg.on,.pg:hover{background:var(--g);color:#fff;border-color:var(--g)}
+.filter-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.f-btn{padding:6px 14px;border:1px solid rgba(255,255,255,.1);border-radius:99px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.55);font-size:12.5px;cursor:pointer;transition:.2s}
+.f-btn.on,.f-btn:hover{border-color:var(--g);color:#B7E4C7;background:rgba(44,110,73,.15)}
+</style></head>
+<body>
+<div class="sidebar">
+  <div class="sb-logo"><div class="sb-logo-i">🔄</div> SwapIt Admin</div>
+  <div class="sb-section">Main</div>
+  <a href="FR-34-admin-dashboard.html" class="sb-link"><span class="sb-ico">📊</span> Dashboard</a>
+  <a href="FR-35-admin-users.html" class="sb-link on"><span class="sb-ico">👥</span> Users</a>
+  <a href="FR-36-admin-listings.html" class="sb-link"><span class="sb-ico">📦</span> Listings</a>
+  <a href="FR-37-admin-reports.html" class="sb-link"><span class="sb-ico">🚩</span> Reports <span class="sb-badge">7</span></a>
+  <div class="sb-foot"><a href="FR-08-home.html">← Back to SwapIt</a></div>
+</div>
+<div class="main">
+  <div class="top-bar">
+    <div class="page-title">👥 User Management</div>
+    <div class="search-bar"><input type="text" placeholder="Search users by name, email, city..."/></div>
+  </div>
+  <div class="filter-row">
+    <button class="f-btn on" onclick="setF(this)">All Users (12,480)</button>
+    <button class="f-btn" onclick="setF(this)">Active (11,890)</button>
+    <button class="f-btn" onclick="setF(this)">Warned (320)</button>
+    <button class="f-btn" onclick="setF(this)">Suspended (270)</button>
+    <button class="f-btn" onclick="setF(this)">New This Week (324)</button>
+  </div>
+  <div class="table-card">
+    <div class="tbl-header"><div style="flex:2">User</div><div style="flex:1">City</div><div style="flex:1">Listings</div><div style="flex:1">Rating</div><div style="flex:1">Status</div><div style="flex:1.5">Actions</div></div>
+    <div class="tbl-row"><div style="flex:2;display:flex;align-items:center;gap:10px"><div class="av" style="background:linear-gradient(135deg,var(--g),var(--g2))">A</div><div><div class="cell-main">Ahmad Hassan</div><div class="cell-sub">ahmad@example.com · Joined Jan 2022</div></div></div><div style="flex:1;font-size:13px;color:rgba(255,255,255,.6)">Irbid</div><div style="flex:1;font-size:13px;color:rgba(255,255,255,.6)">47</div><div style="flex:1;color:#F59E0B;font-size:13px">★ 4.9</div><div style="flex:1"><span class="badge active-b">Active</span></div><div class="action-btns" style="flex:1.5"><button class="act-btn" onclick="window.location='FR-24-profile.html'">View</button><button class="act-btn danger" onclick="if(confirm('Warn this user?'))alert('Warning sent')">Warn</button></div></div>
+    <div class="tbl-row"><div style="flex:2;display:flex;align-items:center;gap:10px"><div class="av" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">K</div><div><div class="cell-main">Khalid Mohammed</div><div class="cell-sub">khalid@example.com · Joined Mar 2023</div></div></div><div style="flex:1;font-size:13px;color:rgba(255,255,255,.6)">Amman</div><div style="flex:1;font-size:13px;color:rgba(255,255,255,.6)">23</div><div style="flex:1;color:#F59E0B;font-size:13px">★ 4.7</div><div style="flex:1"><span class="badge active-b">Active</span></div><div class="action-btns" style="flex:1.5"><button class="act-btn">View</button><button class="act-btn danger">Warn</button></div></div>
+    <div class="tbl-row"><div style="flex:2;display:flex;align-items:center;gap:10px"><div class="av" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9)">S</div><div><div class="cell-main">Sara Taher</div><div class="cell-sub">sara@example.com · Joined Aug 2023</div></div></div><div style="flex:1;font-size:13px;color:rgba(255,255,255,.6)">Irbid</div><div style="flex:1;font-size:13px;color:rgba(255,255,255,.6)">8</div><div style="flex:1;color:#F59E0B;font-size:13px">★ 3.2</div><div style="flex:1"><span class="badge warn-b">Warned</span></div><div class="action-btns" style="flex:1.5"><button class="act-btn">View</button><button class="act-btn danger" onclick="if(confirm('Suspend this user?'))alert('User suspended')">Suspend</button></div></div>
+    <div class="tbl-row"><div style="flex:2;display:flex;align-items:center;gap:10px"><div class="av" style="background:linear-gradient(135deg,#F59E0B,#F97316)">R</div><div><div class="cell-main">Rania Khalil</div><div class="cell-sub">rania@example.com · Joined Feb 2024</div></div></div><div style="flex:1;font-size:13px;color:rgba(255,255,255,.6)">Zarqa</div><div style="flex:1;font-size:13px;color:rgba(255,255,255,.6)">15</div><div style="flex:1;color:#F59E0B;font-size:13px">★ 4.8</div><div style="flex:1"><span class="badge active-b">Active</span></div><div class="action-btns" style="flex:1.5"><button class="act-btn">View</button><button class="act-btn danger">Warn</button></div></div>
+    <div class="tbl-row"><div style="flex:2;display:flex;align-items:center;gap:10px"><div class="av" style="background:linear-gradient(135deg,#6B7280,#374151)">X</div><div><div class="cell-main">spam_user_123</div><div class="cell-sub">spam@fake.com · Joined Today</div></div></div><div style="flex:1;font-size:13px;color:rgba(255,255,255,.6)">Unknown</div><div style="flex:1;font-size:13px;color:rgba(255,255,255,.6)">0</div><div style="flex:1;color:rgba(255,255,255,.3);font-size:13px">No rating</div><div style="flex:1"><span class="badge warn-b">Flagged</span></div><div class="action-btns" style="flex:1.5"><button class="act-btn danger" onclick="if(confirm('Delete user?'))this.closest('.tbl-row').remove()">Delete</button><button class="act-btn danger" onclick="alert('User banned')">Ban</button></div></div>
+    <div class="pag"><button class="pg">‹</button><button class="pg on">1</button><button class="pg">2</button><button class="pg">3</button><span style="color:rgba(255,255,255,.3)">...</span><button class="pg">48</button><button class="pg">›</button></div>
+  </div>
+</div>
+<script>function setF(b){document.querySelectorAll('.f-btn').forEach(x=>x.classList.remove('on'));b.classList.add('on')}</script></body></html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Admin Dashboard · FR-34</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6;--red:#DC2626;--blue:#3B82F6}body{font-family:'DM Sans',sans-serif;background:#0f1117;color:#fff;min-height:100vh;display:flex}a{text-decoration:none;color:inherit}
+.sidebar{width:230px;background:#1a1d2e;border-right:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:20}
+.sb-logo{padding:20px 20px 16px;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:#fff;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.07)}
+.sb-logo-i{width:28px;height:28px;background:var(--g);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.sb-section{padding:16px 12px 8px;font-size:10px;font-weight:600;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;margin:2px 8px;font-size:13.5px;color:rgba(255,255,255,.55);cursor:pointer;transition:.2s}
+.sb-link:hover,.sb-link.on{background:rgba(255,255,255,.07);color:#fff}
+.sb-link.on{background:rgba(44,110,73,.2);color:var(--lime,#B7E4C7)}
+.sb-link .sb-ico{font-size:16px;width:20px;flex-shrink:0}
+.sb-badge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;padding:1px 6px;border-radius:99px}
+.sb-foot{margin-top:auto;padding:12px;border-top:1px solid rgba(255,255,255,.07)}
+.sb-foot a{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.4);padding:8px}
+.main{margin-left:230px;flex:1;padding:28px 32px;min-height:100vh}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.top-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff}
+.top-right{display:flex;align-items:center;gap:10px}
+.top-btn{padding:8px 16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:9px;color:#fff;font-size:13px;cursor:pointer}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.stat-card{background:#1a1d2e;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:20px}
+.sc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sc-label{font-size:12px;color:rgba(255,255,255,.45);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.sc-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.sc-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;margin-bottom:6px}
+.sc-change{font-size:12.5px}
+.up{color:#22C55E}.down{color:var(--red)}
+.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:20px}
+.chart-card{background:#1a1d2e;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:20px}
+.chart-card h3{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#fff;margin-bottom:16px}
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:120px}
+.bar{flex:1;border-radius:6px 6px 0 0;position:relative;cursor:pointer;transition:.2s}
+.bar:hover{filter:brightness(1.2)}
+.bar-lbl{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:9.5px;color:rgba(255,255,255,.35);white-space:nowrap}
+.donut{width:100px;height:100px;border-radius:50%;margin:0 auto 16px;background:conic-gradient(var(--g) 0deg 180deg,var(--o) 180deg 250deg,var(--blue) 250deg 360deg);display:flex;align-items:center;justify-content:center;position:relative}
+.donut::before{content:'';position:absolute;width:60px;height:60px;background:#1a1d2e;border-radius:50%}
+.donut-labels{display:flex;flex-direction:column;gap:6px}
+.dl{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.6)}
+.dl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.tables-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.table-card{background:#1a1d2e;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:20px}
+.table-card h3{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#fff;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.table-card h3 a{font-size:12px;color:var(--lime,#B7E4C7);font-weight:400}
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.tbl tr:not(:last-child){border-bottom:1px solid rgba(255,255,255,.05)}
+.tbl td{padding:9px 4px;color:rgba(255,255,255,.7)}
+.tbl td:first-child{display:flex;align-items:center;gap:8px}
+.tbl-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex-shrink:0}
+.tbl-badge{padding:2px 7px;border-radius:99px;font-size:10px;font-weight:600}
+.active-b{background:rgba(34,197,94,.15);color:#22C55E}
+.warn-b{background:rgba(239,68,68,.15);color:#EF4444}
+</style></head>
+<body>
+<div class="sidebar">
+  <div class="sb-logo"><div class="sb-logo-i">🔄</div> SwapIt Admin</div>
+  <div class="sb-section">Main</div>
+  <a href="FR-34-admin-dashboard.html" class="sb-link on"><span class="sb-ico">📊</span> Dashboard</a>
+  <a href="FR-35-admin-users.html" class="sb-link"><span class="sb-ico">👥</span> Users <span class="sb-badge">3</span></a>
+  <a href="FR-36-admin-listings.html" class="sb-link"><span class="sb-ico">📦</span> Listings</a>
+  <a href="FR-37-admin-reports.html" class="sb-link"><span class="sb-ico">🚩</span> Reports <span class="sb-badge">7</span></a>
+  <div class="sb-section">Analytics</div>
+  <a href="#" class="sb-link"><span class="sb-ico">📈</span> Revenue</a>
+  <a href="#" class="sb-link"><span class="sb-ico">🔁</span> Swaps</a>
+  <a href="#" class="sb-link"><span class="sb-ico">🔨</span> Auctions</a>
+  <div class="sb-foot"><a href="FR-08-home.html">← Back to SwapIt</a></div>
+</div>
+<div class="main">
+  <div class="top-bar">
+    <div class="top-title">📊 Dashboard Overview</div>
+    <div class="top-right">
+      <select class="top-btn" style="border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.08);color:#fff;outline:none"><option>Last 30 days</option><option>Last 7 days</option><option>This Year</option></select>
+      <button class="top-btn">⬇️ Export CSV</button>
+    </div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="sc-top"><span class="sc-label">Total Users</span><div class="sc-icon" style="background:rgba(44,110,73,.2)">👥</div></div><div class="sc-num">12,480</div><div class="sc-change up">↑ +324 this month</div></div>
+    <div class="stat-card"><div class="sc-top"><span class="sc-label">Active Listings</span><div class="sc-icon" style="background:rgba(59,130,246,.2)">📦</div></div><div class="sc-num">3,241</div><div class="sc-change up">↑ +89 today</div></div>
+    <div class="stat-card"><div class="sc-top"><span class="sc-label">Swaps Done</span><div class="sc-icon" style="background:rgba(231,111,81,.2)">🔁</div></div><div class="sc-num">856</div><div class="sc-change up">↑ +12 today</div></div>
+    <div class="stat-card"><div class="sc-top"><span class="sc-label">Pending Reports</span><div class="sc-icon" style="background:rgba(220,38,38,.2)">🚩</div></div><div class="sc-num">7</div><div class="sc-change down">↑ +3 new</div></div>
+  </div>
+  <div class="charts-row">
+    <div class="chart-card">
+      <h3>📈 New Listings (Last 7 Days)</h3>
+      <div class="bar-chart">
+        <div class="bar" style="height:60%;background:linear-gradient(to top,var(--g),var(--g2))"><span class="bar-lbl">Mon</span></div>
+        <div class="bar" style="height:75%;background:linear-gradient(to top,var(--g),var(--g2))"><span class="bar-lbl">Tue</span></div>
+        <div class="bar" style="height:50%;background:linear-gradient(to top,var(--g),var(--g2))"><span class="bar-lbl">Wed</span></div>
+        <div class="bar" style="height:90%;background:linear-gradient(to top,#F59E0B,#FCD34D)"><span class="bar-lbl">Thu</span></div>
+        <div class="bar" style="height:80%;background:linear-gradient(to top,var(--g),var(--g2))"><span class="bar-lbl">Fri</span></div>
+        <div class="bar" style="height:65%;background:linear-gradient(to top,var(--g),var(--g2))"><span class="bar-lbl">Sat</span></div>
+        <div class="bar" style="height:55%;background:linear-gradient(to top,var(--g),var(--g2))"><span class="bar-lbl">Sun</span></div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h3>🥧 Listing Types</h3>
+      <div class="donut"></div>
+      <div class="donut-labels">
+        <div class="dl"><div class="dl-dot" style="background:var(--g)"></div>For Sale (50%)</div>
+        <div class="dl"><div class="dl-dot" style="background:var(--o)"></div>Swap (20%)</div>
+        <div class="dl"><div class="dl-dot" style="background:var(--blue)"></div>Auction (30%)</div>
+      </div>
+    </div>
+  </div>
+  <div class="tables-row">
+    <div class="table-card">
+      <h3>👥 Recent Users <a href="FR-35-admin-users.html">View all →</a></h3>
+      <table class="tbl">
+        <tr><td><div class="tbl-av" style="background:linear-gradient(135deg,var(--g),var(--g2))">A</div>Ahmad H.</td><td style="color:rgba(255,255,255,.4)">Irbid</td><td><span class="tbl-badge active-b">Active</span></td></tr>
+        <tr><td><div class="tbl-av" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">K</div>Khalid M.</td><td style="color:rgba(255,255,255,.4)">Amman</td><td><span class="tbl-badge active-b">Active</span></td></tr>
+        <tr><td><div class="tbl-av" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9)">S</div>Sara T.</td><td style="color:rgba(255,255,255,.4)">Irbid</td><td><span class="tbl-badge warn-b">Warned</span></td></tr>
+        <tr><td><div class="tbl-av" style="background:linear-gradient(135deg,#F59E0B,#F97316)">R</div>Rania K.</td><td style="color:rgba(255,255,255,.4)">Zarqa</td><td><span class="tbl-badge active-b">Active</span></td></tr>
+      </table>
+    </div>
+    <div class="table-card">
+      <h3>🚩 Recent Reports <a href="FR-37-admin-reports.html">View all →</a></h3>
+      <table class="tbl">
+        <tr><td>📱 iPhone listing</td><td style="color:rgba(255,255,255,.4)">Fake item</td><td><span class="tbl-badge warn-b">Urgent</span></td></tr>
+        <tr><td>👤 User @spam123</td><td style="color:rgba(255,255,255,.4)">Scam</td><td><span class="tbl-badge warn-b">New</span></td></tr>
+        <tr><td>🎮 PS5 listing</td><td style="color:rgba(255,255,255,.4)">Wrong price</td><td><span class="tbl-badge active-b">Reviewed</span></td></tr>
+        <tr><td>💻 Laptop post</td><td style="color:rgba(255,255,255,.4)">Spam</td><td><span class="tbl-badge active-b">Resolved</span></td></tr>
+      </table>
+    </div>
+  </div>
+</div></body></html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Navbar Component · FR-05</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--cr:#F8F4EE;--dk:#1A1A2E;--gr:#6B7280;--bd:#E2DDD6}
+body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--dk)}
+nav{background:#fff;border-bottom:1px solid var(--bd);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:100;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--dk);display:flex;align-items:center;gap:8px;text-decoration:none}
+.li{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.nbtn{padding:8px 16px;background:var(--g);color:#fff;border:none;border-radius:9px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
+.card{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:24px;margin-bottom:20px}
+.card h2{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--dk);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
+.inp{width:100%;padding:11px 14px;border:1.5px solid var(--bd);border-radius:11px;font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--dk);background:var(--cr);outline:none;transition:.2s}
+.inp:focus{border-color:var(--g);background:#fff;box-shadow:0 0 0 3px rgba(44,110,73,.1)}
+textarea.inp{min-height:90px;resize:vertical;line-height:1.6}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+label{font-size:12.5px;font-weight:500;color:var(--dk)}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tab-row{display:flex;gap:0;border-bottom:2px solid var(--bd);margin-bottom:20px}
+.tab{padding:10px 20px;font-size:13.5px;font-weight:500;color:var(--gr);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.2s}
+.tab.a{color:var(--g);border-color:var(--g)}
+.pill{padding:4px 12px;border-radius:99px;font-size:11.5px;font-weight:600}
+.pill-g{background:#DCFCE7;color:var(--g)}.pill-o{background:#FEF9C3;color:#92400E}.pill-r{background:#FEE2E2;color:#DC2626}.pill-b{background:#DBEAFE;color:#1D4ED8}
+.bc{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gr);margin-bottom:20px}
+.bc a{color:var(--g);text-decoration:none}
+.main{max-width:1100px;margin:0 auto;padding:28px 32px 60px}
+.ph h1{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--dk);margin-bottom:6px}
+.ph p{color:var(--gr);font-size:13.5px;margin-bottom:20px}</style>
+</head>
+<body>
+<style>
+.navbar{background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;box-shadow:0 1px 12px rgba(0,0,0,.05)}
+.nav-main{max-width:1280px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;gap:20px}
+.logo2{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:var(--dk);display:flex;align-items:center;gap:8px;text-decoration:none}
+.li2{width:34px;height:34px;background:var(--g);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.srch{flex:1;max-width:520px;position:relative}
+.srch-inner{display:flex;align-items:center;background:#F3F4F6;border:1.5px solid transparent;border-radius:99px;overflow:hidden;transition:.2s}
+.srch-inner:focus-within{background:#fff;border-color:var(--g);box-shadow:0 0 0 3px rgba(44,110,73,.1)}
+.si{padding:0 12px 0 16px;color:var(--gr);font-size:15px}
+.srch-input{flex:1;border:none;background:transparent;padding:10px 0;font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--dk);outline:none}
+.srch-btn{padding:8px 16px;background:var(--g);color:#fff;border:none;border-radius:99px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;margin:4px;transition:.2s}
+.srch-btn:hover{background:var(--g2)}
+.sdrop{position:absolute;top:calc(100%+8px);left:0;right:0;background:#fff;border:1px solid var(--bd);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.1);padding:12px 0;display:none;z-index:200}
+.srch:focus-within .sdrop{display:block}
+.sd-sec{padding:8px 16px 4px;font-size:11px;font-weight:600;color:var(--gr);text-transform:uppercase;letter-spacing:.05em}
+.sd-item{display:flex;align-items:center;gap:10px;padding:8px 16px;cursor:pointer;transition:.15s;font-size:13.5px;color:var(--dk)}
+.sd-item:hover{background:var(--cr)}
+.sd-ico{width:30px;height:30px;border-radius:8px;background:#F3F4F6;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.nav-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.sell-btn{display:flex;align-items:center;gap:6px;padding:9px 18px;background:var(--g);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;text-decoration:none}
+.sell-btn:hover{background:var(--g2);transform:translateY(-1px)}
+.ico-btn{position:relative;width:38px;height:38px;border-radius:10px;border:1.5px solid var(--bd);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:17px;transition:.2s;text-decoration:none}
+.ico-btn:hover{border-color:var(--g);background:rgba(44,110,73,.05)}
+.badge{position:absolute;top:-5px;right:-5px;width:18px;height:18px;background:#EF4444;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700;border:2px solid #fff}
+.umenu{position:relative}
+.utrigger{display:flex;align-items:center;gap:8px;padding:5px 10px 5px 5px;border:1.5px solid var(--bd);border-radius:99px;background:#fff;cursor:pointer;transition:.2s}
+.utrigger:hover{border-color:var(--g)}
+.uav{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-weight:700}
+.uname{font-size:13px;font-weight:500;color:var(--dk)}
+.chev{font-size:11px;color:var(--gr);transition:.2s}
+.umenu.open .chev{transform:rotate(180deg)}
+.udrop{position:absolute;top:calc(100%+8px);right:0;width:220px;background:#fff;border:1px solid var(--bd);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.1);padding:8px 0;display:none;z-index:200}
+.umenu.open .udrop{display:block}
+.ud-hd{padding:12px 16px;border-bottom:1px solid var(--bd);margin-bottom:4px}
+.ud-hd strong{display:block;font-size:14px;color:var(--dk)}
+.ud-hd span{font-size:12px;color:var(--gr)}
+.ud-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13.5px;color:var(--dk);cursor:pointer;transition:.15s;text-decoration:none}
+.ud-item:hover{background:var(--cr);color:var(--g)}
+.ud-div{height:1px;background:var(--bd);margin:4px 0}
+.ud-danger{color:#DC2626}.ud-danger:hover{background:#FEF2F2!important;color:#DC2626!important}
+.catbar{background:#fff;border-bottom:1px solid var(--bd)}
+.catinner{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;height:44px}
+.catinner::-webkit-scrollbar{display:none}
+.cpill{display:flex;align-items:center;gap:5px;padding:5px 14px;border-radius:99px;font-size:13px;font-weight:500;color:var(--gr);cursor:pointer;white-space:nowrap;transition:.2s;border:1.5px solid transparent;text-decoration:none}
+.cpill:hover{color:var(--dk);background:var(--cr)}
+.cpill.a{background:var(--g);color:#fff;border-color:var(--g)}
+.demo-note{max-width:800px;margin:30px auto;padding:0 24px}
+.demo-note h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--dk);margin-bottom:8px}
+.demo-note p{color:var(--gr);font-size:13.5px;line-height:1.7}
+</style>
+<nav class="navbar">
+  <div class="nav-main">
+    <a href="FR-08-home.html" class="logo2"><div class="li2">🔄</div>SwapIt</a>
+    <div class="srch">
+      <div class="srch-inner">
+        <div class="si">🔍</div>
+        <input type="text" class="srch-input" placeholder="Search listings, categories, sellers..."/>
+        <button class="srch-btn">Search</button>
+      </div>
+      <div class="sdrop">
+        <div class="sd-sec">Recent Searches</div>
+        <div class="sd-item"><div class="sd-ico">🔍</div>iPhone 14 Pro</div>
+        <div class="sd-item"><div class="sd-ico">🔍</div>Gaming Chair</div>
+        <div class="sd-sec">Popular Categories</div>
+        <div class="sd-item"><div class="sd-ico">📱</div>Electronics — 3,240 listings</div>
+        <div class="sd-item"><div class="sd-ico">👕</div>Clothing — 1,890 listings</div>
+        <div class="sd-item"><div class="sd-ico">📚</div>Books — 940 listings</div>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <a href="FR-12-create-listing.html" class="sell-btn">➕ Sell / Swap</a>
+      <a href="FR-33-notifications.html" class="ico-btn">🔔<span class="badge">3</span></a>
+      <a href="FR-31-wishlist.html" class="ico-btn">🤍</a>
+      <div class="umenu" id="um">
+        <div class="utrigger" onclick="document.getElementById('um').classList.toggle('open')">
+          <div class="uav">A</div><span class="uname">Ahmad</span><span class="chev">▾</span>
+        </div>
+        <div class="udrop">
+          <div class="ud-hd"><strong>Ahmad Hassan</strong><span>ahmad@swapit.com</span></div>
+          <a href="FR-24-profile.html" class="ud-item">👤 My Profile</a>
+          <a href="FR-26-my-listings.html" class="ud-item">📦 My Listings</a>
+          <a href="FR-22-messages.html" class="ud-item">💬 Messages</a>
+          <a href="FR-31-wishlist.html" class="ud-item">❤️ Wishlist</a>
+          <a href="FR-28-my-bids.html" class="ud-item">🔨 My Bids</a>
+          <div class="ud-div"></div>
+          <a href="FR-25-edit-profile.html" class="ud-item">⚙️ Settings</a>
+          <a href="FR-34-admin-dashboard.html" class="ud-item">🛡️ Admin Panel</a>
+          <div class="ud-div"></div>
+          <div class="ud-item ud-danger" onclick="window.location='FR-02-login.html'">🚪 Sign Out</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="catbar">
+  <div class="catinner">
+    <a href="#" class="cpill a">🏪 All</a>
+    <a href="#" class="cpill" onclick="this.classList.add('a')">📱 Electronics</a>
+    <a href="#" class="cpill">👕 Clothing</a>
+    <a href="#" class="cpill">📚 Books</a>
+    <a href="#" class="cpill">🛋️ Furniture</a>
+    <a href="#" class="cpill">🚗 Vehicles</a>
+    <a href="#" class="cpill">⚽ Sports</a>
+    <a href="#" class="cpill">🎨 Art</a>
+    <a href="#" class="cpill">🧸 Kids</a>
+    <a href="#" class="cpill">🔨 Tools</a>
+    <a href="#" class="cpill">💻 Gaming</a>
+  </div>
+</div>
+<div class="demo-note">
+  <h2>FR-05 — Global Navbar Component ✅</h2>
+  <p>This sticky navigation bar is used on every page. It includes the SwapIt logo, search bar with live suggestions dropdown, Sell/Swap CTA button, notification bell with badge, wishlist heart, user avatar dropdown menu (with links to profile, listings, messages, wishlist, bids, settings, admin panel, sign out), and a scrollable category pills bar below the main nav.</p>
+</div>
+<script>
+document.addEventListener('click',e=>{const m=document.getElementById('um');if(!m.contains(e.target))m.classList.remove('open')});
+document.querySelectorAll('.cpill').forEach(p=>p.addEventListener('click',function(e){e.preventDefault();document.querySelectorAll('.cpill').forEach(x=>x.classList.remove('a'));this.classList.add('a')}));
+</script></body></html>

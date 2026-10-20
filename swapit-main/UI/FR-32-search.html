@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Search · FR-32</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;gap:16px;padding:0 32px;position:sticky;top:0;z-index:10;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--d);display:flex;align-items:center;gap:8px;flex-shrink:0}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.search-bar{flex:1;display:flex;background:var(--c);border:1.5px solid var(--b);border-radius:99px;overflow:hidden;transition:.2s}
+.search-bar:focus-within{border-color:var(--g);background:#fff}
+.search-bar input{flex:1;border:none;background:transparent;padding:10px 18px;font-size:14px;outline:none;font-family:'DM Sans',sans-serif}
+.search-bar button{padding:8px 18px;background:var(--g);color:#fff;border:none;font-size:13px;cursor:pointer;margin:3px;border-radius:99px}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 32px}
+.search-info{margin-bottom:20px}
+.search-info h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:6px}
+.search-info p{font-size:13.5px;color:var(--gr)}
+.suggestions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.sug{padding:6px 14px;background:#fff;border:1.5px solid var(--b);border-radius:99px;font-size:12.5px;cursor:pointer;transition:.2s}
+.sug:hover{border-color:var(--g);color:var(--g)}
+.layout{display:flex;gap:0}
+.sidebar{width:240px;flex-shrink:0;margin-right:24px}
+.sb-card{background:#fff;border:1px solid var(--b);border-radius:12px;padding:16px;margin-bottom:14px}
+.sb-card h4{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;margin-bottom:12px}
+.sb-pill{padding:6px 12px;border:1.5px solid var(--b);border-radius:99px;font-size:12px;cursor:pointer;margin:4px 2px;display:inline-block;transition:.2s}
+.sb-pill.on,.sb-pill:hover{border-color:var(--g);color:var(--g);background:rgba(44,110,73,.06)}
+.price-row{display:flex;gap:8px}
+.pi{flex:1;border:1.5px solid var(--b);border-radius:8px;padding:7px 10px;background:var(--c);display:flex;align-items:center;gap:4px}
+.pi span{font-size:11px;color:var(--gr);font-weight:600}
+.pi input{border:none;background:transparent;width:100%;font-size:13px;outline:none}
+.rng{width:100%;-webkit-appearance:none;height:4px;border-radius:99px;background:linear-gradient(to right,var(--g) 60%,var(--b) 60%);margin-top:10px;cursor:pointer}
+.rng::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--g);border:2px solid #fff}
+.main{flex:1}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.top-info{font-size:13.5px;color:var(--gr)}
+.sort-sel{padding:7px 12px;border:1.5px solid var(--b);border-radius:9px;font-size:13px;background:#fff;outline:none}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.lc{background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;cursor:pointer;transition:.2s;display:block}
+.lc:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.lc-img{height:130px;display:flex;align-items:center;justify-content:center;font-size:38px;position:relative}
+.lc-badge{position:absolute;top:8px;left:8px;padding:2px 8px;border-radius:99px;font-size:10.5px;font-weight:600;color:#fff;background:var(--g)}
+.lc-h{position:absolute;top:8px;right:8px;width:26px;height:26px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;border:none}
+.lc-body{padding:11px}
+.lc-title{font-size:12.5px;font-weight:500;margin-bottom:4px}
+.lc-price{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--g);margin-bottom:7px}
+.lc-footer{display:flex;align-items:center;gap:6px}
+.lc-av{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;font-weight:700}
+.lc-seller{font-size:11px;color:var(--gr);flex:1}
+.lc-star{font-size:11px;color:#F59E0B}
+@media(max-width:900px){.sidebar{display:none}.grid{grid-template-columns:repeat(2,1fr)}}</style></head>
+<body>
+<nav>
+  <a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a>
+  <div class="search-bar"><input type="text" value="iphone 14 pro" id="q"/><button onclick="doSearch()">Search</button></div>
+</nav>
+<div class="wrap">
+  <div class="search-info"><h2>Results for "iphone 14 pro"</h2><p>Found 47 listings across all categories</p></div>
+  <div class="suggestions">
+    <span style="font-size:13px;color:var(--gr);">Related:</span>
+    <div class="sug" onclick="search('iphone 14')">iPhone 14</div>
+    <div class="sug" onclick="search('iphone 15 pro')">iPhone 15 Pro</div>
+    <div class="sug" onclick="search('samsung s23')">Samsung S23</div>
+    <div class="sug" onclick="search('iphone accessories')">iPhone Accessories</div>
+  </div>
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sb-card"><h4>Listing Type</h4>
+        <div class="sb-pill on" onclick="togglePill(this)">All</div>
+        <div class="sb-pill" onclick="togglePill(this)">💰 For Sale</div>
+        <div class="sb-pill" onclick="togglePill(this)">🔁 Swap</div>
+        <div class="sb-pill" onclick="togglePill(this)">🔨 Auction</div>
+      </div>
+      <div class="sb-card"><h4>Price (JD)</h4>
+        <div class="price-row"><div class="pi"><span>JD</span><input type="number" value="0"/></div><div class="pi"><span>JD</span><input type="number" value="1000" id="pmax"/></div></div>
+        <input type="range" class="rng" min="0" max="5000" value="1000" oninput="document.getElementById('pmax').value=this.value"/>
+      </div>
+      <div class="sb-card"><h4>Condition</h4>
+        <div class="sb-pill" onclick="togglePill(this)">New</div>
+        <div class="sb-pill on" onclick="togglePill(this)">Like New</div>
+        <div class="sb-pill" onclick="togglePill(this)">Good</div>
+        <div class="sb-pill" onclick="togglePill(this)">Fair</div>
+      </div>
+      <div class="sb-card"><h4>Location</h4>
+        <select style="width:100%;padding:8px 10px;border:1.5px solid var(--b);border-radius:8px;font-size:13px;background:var(--c);outline:none"><option>All Cities</option><option>Amman</option><option selected>Irbid</option><option>Zarqa</option></select>
+      </div>
+    </div>
+    <div class="main">
+      <div class="top-bar"><span class="top-info"><strong>47</strong> results for "iphone 14 pro"</span><select class="sort-sel"><option>Most Relevant</option><option>Newest</option><option>Price: Low→High</option><option>Price: High→Low</option></select></div>
+      <div class="grid">
+        <a href="FR-14-listing-detail.html" class="lc"><div class="lc-img" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">📱<div class="lc-badge">For Sale</div><button class="lc-h" onclick="event.preventDefault()">🤍</button></div><div class="lc-body"><div class="lc-title">iPhone 14 Pro 256GB Space Black</div><div class="lc-price">JD 420</div><div class="lc-footer"><div class="lc-av">A</div><span class="lc-seller">Ahmad H. · Irbid</span><span class="lc-star">★4.9</span></div></div></a>
+        <a href="FR-14-listing-detail.html" class="lc"><div class="lc-img" style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB)">📱<div class="lc-badge">For Sale</div><button class="lc-h" onclick="event.preventDefault()">🤍</button></div><div class="lc-body"><div class="lc-title">iPhone 14 Pro Max 128GB Gold</div><div class="lc-price">JD 500</div><div class="lc-footer"><div class="lc-av">K</div><span class="lc-seller">Khalid M. · Amman</span><span class="lc-star">★4.7</span></div></div></a>
+        <a href="FR-14-listing-detail.html" class="lc"><div class="lc-img" style="background:linear-gradient(135deg,#F3E5F5,#E1BEE7)">📱<div class="lc-badge" style="background:var(--o)">Swap</div><button class="lc-h" onclick="event.preventDefault()">🤍</button></div><div class="lc-body"><div class="lc-title">iPhone 14 Pro 512GB Deep Purple</div><div class="lc-price" style="color:var(--o)">Swap Only</div><div class="lc-footer"><div class="lc-av">S</div><span class="lc-seller">Sara T. · Zarqa</span><span class="lc-star">★5.0</span></div></div></a>
+        <a href="FR-16-auction-detail.html" class="lc"><div class="lc-img" style="background:linear-gradient(135deg,#FEE2E2,#FECACA)">📱<div class="lc-badge" style="background:#DC2626">Auction</div><button class="lc-h" onclick="event.preventDefault()">🤍</button></div><div class="lc-body"><div class="lc-title">iPhone 14 Pro 256GB — Minor Screen Scratch</div><div class="lc-price">JD 280 <span style="font-size:10px;color:var(--gr);font-weight:400">bid</span></div><div class="lc-footer"><div class="lc-av">R</div><span class="lc-seller">Rania K. · Aqaba</span><span class="lc-star">★4.8</span></div></div></a>
+        <a href="FR-14-listing-detail.html" class="lc"><div class="lc-img" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">📱<div class="lc-badge">For Sale</div><button class="lc-h" onclick="event.preventDefault()">🤍</button></div><div class="lc-body"><div class="lc-title">iPhone 14 Pro 128GB Space Black + Case</div><div class="lc-price">JD 390</div><div class="lc-footer"><div class="lc-av">M</div><span class="lc-seller">Mohammed A.</span><span class="lc-star">★4.6</span></div></div></a>
+        <a href="FR-14-listing-detail.html" class="lc"><div class="lc-img" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">📱<div class="lc-badge">For Sale</div><button class="lc-h" onclick="event.preventDefault()">🤍</button></div><div class="lc-body"><div class="lc-title">iPhone 14 Pro 256GB Silver — Perfect Condition</div><div class="lc-price">JD 435</div><div class="lc-footer"><div class="lc-av">L</div><span class="lc-seller">Lara S. · Irbid</span><span class="lc-star">★4.9</span></div></div></a>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function togglePill(p){p.classList.toggle('on')}
+function search(q){document.getElementById('q').value=q}
+function doSearch(){window.location.href='FR-10-browse.html'}
+</script></body></html>

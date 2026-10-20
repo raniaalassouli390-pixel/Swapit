@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Browse Listings · FR-10</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6;--red:#DC2626}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:10;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--d);display:flex;align-items:center;gap:8px}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.nav-r{display:flex;align-items:center;gap:8px}
+.btn{padding:8px 16px;background:var(--g);color:#fff;border:none;border-radius:9px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
+.nsearch{flex:1;max-width:400px;margin:0 20px;display:flex;background:#F3F4F6;border-radius:99px;overflow:hidden;border:1.5px solid transparent;transition:.2s}
+.nsearch:focus-within{border-color:var(--g);background:#fff}
+.nsearch input{flex:1;border:none;background:transparent;padding:9px 14px;font-size:13px;outline:none}
+.nsearch button{padding:7px 14px;background:var(--g);color:#fff;border:none;font-size:13px;cursor:pointer;margin:3px;border-radius:99px}
+.layout{display:flex;gap:0;min-height:calc(100vh - 60px)}
+
+.sidebar{width:260px;background:#fff;border-right:1px solid var(--b);padding:20px;flex-shrink:0;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
+.sb-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.sb-h h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:800}
+.sb-h button{background:none;border:none;font-size:12px;color:var(--o);cursor:pointer}
+.sb-sect{margin-bottom:18px;border-bottom:1px solid var(--b);padding-bottom:18px}
+.sb-sect:last-child{border-bottom:none}
+.sb-title{font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--gr);margin-bottom:10px}
+.type-btns{display:flex;gap:6px}
+.tp{flex:1;padding:7px 0;border:1.5px solid var(--b);border-radius:8px;background:none;font-size:12px;color:var(--gr);cursor:pointer;transition:.2s}
+.tp.on{border-color:var(--g);background:rgba(44,110,73,.08);color:var(--g);font-weight:600}
+.chk{display:flex;align-items:center;gap:8px;cursor:pointer;padding:3px 0;font-size:13px}
+.chk input{accent-color:var(--g);width:14px;height:14px}
+.chk-lbl{display:flex;justify-content:space-between;flex:1}
+.cnt{font-size:11px;color:var(--gr);background:#F3F4F6;padding:1px 7px;border-radius:99px}
+.pi{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.pi-box{display:flex;align-items:center;gap:4px;border:1.5px solid var(--b);border-radius:8px;padding:6px 10px;background:var(--c)}
+.pi-box span{font-size:11px;color:var(--gr);font-weight:600}
+.pi-box input{border:none;background:transparent;width:100%;font-size:13px;outline:none}
+.rng{-webkit-appearance:none;width:100%;height:4px;border-radius:99px;background:linear-gradient(to right,var(--g) 60%,var(--b) 60%);outline:none;cursor:pointer}
+.rng::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--g);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.cond-list{display:flex;flex-direction:column;gap:6px}
+.cr{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer}
+.cr input{accent-color:var(--g);width:14px;height:14px}
+.loc-sel{width:100%;padding:9px 12px;border:1.5px solid var(--b);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--c);outline:none}
+.loc-sel:focus{border-color:var(--g)}
+.apply-btn{width:100%;padding:11px;background:var(--g);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer}
+.apply-btn:hover{background:var(--g2)}
+
+.main{flex:1;padding:24px 28px}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.result-info{font-size:14px;color:var(--gr)}
+.result-info strong{color:var(--d);font-weight:600}
+.top-right{display:flex;align-items:center;gap:10px}
+.sort-sel{padding:8px 12px;border:1.5px solid var(--b);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13px;background:#fff;outline:none;cursor:pointer}
+.view-btns{display:flex;border:1.5px solid var(--b);border-radius:9px;overflow:hidden}
+.vb{padding:7px 11px;background:#fff;border:none;cursor:pointer;font-size:14px;transition:.2s}
+.vb.on{background:var(--g);color:#fff}
+
+.chips{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.chip{display:flex;align-items:center;gap:5px;background:rgba(44,110,73,.1);border:1px solid rgba(44,110,73,.2);border-radius:99px;padding:3px 10px;font-size:12px;color:var(--g);font-weight:500}
+.chip button{background:none;border:none;cursor:pointer;color:var(--g);font-size:12px;line-height:1}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.lc{background:#fff;border:1px solid var(--b);border-radius:14px;overflow:hidden;cursor:pointer;transition:.2s;display:block}
+.lc:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,.09)}
+.lc-img{height:155px;display:flex;align-items:center;justify-content:center;font-size:44px;position:relative}
+.lc-badge{position:absolute;top:10px;left:10px;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:600;color:#fff}
+.lc-heart{position:absolute;top:10px;right:10px;width:28px;height:28px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:.2s;border:none}
+.lc-body{padding:13px}
+.lc-title{font-size:13px;font-weight:500;color:var(--d);margin-bottom:5px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lc-cond{font-size:10.5px;color:var(--gr);background:#F3F4F6;padding:2px 7px;border-radius:99px;display:inline-block;margin-bottom:7px}
+.lc-price{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--g);margin-bottom:9px}
+.lc-price.swap{color:var(--o);font-size:13px}
+.lc-footer{display:flex;align-items:center;gap:6px}
+.lc-av{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700;flex-shrink:0}
+.lc-sell{font-size:11px;color:var(--gr);flex:1}
+.lc-star{font-size:11px;color:#F59E0B}
+
+.pag{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:32px}
+.pg{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--b);border-radius:9px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;transition:.2s}
+.pg:hover,.pg.on{background:var(--g);color:#fff;border-color:var(--g)}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.sidebar{display:none}}</style></head>
+<body>
+<nav>
+  <a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a>
+  <div class="nsearch"><input type="text" value="Electronics" /><button>🔍</button></div>
+  <div class="nav-r"><a href="FR-12-create-listing.html"><button class="btn">+ Sell</button></a></div>
+</nav>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sb-h"><h3>🎛️ Filters</h3><button onclick="this.closest('.sidebar').querySelectorAll('input[type=checkbox]').forEach(c=>c.checked=false)">Clear all</button></div>
+    <div class="sb-sect"><div class="sb-title">Listing Type</div><div class="type-btns"><button class="tp on" onclick="setType(this)">💰 Sell</button><button class="tp" onclick="setType(this)">🔁 Swap</button><button class="tp" onclick="setType(this)">🔨 Bid</button></div></div>
+    <div class="sb-sect"><div class="sb-title">Category</div>
+      <label class="chk"><input type="checkbox" checked/><div class="chk-lbl"><span>📱 Electronics</span><span class="cnt">324</span></div></label>
+      <label class="chk"><input type="checkbox"/><div class="chk-lbl"><span>💻 Gaming</span><span class="cnt">87</span></div></label>
+      <label class="chk"><input type="checkbox"/><div class="chk-lbl"><span>📷 Cameras</span><span class="cnt">34</span></div></label>
+      <label class="chk"><input type="checkbox"/><div class="chk-lbl"><span>🎵 Music</span><span class="cnt">29</span></div></label>
+    </div>
+    <div class="sb-sect"><div class="sb-title">Price (JD)</div>
+      <div class="pi"><div class="pi-box"><span>JD</span><input type="number" value="0"/></div><div class="pi-box"><span>JD</span><input type="number" value="1000" id="pmax"/></div></div>
+      <input type="range" class="rng" min="0" max="5000" value="1000" oninput="document.getElementById('pmax').value=this.value"/>
+    </div>
+    <div class="sb-sect"><div class="sb-title">Condition</div>
+      <div class="cond-list">
+        <label class="cr"><input type="radio" name="cond" checked/> Any condition</label>
+        <label class="cr"><input type="radio" name="cond"/> New</label>
+        <label class="cr"><input type="radio" name="cond"/> Like New</label>
+        <label class="cr"><input type="radio" name="cond"/> Good</label>
+        <label class="cr"><input type="radio" name="cond"/> Fair / Used</label>
+      </div>
+    </div>
+    <div class="sb-sect"><div class="sb-title">Location</div>
+      <select class="loc-sel"><option>All Cities</option><option>Amman</option><option>Irbid</option><option>Zarqa</option><option>Aqaba</option></select>
+    </div>
+    <button class="apply-btn">Apply Filters</button>
+  </aside>
+  <main class="main">
+    <div class="top-bar">
+      <div class="result-info">Showing <strong>324 listings</strong> in Electronics</div>
+      <div class="top-right">
+        <select class="sort-sel"><option>Most Recent</option><option>Price: Low to High</option><option>Price: High to Low</option><option>Most Popular</option><option>Ending Soon</option></select>
+        <div class="view-btns"><button class="vb on" onclick="setView(this,'grid')">⊞</button><button class="vb" onclick="setView(this,'list')">☰</button></div>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip">Electronics <button>✕</button></div>
+      <div class="chip">For Sale <button>✕</button></div>
+      <div class="chip">Under JD 1000 <button>✕</button></div>
+    </div>
+    <div class="grid" id="grid">
+      <a href="FR-14-listing-detail.html" class="lc"><div class="lc-img" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">📱<div class="lc-badge" style="background:var(--g)">For Sale</div><button class="lc-heart" onclick="toggleHeart(event,this)">🤍</button></div><div class="lc-body"><div class="lc-title">iPhone 14 Pro 256GB Space Black — Excellent condition</div><div class="lc-cond">Like New</div><div class="lc-price">JD 420</div><div class="lc-footer"><div class="lc-av">A</div><span class="lc-sell">Ahmad H. · Amman</span><span class="lc-star">★ 4.9</span></div></div></a>
+      <a href="FR-16-auction-detail.html" class="lc"><div class="lc-img" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">💻<div class="lc-badge" style="background:var(--red)">Auction</div><button class="lc-heart" onclick="toggleHeart(event,this)">🤍</button></div><div class="lc-body"><div class="lc-title">MacBook Air M2 — 8GB RAM, 256GB SSD, Space Gray</div><div class="lc-cond">Good</div><div class="lc-price">JD 650 <span style="font-size:10px;color:var(--gr);font-weight:400">current bid</span></div><div class="lc-footer"><div class="lc-av">S</div><span class="lc-sell">Sara K. · Irbid</span><span class="lc-star">★ 5.0</span></div></div></a>
+      <a href="FR-14-listing-detail.html" class="lc"><div class="lc-img" style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB)">🎮<div class="lc-badge" style="background:var(--g)">For Sale</div><button class="lc-heart" onclick="toggleHeart(event,this)">🤍</button></div><div class="lc-body"><div class="lc-title">PlayStation 5 Disc Edition with 2 Controllers</div><div class="lc-cond">Good</div><div class="lc-price">JD 380</div><div class="lc-footer"><div class="lc-av">K</div><span class="lc-sell">Khalid M. · Amman</span><span class="lc-star">★ 4.7</span></div></div></a>
+      <a href="FR-14-listing-detail.html" class="lc"><div class="lc-img" style="background:linear-gradient(135deg,#F3E5F5,#E1BEE7)">📷<div class="lc-badge" style="background:var(--o)">Swap</div><button class="lc-heart" onclick="toggleHeart(event,this)">❤️</button></div><div class="lc-body"><div class="lc-title">Canon EOS R50 Camera with 18-45mm Lens Kit</div><div class="lc-cond">Like New</div><div class="lc-price swap">Open to Swap</div><div class="lc-footer"><div class="lc-av">R</div><span class="lc-sell">Rania T. · Zarqa</span><span class="lc-star">★ 4.8</span></div></div></a>
+      <a href="FR-14-listing-detail.html" class="lc"><div class="lc-img" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">⌚<div class="lc-badge" style="background:var(--g)">For Sale</div><button class="lc-heart" onclick="toggleHeart(event,this)">🤍</button></div><div class="lc-body"><div class="lc-title">Apple Watch Series 8 45mm GPS Midnight</div><div class="lc-cond">Like New</div><div class="lc-price">JD 180</div><div class="lc-footer"><div class="lc-av">M</div><span class="lc-sell">Mohammed A. · Amman</span><span class="lc-star">★ 4.6</span></div></div></a>
+      <a href="FR-16-auction-detail.html" class="lc"><div class="lc-img" style="background:linear-gradient(135deg,#FFF9C4,#FFF176)">🎸<div class="lc-badge" style="background:var(--red)">Auction</div><button class="lc-heart" onclick="toggleHeart(event,this)">🤍</button></div><div class="lc-body"><div class="lc-title">Fender Stratocaster Electric Guitar — Candy Apple Red</div><div class="lc-cond">Good</div><div class="lc-price">JD 150 <span style="font-size:10px;color:var(--gr);font-weight:400">current bid</span></div><div class="lc-footer"><div class="lc-av">L</div><span class="lc-sell">Lara S. · Aqaba</span><span class="lc-star">★ 4.9</span></div></div></a>
+    </div>
+    <div class="pag"><button class="pg">‹</button><button class="pg on">1</button><button class="pg">2</button><button class="pg">3</button><span style="color:var(--gr)">...</span><button class="pg">12</button><button class="pg">›</button></div>
+  </main>
+</div>
+<script>
+function setType(btn){document.querySelectorAll('.tp').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+function setView(btn,v){document.querySelectorAll('.vb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('grid').style.gridTemplateColumns=v==='list'?'1fr':'repeat(3,1fr)'}
+function toggleHeart(e,btn){e.preventDefault();btn.textContent=btn.textContent==='🤍'?'❤️':'🤍'}
+document.querySelectorAll('.pg').forEach(p=>p.addEventListener('click',function(){document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));this.classList.add('on')}))
+</script></body></html>

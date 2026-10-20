@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Auction · FR-16</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6;--red:#DC2626}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:10;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--d);display:flex;align-items:center;gap:8px}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.breadcrumb{max-width:1200px;margin:0 auto;padding:14px 32px;font-size:13px;color:var(--gr)}
+.breadcrumb a{color:var(--g)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px 48px;display:grid;grid-template-columns:1fr 400px;gap:32px}
+.main-img{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border-radius:16px;height:380px;display:flex;align-items:center;justify-content:center;font-size:90px;position:relative;margin-bottom:12px;border:1px solid var(--b)}
+.live-pill{position:absolute;top:16px;left:16px;background:#EF4444;color:#fff;padding:5px 14px;border-radius:99px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px;animation:pulse 1.5s ease-in-out infinite}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#fff}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.thumbs{display:flex;gap:10px}
+.thumb{width:68px;height:68px;border-radius:10px;background:linear-gradient(135deg,#FFF3E0,#FFE0B2);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:2px solid transparent;transition:.2s}
+.thumb.on,.thumb:hover{border-color:var(--red)}
+
+.bid-card{background:#fff;border:1px solid var(--b);border-radius:16px;padding:24px;margin-bottom:16px}
+.auction-badge{display:inline-flex;align-items:center;gap:6px;background:#FEE2E2;color:var(--red);padding:4px 12px;border-radius:99px;font-size:12px;font-weight:700;margin-bottom:14px}
+.a-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:10px}
+
+.timer-box{background:var(--d);border-radius:14px;padding:18px;margin-bottom:18px}
+.timer-label{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:6px}
+.timer-label .tl-dot{width:7px;height:7px;background:#EF4444;border-radius:50%;animation:pulse 1s ease-in-out infinite}
+.timer-nums{display:flex;gap:8px;justify-content:center}
+.tn{text-align:center;background:rgba(255,255,255,.07);border-radius:10px;padding:10px 14px;min-width:60px}
+.tn-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;display:block;line-height:1}
+.tn-lbl{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase}
+.colon{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:rgba(255,255,255,.3);align-self:center;margin-top:-6px}
+
+.bid-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.current-bid{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;color:var(--g)}
+.bid-meta{font-size:12.5px;color:var(--gr);text-align:right}
+.bid-meta strong{color:var(--d)}
+
+.bid-input-row{display:flex;gap:10px;margin-bottom:12px;align-items:flex-end}
+.bid-inp-wrap{flex:1}
+.bid-lbl{font-size:12px;font-weight:600;color:var(--d);margin-bottom:6px}
+.bid-inp{width:100%;padding:12px 14px 12px 40px;border:2px solid var(--b);border-radius:10px;font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--d);outline:none;transition:.2s}
+.bid-inp:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(44,110,73,.1)}
+.bid-cur{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--gr);font-weight:700}
+.bid-btn{padding:12px 22px;background:var(--red);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;cursor:pointer;white-space:nowrap;transition:.2s}
+.bid-btn:hover{background:#B91C1C}
+.quick-bids{display:flex;gap:8px;margin-bottom:16px}
+.qb{padding:6px 14px;background:var(--c);border:1.5px solid var(--b);border-radius:99px;font-size:12.5px;cursor:pointer;transition:.2s;font-weight:600}
+.qb:hover{border-color:var(--g);color:var(--g);background:rgba(44,110,73,.06)}
+.divider{height:1px;background:var(--b);margin:14px 0}
+.btn{padding:10px 18px;background:var(--g);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;width:100%;margin-bottom:8px}
+.btn-o{padding:10px 18px;background:#fff;color:var(--d);border:1.5px solid var(--b);border-radius:10px;font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;width:100%}
+
+.bid-hist{background:#fff;border:1px solid var(--b);border-radius:16px;padding:20px;margin-bottom:16px}
+.bh-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;margin-bottom:14px}
+.bh-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--b)}
+.bh-row:last-child{border-bottom:none}
+.bh-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0}
+.bh-name{font-size:13px;font-weight:500;flex:1}
+.bh-time{font-size:11px;color:var(--gr)}
+.bh-amt{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--g)}
+.bh-row.top .bh-amt{color:var(--red)}
+.bh-row.top .bh-name::after{content:' 👑';font-size:12px}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}</style></head>
+<body>
+<nav><a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a>
+<div style="display:flex;gap:8px"><a href="FR-10-browse.html" style="padding:8px 14px;border:1.5px solid var(--b);border-radius:9px;font-size:13px;color:var(--d);text-decoration:none">← Browse</a></div></nav>
+<div class="breadcrumb"><a href="FR-08-home.html">Home</a> › <a href="FR-10-browse.html">Electronics</a> › MacBook Air M2</div>
+<div class="wrap">
+  <div>
+    <div class="main-img">💻<div class="live-pill"><div class="live-dot"></div> LIVE AUCTION</div></div>
+    <div class="thumbs"><div class="thumb on">💻</div><div class="thumb">🔍</div><div class="thumb">📦</div><div class="thumb">🔋</div></div>
+    <div style="margin-top:28px">
+      <h2 style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:12px">About this item</h2>
+      <p style="font-size:14px;line-height:1.75;color:var(--d)">MacBook Air with Apple M2 chip. 8-core CPU and 8-core GPU. 8GB unified memory, 256GB SSD. This machine flies — incredibly fast, silent, and the battery lasts all day. Comes in the original box with charger. Selling because I upgraded to MacBook Pro.</p>
+    </div>
+  </div>
+  <div>
+    <div class="bid-card">
+      <div class="auction-badge">🔨 AUCTION LIVE</div>
+      <div class="a-title">MacBook Air M2 — 8GB / 256GB Space Gray</div>
+      <div style="font-size:13px;color:var(--gr);margin-bottom:16px">📍 Irbid, Jordan · Listed by Sara K.</div>
+      <div class="timer-box">
+        <div class="timer-label"><div class="tl-dot"></div> Ending in</div>
+        <div class="timer-nums">
+          <div class="tn"><span class="tn-num" id="h">01</span><span class="tn-lbl">Hrs</span></div>
+          <div class="colon">:</div>
+          <div class="tn"><span class="tn-num" id="m">23</span><span class="tn-lbl">Min</span></div>
+          <div class="colon">:</div>
+          <div class="tn"><span class="tn-num" id="s">45</span><span class="tn-lbl">Sec</span></div>
+        </div>
+      </div>
+      <div class="bid-row">
+        <div><div style="font-size:12px;color:var(--gr);margin-bottom:4px">Current bid</div><div class="current-bid">JD 650</div></div>
+        <div class="bid-meta"><div><strong>18</strong> bids placed</div><div><strong>12</strong> watchers</div></div>
+      </div>
+      <div style="font-size:12.5px;color:var(--gr);margin-bottom:14px">Starting bid was JD 400 · Min increment: JD 10</div>
+      <div class="bid-inp-wrap" style="position:relative;margin-bottom:12px">
+        <div class="bid-lbl">Your Bid (minimum JD 660)</div>
+        <div style="position:relative"><span class="bid-cur">JD</span><input type="number" class="bid-inp" id="bidAmt" placeholder="660" min="660"/></div>
+      </div>
+      <div class="quick-bids">
+        <button class="qb" onclick="setBid(660)">JD 660</button>
+        <button class="qb" onclick="setBid(680)">JD 680</button>
+        <button class="qb" onclick="setBid(700)">JD 700</button>
+        <button class="qb" onclick="setBid(750)">JD 750</button>
+      </div>
+      <button class="bid-btn" style="width:100%;margin-bottom:10px" onclick="placeBid()">🔨 Place Bid</button>
+      <div class="divider"></div>
+      <button class="btn-o" onclick="window.location='FR-23-chat.html'">💬 Ask Seller a Question</button>
+    </div>
+    <div class="bid-hist">
+      <div class="bh-title">📋 Bid History (18 bids)</div>
+      <a href="FR-17-bid-history.html" style="font-size:13px;color:var(--g);display:block;margin-bottom:12px">View full history →</a>
+      <div class="bh-row top"><div class="bh-av" style="background:linear-gradient(135deg,var(--g),var(--g2))">A</div><div><div class="bh-name">Ahmad H.</div><div class="bh-time">2 min ago</div></div><div class="bh-amt">JD 650</div></div>
+      <div class="bh-row"><div class="bh-av" style="background:linear-gradient(135deg,#F59E0B,#F97316)">K</div><div><div class="bh-name">Khalid M.</div><div class="bh-time">8 min ago</div></div><div class="bh-amt">JD 630</div></div>
+      <div class="bh-row"><div class="bh-av" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">S</div><div><div class="bh-name">Sara T.</div><div class="bh-time">15 min ago</div></div><div class="bh-amt">JD 610</div></div>
+      <div class="bh-row"><div class="bh-av" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9)">R</div><div><div class="bh-name">Rania K.</div><div class="bh-time">22 min ago</div></div><div class="bh-amt">JD 580</div></div>
+    </div>
+  </div>
+</div>
+<script>
+let secs=45,mins=23,hrs=1;
+setInterval(()=>{secs--;if(secs<0){secs=59;mins--}if(mins<0){mins=59;hrs--}if(hrs<0){hrs=0;mins=0;secs=0;window.location='FR-18-auction-ended.html'}document.getElementById('s').textContent=String(secs).padStart(2,'0');document.getElementById('m').textContent=String(mins).padStart(2,'0');document.getElementById('h').textContent=String(hrs).padStart(2,'0')},1000)
+function setBid(v){document.getElementById('bidAmt').value=v}
+function placeBid(){const v=parseInt(document.getElementById('bidAmt').value);if(!v||v<660){alert('Please enter a bid of at least JD 660');return}document.querySelector('.current-bid').textContent='JD '+v;alert('✅ Bid of JD '+v+' placed successfully!')}
+</script></body></html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Chat · FR-23</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d);height:100vh;display:flex;flex-direction:column}a{text-decoration:none;color:inherit}
+
+.chat-header{background:#fff;border-bottom:1px solid var(--b);padding:12px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.ch-back{color:var(--d);font-size:20px;cursor:pointer;padding:4px 8px}
+.ch-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#1D4ED8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;position:relative;flex-shrink:0}
+.ch-online{position:absolute;bottom:1px;right:1px;width:11px;height:11px;background:#22C55E;border-radius:50%;border:2px solid #fff}
+.ch-info{flex:1}
+.ch-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700}
+.ch-status{font-size:12px;color:#22C55E}
+.ch-actions{display:flex;gap:8px}
+.ch-act-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--b);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:.2s}
+.ch-act-btn:hover{border-color:var(--g);background:rgba(44,110,73,.05)}
+
+.listing-banner{background:#fff;border-bottom:1px solid var(--b);padding:10px 20px;display:flex;align-items:center;gap:10px}
+.lb-img{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.lb-info{flex:1}
+.lb-name{font-size:13px;font-weight:600}
+.lb-price{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--g)}
+.lb-btn{padding:6px 14px;background:var(--g);color:#fff;border:none;border-radius:8px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer}
+
+.messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px;background:var(--c)}
+.msg{display:flex;gap:10px;max-width:70%}
+.msg.me{flex-direction:row-reverse;align-self:flex-end}
+.msg-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;flex-shrink:0;align-self:flex-end}
+.msg-bubble{background:#fff;border:1px solid var(--b);border-radius:18px 18px 18px 4px;padding:10px 14px;font-size:13.5px;line-height:1.5;position:relative}
+.msg.me .msg-bubble{background:var(--g);color:#fff;border:none;border-radius:18px 18px 4px 18px}
+.msg-time{font-size:10.5px;color:var(--gr);margin-top:4px;display:block}
+.msg.me .msg-time{text-align:right;color:rgba(255,255,255,.6)}
+
+.sys-msg{text-align:center;font-size:12px;color:var(--gr);padding:4px 12px;background:rgba(255,255,255,.7);border-radius:99px;align-self:center;border:1px solid var(--b)}
+
+.swap-card{background:#fff;border:1.5px solid rgba(231,111,81,.3);border-radius:14px;padding:14px;margin:6px 0;max-width:320px}
+.swap-card-title{font-size:12px;font-weight:700;color:var(--o);margin-bottom:10px}
+.swap-items{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.sw-item{flex:1;background:var(--c);border-radius:8px;padding:8px;text-align:center;font-size:12px}
+.sw-item div:first-child{font-size:20px;margin-bottom:4px}
+.sw-act{display:flex;gap:8px}
+.sw-btn{flex:1;padding:7px;border-radius:8px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;border:none}
+.sw-accept{background:var(--g);color:#fff}
+.sw-decline{background:#F3F4F6;color:var(--gr)}
+
+.chat-input{background:#fff;border-top:1px solid var(--b);padding:12px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.ci-attach{background:none;border:none;font-size:20px;cursor:pointer;color:var(--gr);padding:4px}
+.ci-inp{flex:1;border:1.5px solid var(--b);border-radius:24px;padding:9px 16px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:.2s;background:var(--c)}
+.ci-inp:focus{border-color:var(--g);background:#fff}
+.ci-send{width:40px;height:40px;border-radius:50%;background:var(--g);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0}
+.ci-send:hover{background:var(--g2)}
+</style></head>
+<body>
+<div class="chat-header">
+  <span class="ch-back" onclick="window.location='FR-22-messages.html'">←</span>
+  <div class="ch-av">K<div class="ch-online"></div></div>
+  <div class="ch-info"><div class="ch-name">Khalid Mohammed</div><div class="ch-status">● Online now</div></div>
+  <div class="ch-actions">
+    <div class="ch-act-btn">📞</div>
+    <div class="ch-act-btn">⋯</div>
+  </div>
+</div>
+<div class="listing-banner">
+  <div class="lb-img">📱</div>
+  <div class="lb-info"><div class="lb-name">iPhone 14 Pro 256GB Space Black</div><div class="lb-price">JD 420</div></div>
+  <button class="lb-btn" onclick="window.location='FR-14-listing-detail.html'">View →</button>
+</div>
+<div class="messages" id="msgs">
+  <div class="sys-msg">Conversation started · 2 days ago</div>
+  <div class="msg">
+    <div class="msg-av" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">K</div>
+    <div><div class="msg-bubble">Hi! I'm interested in your iPhone 14 Pro. Is it still available?</div><span class="msg-time">2:14 PM</span></div>
+  </div>
+  <div class="msg me">
+    <div class="msg-av" style="background:linear-gradient(135deg,var(--g),var(--g2))">A</div>
+    <div><div class="msg-bubble">Yes it's still available! Just listed it yesterday.</div><span class="msg-time">2:18 PM</span></div>
+  </div>
+  <div class="msg">
+    <div class="msg-av" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">K</div>
+    <div><div class="msg-bubble">Great! What's the battery health and does it come with the original box?</div><span class="msg-time">2:20 PM</span></div>
+  </div>
+  <div class="msg me">
+    <div class="msg-av" style="background:linear-gradient(135deg,var(--g),var(--g2))">A</div>
+    <div><div class="msg-bubble">Battery health is 94% and yes, comes with the original box, cable, and documentation.</div><span class="msg-time">2:25 PM</span></div>
+  </div>
+  <div class="sys-msg">🔁 Swap proposal received · Yesterday</div>
+  <div class="msg">
+    <div class="msg-av" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">K</div>
+    <div>
+      <div class="swap-card">
+        <div class="swap-card-title">🔁 Swap Proposal</div>
+        <div class="swap-items">
+          <div class="sw-item"><div>💻</div><div>MacBook Air 2020</div><div style="font-size:11px;color:var(--gr)">JD 380 + JD 40</div></div>
+          <div style="color:var(--o);font-size:16px">⇄</div>
+          <div class="sw-item"><div>📱</div><div>iPhone 14 Pro</div><div style="font-size:11px;color:var(--gr)">JD 420</div></div>
+        </div>
+        <div class="sw-act">
+          <button class="sw-btn sw-accept" onclick="acceptSwap()">✅ Accept</button>
+          <button class="sw-btn sw-decline" onclick="declineSwap()">✕ Decline</button>
+        </div>
+      </div>
+      <span class="msg-time">Yesterday, 5:30 PM</span>
+    </div>
+  </div>
+  <div class="sys-msg">Today</div>
+  <div class="msg">
+    <div class="msg-av" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)">K</div>
+    <div><div class="msg-bubble">Can we meet tomorrow morning? I'm in Irbid city center.</div><span class="msg-time">10:02 AM</span></div>
+  </div>
+  <div class="msg me">
+    <div class="msg-av" style="background:linear-gradient(135deg,var(--g),var(--g2))">A</div>
+    <div><div class="msg-bubble">Sure! How about University Street at 10 AM? ☕</div><span class="msg-time">10:15 AM</span></div>
+  </div>
+</div>
+<div class="chat-input">
+  <button class="ci-attach">📎</button>
+  <input type="text" class="ci-inp" id="msgInp" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMsg()"/>
+  <button class="ci-send" onclick="sendMsg()">➤</button>
+</div>
+<script>
+function sendMsg(){const inp=document.getElementById('msgInp');const txt=inp.value.trim();if(!txt)return;const msgs=document.getElementById('msgs');const d=document.createElement('div');d.className='msg me';const now=new Date();const time=(now.getHours()%12||12)+':'+(String(now.getMinutes()).padStart(2,'0'))+' '+(now.getHours()>=12?'PM':'AM');d.innerHTML=`<div class="msg-av" style="background:linear-gradient(135deg,var(--g),var(--g2))">A</div><div><div class="msg-bubble">${txt}</div><span class="msg-time">${time}</span></div>`;msgs.appendChild(d);inp.value='';msgs.scrollTop=msgs.scrollHeight}
+function acceptSwap(){alert('✅ Swap accepted! Coordinate meetup details.');window.location='FR-20-swap-received.html'}
+function declineSwap(){alert('Swap offer declined.')}
+</script></body></html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — My Bids · FR-28</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6;--red:#DC2626}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:10}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.wrap{max-width:900px;margin:0 auto;padding:36px 32px}
+.page-h{margin-bottom:24px}
+.page-h h1{font-family:'Syne',sans-serif;font-size:26px;font-weight:800}
+.tabs{display:flex;border-bottom:2px solid var(--b);margin-bottom:24px}
+.tab{padding:10px 18px;font-size:13.5px;font-weight:600;color:var(--gr);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab.on{color:var(--g);border-bottom-color:var(--g)}
+.bid-card{background:#fff;border:1px solid var(--b);border-radius:14px;padding:18px;margin-bottom:14px;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}
+.bid-img{width:72px;height:72px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
+.bid-info .b-title{font-size:14.5px;font-weight:600;margin-bottom:6px}
+.bid-info .b-meta{font-size:12.5px;color:var(--gr);display:flex;gap:12px;flex-wrap:wrap}
+.bid-right{text-align:right;min-width:160px}
+.b-my-bid{font-family:'Syne',sans-serif;font-size:11px;color:var(--gr);margin-bottom:2px}
+.b-amt{font-family:'Syne',sans-serif;font-size:20px;font-weight:800}
+.b-amt.leading{color:var(--g)}
+.b-amt.outbid{color:var(--red)}
+.b-status{font-size:12px;font-weight:600;margin-bottom:8px}
+.leading-s{color:var(--g)}
+.outbid-s{color:var(--red)}
+.won-s{color:var(--g)}
+.lost-s{color:var(--gr)}
+.timer{font-size:12px;color:var(--gr);background:var(--c);padding:3px 10px;border-radius:99px;display:inline-block;margin-bottom:8px}
+.btn{padding:8px 14px;border-radius:9px;font-family:'Syne',sans-serif;font-size:12.5px;font-weight:700;cursor:pointer;border:none;display:block;width:100%;text-align:center;margin-top:6px}
+.btn-g{background:var(--g);color:#fff}
+.btn-o{background:none;border:1.5px solid var(--b);color:var(--d)}
+.btn-r{background:none;border:1.5px solid rgba(220,38,38,.3);color:var(--red)}</style></head>
+<body>
+<nav><a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a>
+<a href="FR-24-profile.html" style="padding:8px 14px;border:1.5px solid var(--b);border-radius:9px;font-size:13px;color:var(--d)">My Profile</a></nav>
+<div class="wrap">
+  <div class="page-h"><h1>🔨 My Bids</h1></div>
+  <div class="tabs">
+    <div class="tab on">Active Bids (3)</div>
+    <div class="tab">Won (5)</div>
+    <div class="tab">Lost (8)</div>
+  </div>
+  
+  <div class="bid-card">
+    <div class="bid-img" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">💻</div>
+    <div class="bid-info">
+      <div class="b-title">MacBook Air M2 — 8GB / 256GB Space Gray</div>
+      <div class="b-meta"><span>📍 Irbid</span><span>👤 Sara K.</span><span>🔢 18 bids total</span></div>
+    </div>
+    <div class="bid-right">
+      <div class="b-my-bid">Your bid</div>
+      <div class="b-amt leading">JD 650</div>
+      <div class="b-status leading-s">👑 You're leading!</div>
+      <div class="timer">⏱ 1h 23m left</div>
+      <a href="FR-16-auction-detail.html" class="btn btn-g">View Auction</a>
+    </div>
+  </div>
+  
+  <div class="bid-card">
+    <div class="bid-img" style="background:linear-gradient(135deg,#FEE2E2,#FECACA)">📷</div>
+    <div class="bid-info">
+      <div class="b-title">Canon EOS R50 Camera Kit with 18-45mm Lens</div>
+      <div class="b-meta"><span>📍 Amman</span><span>👤 Rania T.</span><span>🔢 24 bids</span></div>
+    </div>
+    <div class="bid-right">
+      <div class="b-my-bid">Your bid</div>
+      <div class="b-amt outbid">JD 280</div>
+      <div class="b-status outbid-s">⚠️ You've been outbid!</div>
+      <div class="timer">⏱ 4h 12m left</div>
+      <a href="FR-16-auction-detail.html" class="btn btn-g">Bid Again →</a>
+    </div>
+  </div>
+  
+  <div class="bid-card" style="border-color:rgba(220,38,38,.3)">
+    <div class="bid-img" style="background:linear-gradient(135deg,#F3E5F5,#E1BEE7)">🎸</div>
+    <div class="bid-info">
+      <div class="b-title">Fender Stratocaster Electric Guitar — Candy Apple Red</div>
+      <div class="b-meta"><span>📍 Aqaba</span><span>👤 Lara S.</span><span>🔢 11 bids</span></div>
+    </div>
+    <div class="bid-right">
+      <div class="b-my-bid">Your bid</div>
+      <div class="b-amt outbid">JD 150</div>
+      <div class="b-status outbid-s">⚠️ Outbid — ending soon!</div>
+      <div class="timer" style="color:var(--red);background:#FEE2E2">⏱ 12 min left!</div>
+      <a href="FR-16-auction-detail.html" class="btn btn-g" style="background:var(--red)">⚡ Bid Now!</a>
+    </div>
+  </div>
+</div></body></html>

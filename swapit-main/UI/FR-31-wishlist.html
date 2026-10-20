@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapIt — Wishlist · FR-31</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}:root{--g:#2C6E49;--g2:#40916C;--o:#E76F51;--c:#F8F4EE;--d:#1A1A2E;--gr:#6B7280;--b:#E2DDD6}body{font-family:'DM Sans',sans-serif;background:var(--c);color:var(--d)}a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid var(--b);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:10;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px}
+.logo-i{width:30px;height:30px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.wrap{max-width:1100px;margin:0 auto;padding:36px 32px}
+.page-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.page-h h1{font-family:'Syne',sans-serif;font-size:26px;font-weight:800}
+.page-h span{font-size:13.5px;color:var(--gr)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.lc{background:#fff;border:1px solid var(--b);border-radius:14px;overflow:hidden;transition:.2s;display:block;position:relative}
+.lc:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,.09)}
+.lc-img{height:150px;display:flex;align-items:center;justify-content:center;font-size:44px;position:relative}
+.lc-rm{position:absolute;top:10px;right:10px;width:28px;height:28px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;border:none;transition:.2s}
+.lc-rm:hover{background:#FEE2E2;color:#DC2626}
+.lc-badge{position:absolute;top:10px;left:10px;padding:2px 8px;border-radius:99px;font-size:10.5px;font-weight:600;color:#fff}
+.lc-body{padding:13px}
+.lc-title{font-size:13px;font-weight:500;margin-bottom:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lc-price{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--g);margin-bottom:8px}
+.lc-footer{display:flex;gap:8px}
+.lc-btn{flex:1;padding:8px;background:var(--g);color:#fff;border:none;border-radius:8px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer}
+.lc-btn:hover{background:var(--g2)}
+.lc-btn-o{flex:1;padding:8px;background:none;border:1.5px solid var(--b);border-radius:8px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer}
+.price-drop{position:absolute;top:10px;left:10px;background:#EF4444;color:#fff;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700}
+.old-price{font-size:11px;color:var(--gr);text-decoration:line-through;margin-right:4px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}</style></head>
+<body>
+<nav><a href="FR-08-home.html" class="logo"><div class="logo-i">🔄</div> SwapIt</a>
+<div style="display:flex;gap:8px"><a href="FR-10-browse.html" style="padding:8px 14px;border:1.5px solid var(--b);border-radius:9px;font-size:13px;color:var(--d)">Browse More</a></div></nav>
+<div class="wrap">
+  <div class="page-h"><h1>❤️ My Wishlist</h1><span>8 saved items</span></div>
+  <div class="grid">
+    <a href="FR-14-listing-detail.html" class="lc">
+      <div class="lc-img" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">📱
+        <div class="price-drop">🔻 Price Drop!</div>
+        <button class="lc-rm" onclick="remove(event,this)">✕</button>
+      </div>
+      <div class="lc-body"><div class="lc-title">iPhone 14 Pro 256GB Space Black</div><div class="lc-price"><span class="old-price">JD 450</span>JD 420</div><div class="lc-footer"><button class="lc-btn" onclick="event.preventDefault()">💬 Message</button><button class="lc-btn-o" onclick="event.preventDefault()">🔁 Swap</button></div></div>
+    </a>
+    <a href="FR-14-listing-detail.html" class="lc">
+      <div class="lc-img" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">💻
+        <div class="lc-badge" style="background:var(--g)">For Sale</div>
+        <button class="lc-rm" onclick="remove(event,this)">✕</button>
+      </div>
+      <div class="lc-body"><div class="lc-title">MacBook Air M2 8GB/256GB Space Gray</div><div class="lc-price">JD 700</div><div class="lc-footer"><button class="lc-btn" onclick="event.preventDefault()">💬 Message</button><button class="lc-btn-o" onclick="event.preventDefault()">🔁 Swap</button></div></div>
+    </a>
+    <a href="FR-16-auction-detail.html" class="lc">
+      <div class="lc-img" style="background:linear-gradient(135deg,#FEE2E2,#FECACA)">📷
+        <div class="lc-badge" style="background:#DC2626">Live Auction</div>
+        <button class="lc-rm" onclick="remove(event,this)">✕</button>
+      </div>
+      <div class="lc-body"><div class="lc-title">Canon EOS R50 Camera Kit — Like New</div><div class="lc-price">JD 280 <span style="font-size:11px;color:var(--gr);font-weight:400">current bid</span></div><div class="lc-footer"><button class="lc-btn" style="background:#DC2626" onclick="event.preventDefault()">🔨 Bid Now</button></div></div>
+    </a>
+    <a href="FR-14-listing-detail.html" class="lc">
+      <div class="lc-img" style="background:linear-gradient(135deg,#F3E5F5,#E1BEE7)">👟
+        <div class="lc-badge" style="background:var(--o)">Swap</div>
+        <button class="lc-rm" onclick="remove(event,this)">✕</button>
+      </div>
+      <div class="lc-body"><div class="lc-title">Nike Air Max 90 — Size 43</div><div class="lc-price" style="color:var(--o)">Open to Swap</div><div class="lc-footer"><button class="lc-btn" style="background:var(--o)" onclick="event.preventDefault()">🔁 Propose Swap</button></div></div>
+    </a>
+    <a href="FR-14-listing-detail.html" class="lc">
+      <div class="lc-img" style="background:linear-gradient(135deg,#E3F2FD,#BBDEFB)">⌚
+        <div class="lc-badge" style="background:var(--g)">For Sale</div>
+        <button class="lc-rm" onclick="remove(event,this)">✕</button>
+      </div>
+      <div class="lc-body"><div class="lc-title">Apple Watch Series 8 — 45mm GPS</div><div class="lc-price">JD 180</div><div class="lc-footer"><button class="lc-btn" onclick="event.preventDefault()">💬 Message</button><button class="lc-btn-o" onclick="event.preventDefault()">View</button></div></div>
+    </a>
+  </div>
+</div>
+<script>function remove(e,btn){e.preventDefault();btn.closest('.lc').style.opacity='0';setTimeout(()=>btn.closest('.lc').remove(),300)}</script></body></html>
